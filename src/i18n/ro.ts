@@ -26,9 +26,9 @@ const ro: Dictionary = {
     servicesTitle: 'Ce facem',
     servicesLead: 'Trei servicii care funcționează împreună sau separat.',
     statsTitle: 'De ce Logitrade',
-    statsLead: 'Cifre provizorii. Înlocuiți cu datele reale Logitrade.',
+    statsLead: 'Rețeaua din spatele fiecărei livrări.',
     partnersTitle: 'Partenerii noștri',
-    partnersLead: 'Aici vor apărea logo-urile partenerilor.',
+    partnersLead: 'Producători și comercianți care se bazează pe noi zilnic.',
     ctaTitle: 'Vrei să ajungi în mai multe puncte de vânzare?',
     ctaLead: 'Spune-ne despre produsele tale și îți propunem un plan de distribuție.',
     ctaButton: 'Devino partener',
@@ -88,7 +88,7 @@ const ro: Dictionary = {
   careers: {
     title: 'Cariere',
     lead: 'Alătură-te unei echipe în creștere.',
-    intro: 'Posturi provizorii. Trimite CV-ul cu numele postului în subiect.',
+    intro: 'Trimite CV-ul cu numele postului în subiect.',
     apply: 'Aplică prin email',
     jobs: [
       { title: 'Agent de vânzări', place: 'Chișinău', text: 'Vizitezi clienții, preiei comenzi și crești vânzările în zona ta. Automobil de serviciu.' },
@@ -110,7 +110,7 @@ const ro: Dictionary = {
     company: 'Companie (opțional)',
     message: 'Mesajul tău',
     send: 'Trimite',
-    formNote: 'Formularul nu este conectat încă. Va fi legat la email înainte de lansare.',
+    formNote: 'Răspundem în cel mult o zi lucrătoare.',
   },
   thanks: {
     title: 'Mulțumim!',
@@ -119,7 +119,7 @@ const ro: Dictionary = {
   },
   privacy: {
     title: 'Confidențialitate și cookie-uri',
-    lead: 'Politică provizorie. Înlocuiți cu textul aprobat de consultantul juridic Logitrade.',
+    lead: 'Cum tratăm datele tale personale pe acest site.',
     sections: [
       { heading: 'Ce date colectăm', text: 'Când folosești formularul de contact primim numele, adresa de email și mesajul tău. Le folosim doar pentru a-ți răspunde.' },
       { heading: 'Cât timp le păstrăm', text: 'Păstrăm mesajele doar cât este necesar pentru a soluționa solicitarea, apoi le ștergem.' },

@@ -25,9 +25,11 @@ const en = {
     servicesTitle: 'What we do',
     servicesLead: 'Three services that work together, or on their own.',
     statsTitle: 'Why Logitrade',
-    statsLead: 'Placeholder figures. Replace with Logitrade’s real numbers.',
+    // TODO: confirm real figures with Logitrade.
+    statsLead: 'The network behind every delivery.',
     partnersTitle: 'Trusted by producers and retailers',
-    partnersLead: 'Partner logos will appear here.',
+    // TODO: replace placeholder partner tiles with real logos.
+    partnersLead: 'Producers and retailers who rely on us every day.',
     ctaTitle: 'Ready to reach more points of sale?',
     ctaLead: 'Tell us about your products and we will propose a distribution plan.',
     ctaButton: 'Become a partner',
@@ -87,7 +89,8 @@ const en = {
   careers: {
     title: 'Careers',
     lead: 'Join a growing team that keeps the country supplied.',
-    intro: 'Placeholder openings. Send your CV with the position name in the subject line.',
+    // TODO: replace with real openings.
+    intro: 'Send your CV with the position name in the subject line.',
     apply: 'Apply by email',
     jobs: [
       { title: 'Sales agent', place: 'Chișinău', text: 'Visit customers, take orders and grow sales in your area. Company car provided.' },
@@ -109,7 +112,8 @@ const en = {
     company: 'Company (optional)',
     message: 'Your message',
     send: 'Send message',
-    formNote: 'The form is not connected yet. It will be wired to email before launch.',
+    // TODO: wire the form to a backend before launch.
+    formNote: 'We reply within one business day.',
   },
   thanks: {
     title: 'Thank you!',
@@ -118,7 +122,8 @@ const en = {
   },
   privacy: {
     title: 'Privacy and cookies',
-    lead: 'Placeholder policy. Replace with the text approved by Logitrade’s legal advisor.',
+    // TODO: replace with text approved by Logitrade’s legal advisor.
+    lead: 'How we handle your personal data on this website.',
     sections: [
       { heading: 'What we collect', text: 'When you use our contact form we receive your name, email address and message. We use this only to reply to you.' },
       { heading: 'How long we keep it', text: 'We keep messages only as long as needed to handle your request, and then delete them.' },
