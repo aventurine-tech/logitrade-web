@@ -1,0 +1,240 @@
+/* Logitrade design tokens. Brand colours are a first proposal: deep navy + amber. */
+:root {
+  --navy-900: #0a1f3c;
+  --navy-800: #0f2c54;
+  --navy-700: #16407a;
+  --amber-500: #f5a524;
+  --amber-600: #d98b0b;
+  --ink: #142033;
+  --muted: #5a6779;
+  --line: #e3e8ef;
+  --surface: #ffffff;
+  --surface-alt: #f4f6fa;
+  --radius: 14px;
+  --shadow: 0 10px 30px rgba(10, 31, 60, 0.08);
+  --container: 1160px;
+  --header-h: 72px;
+  --font: 'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  color: var(--ink);
+  background: var(--surface);
+  line-height: 1.6;
+  font-size: 1.0625rem;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: var(--navy-700);
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+  margin: 0 0 0.6em;
+  letter-spacing: -0.01em;
+}
+
+h1 {
+  font-size: clamp(2.1rem, 5vw, 3.5rem);
+  font-weight: 800;
+}
+
+h2 {
+  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+  font-weight: 800;
+}
+
+h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+.container {
+  width: min(100% - 32px, var(--container));
+  margin-inline: auto;
+}
+
+.section {
+  padding-block: clamp(56px, 8vw, 104px);
+}
+
+.section--alt {
+  background: var(--surface-alt);
+}
+
+.section__head {
+  max-width: 640px;
+  margin-bottom: 40px;
+}
+
+.section__head p {
+  color: var(--muted);
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--amber-600);
+  margin-bottom: 12px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 26px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+  font-family: inherit;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn--primary {
+  background: var(--amber-500);
+  color: var(--navy-900);
+}
+
+.btn--primary:hover {
+  background: var(--amber-600);
+}
+
+.btn--ghost {
+  border-color: currentColor;
+  color: inherit;
+}
+
+.grid {
+  display: grid;
+  gap: 24px;
+}
+
+.grid--3 {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.grid--4 {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 28px;
+  box-shadow: var(--shadow);
+}
+
+.card p:last-child {
+  margin-bottom: 0;
+}
+
+.page-hero {
+  background: linear-gradient(135deg, var(--navy-900), var(--navy-700));
+  color: #fff;
+  padding: calc(var(--header-h) + 64px) 0 64px;
+}
+
+.page-hero p {
+  color: rgba(255, 255, 255, 0.82);
+  max-width: 640px;
+  font-size: 1.15rem;
+  margin: 0;
+}
+
+.checklist {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0;
+}
+
+.checklist li {
+  padding-left: 28px;
+  position: relative;
+  margin-bottom: 6px;
+}
+
+.checklist li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 14px;
+  height: 8px;
+  border-left: 3px solid var(--amber-500);
+  border-bottom: 3px solid var(--amber-500);
+  transform: rotate(-45deg);
+}
+
+/* Fade-in on scroll (enabled by a small script in the layout). */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+:focus-visible {
+  outline: 3px solid var(--amber-500);
+  outline-offset: 2px;
+}

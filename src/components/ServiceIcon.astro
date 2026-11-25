@@ -1,0 +1,47 @@
+---
+interface Props {
+  name: string;
+}
+const { name } = Astro.props;
+---
+
+<span class="service-icon" aria-hidden="true">
+  {
+    name === 'distribution' && (
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z" />
+        <circle cx="7" cy="18" r="2" />
+        <circle cx="17" cy="18" r="2" />
+      </svg>
+    )
+  }
+  {
+    name === 'storage' && (
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-5 9 5v11H3z" />
+        <path d="M7 20v-7h10v7M7 16h10" />
+      </svg>
+    )
+  }
+  {
+    name === 'merchandising' && (
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h16v6H4zM4 14h16v6H4z" />
+        <path d="M8 4v6M12 14v6M16 4v6" />
+      </svg>
+    )
+  }
+</span>
+
+<style>
+  .service-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: rgba(245, 165, 36, 0.16);
+    color: var(--amber-600);
+    margin-bottom: 18px;
+  }
+</style>

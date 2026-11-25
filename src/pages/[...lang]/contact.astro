@@ -1,0 +1,141 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import { company, localePaths, path, t, type Locale } from '../../i18n';
+
+export const getStaticPaths = localePaths;
+const { locale } = Astro.props as { locale: Locale };
+const d = t(locale);
+const c = d.contact;
+---
+
+<Base locale={locale} title={c.title}>
+  <PageHero title={c.title} lead={c.lead} />
+
+  <section class="section">
+    <div class="container contact">
+      <div class="contact__info">
+        <div class="card reveal">
+          <h3>{c.officeTitle}</h3>
+          <p>{company.address.map((line) => (<>{line}<br /></>))}</p>
+        </div>
+        <div class="card reveal">
+          <h3>{c.phoneTitle}</h3>
+          <p><a href={company.phoneHref}>{company.phone}</a><br />{c.hours}</p>
+        </div>
+        <div class="card reveal">
+          <h3>{c.emailTitle}</h3>
+          <p><a href={`mailto:${company.email}`}>{company.email}</a></p>
+        </div>
+      </div>
+
+      <!--
+        TODO: connect to a form backend (e.g. Formspree, Netlify Forms or a small API)
+        before launch. On success it should redirect to the thank-you page.
+      -->
+      <form class="card form reveal" action={path(locale, '/thanks')} method="get">
+        <h2>{c.formTitle}</h2>
+        <div class="form__row">
+          <label>
+            {c.firstName} *
+            <input name="firstName" autocomplete="given-name" required />
+          </label>
+          <label>
+            {c.lastName} *
+            <input name="lastName" autocomplete="family-name" required />
+          </label>
+        </div>
+        <label>
+          {c.email} *
+          <input name="email" type="email" autocomplete="email" required />
+        </label>
+        <label>
+          {c.company}
+          <input name="company" autocomplete="organization" />
+        </label>
+        <label>
+          {c.message} *
+          <textarea name="message" rows="5" required></textarea>
+        </label>
+        <button class="btn btn--primary" type="submit">{c.send}</button>
+        <p class="form__note">{c.formNote}</p>
+      </form>
+    </div>
+  </section>
+
+  <section class="map" aria-label={c.officeTitle}>
+    <iframe
+      title="Map"
+      loading="lazy"
+      src="https://www.openstreetmap.org/export/embed.html?bbox=28.78%2C46.98%2C28.90%2C47.06&layer=mapnik"
+    ></iframe>
+  </section>
+</Base>
+
+<style>
+  .contact {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: 32px;
+    align-items: start;
+  }
+  .contact__info {
+    display: grid;
+    gap: 20px;
+  }
+  .form {
+    display: grid;
+    gap: 18px;
+  }
+  .form h2 {
+    font-size: 1.6rem;
+    margin: 0;
+  }
+  .form__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  .form label {
+    display: grid;
+    gap: 6px;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  .form input,
+  .form textarea {
+    font: inherit;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--surface-alt);
+    width: 100%;
+  }
+  .form input:focus,
+  .form textarea:focus {
+    outline: none;
+    border-color: var(--amber-500);
+    background: #fff;
+  }
+  .form .btn {
+    justify-self: start;
+  }
+  .form__note {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin: 0;
+  }
+  .map iframe {
+    display: block;
+    width: 100%;
+    height: 380px;
+    border: 0;
+    filter: grayscale(0.4);
+  }
+  @media (max-width: 860px) {
+    .contact,
+    .form__row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

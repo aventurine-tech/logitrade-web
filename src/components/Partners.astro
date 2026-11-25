@@ -1,0 +1,45 @@
+---
+import { t, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const d = t(locale);
+// Placeholder tiles until real partner logos (with permission to use them) are supplied.
+const tiles = Array.from({ length: 8 }, (_, i) => `Partner ${i + 1}`);
+---
+
+<section class="section section--alt">
+  <div class="container">
+    <div class="section__head reveal">
+      <h2>{d.home.partnersTitle}</h2>
+      <p>{d.home.partnersLead}</p>
+    </div>
+    <ul class="partners">
+      {tiles.map((name) => <li class="partners__tile reveal">{name}</li>)}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .partners {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: 16px;
+  }
+  .partners__tile {
+    height: 88px;
+    display: grid;
+    place-items: center;
+    border: 1px dashed #c6cfdb;
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--muted);
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+</style>

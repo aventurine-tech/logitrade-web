@@ -1,0 +1,105 @@
+---
+import Base from '../../layouts/Base.astro';
+import ServiceIcon from '../../components/ServiceIcon.astro';
+import Stats from '../../components/Stats.astro';
+import Partners from '../../components/Partners.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { localePaths, path, t, type Locale } from '../../i18n';
+
+export const getStaticPaths = localePaths;
+const { locale } = Astro.props as { locale: Locale };
+const d = t(locale);
+---
+
+<Base locale={locale}>
+  <section class="hero">
+    <div class="container hero__inner">
+      <span class="eyebrow">{d.home.eyebrow}</span>
+      <h1>{d.home.title}</h1>
+      <p class="hero__lead">{d.home.lead}</p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href={path(locale, '/services')}>{d.home.primaryCta}</a>
+        <a class="btn btn--ghost" href={path(locale, '/contact')}>{d.home.secondaryCta}</a>
+      </div>
+    </div>
+    <svg class="hero__route" viewBox="0 0 600 400" aria-hidden="true">
+      <path d="M20 360 C 160 300, 140 160, 300 170 S 480 60, 580 40" fill="none" stroke="rgba(245,165,36,.55)" stroke-width="3" stroke-dasharray="10 12"></path>
+      <circle cx="20" cy="360" r="9" fill="#f5a524"></circle>
+      <circle cx="300" cy="170" r="7" fill="#fff"></circle>
+      <circle cx="580" cy="40" r="9" fill="#f5a524"></circle>
+    </svg>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section__head reveal">
+        <h2>{d.home.servicesTitle}</h2>
+        <p>{d.home.servicesLead}</p>
+      </div>
+      <div class="grid grid--3">
+        {
+          d.services.items.map((s) => (
+            <article class="card reveal">
+              <ServiceIcon name={s.id} />
+              <h3>{s.name}</h3>
+              <p>{s.short}</p>
+              <a href={path(locale, `/services#${s.id}`)}>{d.services.more} →</a>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <Stats locale={locale} />
+  <Partners locale={locale} />
+  <CtaBand locale={locale} />
+</Base>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    min-height: min(92vh, 760px);
+    display: flex;
+    align-items: center;
+    padding: calc(var(--header-h) + 48px) 0 72px;
+    color: #fff;
+    background:
+      radial-gradient(1200px 500px at 85% 0%, rgba(245, 165, 36, 0.18), transparent 60%),
+      linear-gradient(140deg, var(--navy-900) 0%, var(--navy-800) 55%, var(--navy-700) 100%);
+  }
+  .hero__inner {
+    position: relative;
+    z-index: 1;
+  }
+  .hero h1 {
+    max-width: 760px;
+  }
+  .hero .eyebrow {
+    color: var(--amber-500);
+  }
+  .hero__lead {
+    max-width: 620px;
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.82);
+  }
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 32px;
+  }
+  .hero__route {
+    position: absolute;
+    right: -40px;
+    bottom: 0;
+    width: min(60vw, 640px);
+    opacity: 0.9;
+  }
+  @media (max-width: 720px) {
+    .hero__route {
+      opacity: 0.35;
+    }
+  }
+</style>

@@ -1,0 +1,72 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Stats from '../../components/Stats.astro';
+import Partners from '../../components/Partners.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { localePaths, t, type Locale } from '../../i18n';
+
+export const getStaticPaths = localePaths;
+const { locale } = Astro.props as { locale: Locale };
+const d = t(locale);
+---
+
+<Base locale={locale} title={d.about.title}>
+  <PageHero title={d.about.title} lead={d.about.lead} />
+
+  <section class="section">
+    <div class="container about">
+      <p class="about__story reveal">{d.about.story}</p>
+      <div class="grid grid--3">
+        <div class="card reveal">
+          <h3>{d.about.missionTitle}</h3>
+          <p>{d.about.mission}</p>
+        </div>
+        <div class="card reveal">
+          <h3>{d.about.visionTitle}</h3>
+          <p>{d.about.vision}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section__head reveal">
+        <h2>{d.about.valuesTitle}</h2>
+      </div>
+      <div class="grid grid--3">
+        {
+          d.about.values.map((v, i) => (
+            <div class="value reveal">
+              <span class="value__num">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{v.name}</h3>
+              <p>{v.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <Stats locale={locale} />
+  <Partners locale={locale} />
+  <CtaBand locale={locale} />
+</Base>
+
+<style>
+  .about__story {
+    font-size: clamp(1.15rem, 2vw, 1.4rem);
+    max-width: 820px;
+    margin-bottom: 48px;
+  }
+  .value__num {
+    display: block;
+    font-weight: 800;
+    color: var(--amber-600);
+    margin-bottom: 8px;
+  }
+  .value p {
+    color: var(--muted);
+  }
+</style>

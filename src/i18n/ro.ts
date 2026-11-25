@@ -1,0 +1,137 @@
+import type { Dictionary } from './en';
+
+// Romanian placeholder copy. Have a native speaker review before launch.
+const ro: Dictionary = {
+  meta: {
+    title: 'Logitrade | Distribuție și logistică în Moldova',
+    description:
+      'Logitrade livrează, depozitează și promovează mărfuri pentru producători și comercianți din toată Republica Moldova.',
+  },
+  nav: {
+    home: 'Acasă',
+    services: 'Servicii',
+    about: 'Despre noi',
+    careers: 'Cariere',
+    contact: 'Contacte',
+    cta: 'Cere o ofertă',
+    menu: 'Meniu',
+    language: 'Limba',
+  },
+  home: {
+    eyebrow: 'Distribuție și logistică',
+    title: 'Produsele tale pe fiecare raft, la timp.',
+    lead: 'Logitrade conectează producătorii cu magazine, stații de alimentare și rețele comerciale din toată Moldova, cu flotă, depozite și echipă proprie.',
+    primaryCta: 'Serviciile noastre',
+    secondaryCta: 'Contactează-ne',
+    servicesTitle: 'Ce facem',
+    servicesLead: 'Trei servicii care funcționează împreună sau separat.',
+    statsTitle: 'De ce Logitrade',
+    statsLead: 'Cifre provizorii. Înlocuiți cu datele reale Logitrade.',
+    partnersTitle: 'Partenerii noștri',
+    partnersLead: 'Aici vor apărea logo-urile partenerilor.',
+    ctaTitle: 'Vrei să ajungi în mai multe puncte de vânzare?',
+    ctaLead: 'Spune-ne despre produsele tale și îți propunem un plan de distribuție.',
+    ctaButton: 'Devino partener',
+  },
+  services: {
+    title: 'Servicii',
+    lead: 'De la depozit până la raft, ne ocupăm de fiecare pas.',
+    items: [
+      {
+        id: 'distribution',
+        name: 'Distribuție',
+        short: 'Livrare a doua zi în punctele de vânzare din toată țara.',
+        body: 'Flota proprie livrează comenzile în magazine, chioșcuri, stații de alimentare, baze angro și rețele comerciale, de obicei a doua zi după comandă.',
+        points: ['Acoperire națională', 'Livrare a doua zi', 'Planificarea și urmărirea rutelor'],
+      },
+      {
+        id: 'storage',
+        name: 'Depozitare',
+        short: 'Depozitare sigură în centre regionale.',
+        body: 'Depozitele regionale păstrează stocul în siguranță și aproape de clienți, cu control al inventarului și pregătire rapidă a comenzilor.',
+        points: ['Depozite regionale', 'Rapoarte de inventar', 'Pregătire și expediere'],
+      },
+      {
+        id: 'merchandising',
+        name: 'Merchandising',
+        short: 'Produsele tale vizibile și bine plasate în magazin.',
+        body: 'Echipa de teren vizitează magazinele pentru a plasa, completa și promova produsele și raportează despre prezența la raft.',
+        points: ['Plasare la raft', 'Promovare în magazin', 'Rapoarte de vizită'],
+      },
+    ],
+    more: 'Află mai mult',
+  },
+  stats: [
+    { value: '3', label: 'Centre regionale', text: 'Depozite în Nord, Centru și Sud pentru livrări rapide.' },
+    { value: '25+', label: 'Agenți de vânzări', text: 'Agenții noștri vizitează clienții săptămânal.' },
+    { value: '50+', label: 'Unități de transport', text: 'Flota proprie livrează a doua zi după comandă.' },
+    { value: '5.000+', label: 'Puncte de vânzare', text: 'Magazine, chioșcuri, stații, baze angro și rețele comerciale.' },
+  ],
+  about: {
+    title: 'Despre Logitrade',
+    lead: 'Un partener de distribuție construit pe oameni, încredere și logistică modernă.',
+    story:
+      'Logitrade ajută producătorii locali și internaționali să ajungă la clienți din toată Republica Moldova. Combinăm depozite regionale, flotă proprie și o echipă de vânzări pe teren, ca partenerii să se poată concentra pe produse.',
+    missionTitle: 'Misiunea noastră',
+    mission: 'Să facem simplu pentru orice producător să ajungă pe orice raft din țară.',
+    visionTitle: 'Viziunea noastră',
+    vision: 'Să fim cel mai de încredere partener de distribuție din regiune.',
+    valuesTitle: 'Valorile noastre',
+    values: [
+      { name: 'Oamenii pe primul loc', text: 'Angajații, clienții și partenerii sunt în centrul activității noastre.' },
+      { name: 'Integritate', text: 'Lucrăm legal, etic și transparent.' },
+      { name: 'Calitate', text: 'Ne stabilim standarde înalte și le ridicăm constant.' },
+      { name: 'Seriozitate', text: 'Ne respectăm angajamentele față de clienți și parteneri.' },
+      { name: 'Inovație', text: 'Folosim instrumente moderne pentru a oferi mai multă valoare.' },
+    ],
+  },
+  careers: {
+    title: 'Cariere',
+    lead: 'Alătură-te unei echipe în creștere.',
+    intro: 'Posturi provizorii. Trimite CV-ul cu numele postului în subiect.',
+    apply: 'Aplică prin email',
+    jobs: [
+      { title: 'Agent de vânzări', place: 'Chișinău', text: 'Vizitezi clienții, preiei comenzi și crești vânzările în zona ta. Automobil de serviciu.' },
+      { title: 'Contabil', place: 'Chișinău', text: 'Evidența facturilor, a casei și verificări contabile zilnice.' },
+      { title: 'Promotor', place: 'Raioane', text: 'Prezinți produsele partenerilor în magazine.' },
+    ],
+  },
+  contact: {
+    title: 'Contacte',
+    lead: 'Întrebări, parteneriate sau oferte, te ajutăm cu plăcere.',
+    officeTitle: 'Oficiu',
+    phoneTitle: 'Telefon',
+    emailTitle: 'Email',
+    hours: 'Luni – Vineri, 8:30 – 17:30',
+    formTitle: 'Trimite-ne un mesaj',
+    firstName: 'Prenume',
+    lastName: 'Nume',
+    email: 'Email',
+    company: 'Companie (opțional)',
+    message: 'Mesajul tău',
+    send: 'Trimite',
+    formNote: 'Formularul nu este conectat încă. Va fi legat la email înainte de lansare.',
+  },
+  thanks: {
+    title: 'Mulțumim!',
+    lead: 'Mesajul tău a fost primit. Revenim cu un răspuns în cel mult o zi lucrătoare.',
+    back: 'Înapoi la pagina principală',
+  },
+  privacy: {
+    title: 'Confidențialitate și cookie-uri',
+    lead: 'Politică provizorie. Înlocuiți cu textul aprobat de consultantul juridic Logitrade.',
+    sections: [
+      { heading: 'Ce date colectăm', text: 'Când folosești formularul de contact primim numele, adresa de email și mesajul tău. Le folosim doar pentru a-ți răspunde.' },
+      { heading: 'Cât timp le păstrăm', text: 'Păstrăm mesajele doar cât este necesar pentru a soluționa solicitarea, apoi le ștergem.' },
+      { heading: 'Cookie-uri', text: 'Acest site nu folosește cookie-uri de urmărire. Dacă vom adăuga analiză, vom actualiza această pagină și vom afișa un banner.' },
+      { heading: 'Drepturile tale', text: 'Poți cere accesul, corectarea sau ștergerea datelor scriind la adresa de email a oficiului.' },
+    ],
+  },
+  footer: {
+    tagline: 'Distribuție, depozitare și merchandising în toată Moldova.',
+    rights: 'Toate drepturile rezervate.',
+    privacy: 'Confidențialitate și cookie-uri',
+  },
+};
+
+export default ro;

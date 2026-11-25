@@ -1,0 +1,102 @@
+---
+import Logo from './Logo.astro';
+import { company, path, t, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const d = t(locale);
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    <div>
+      <Logo light />
+      <p class="site-footer__tagline">{d.footer.tagline}</p>
+    </div>
+    <nav aria-label="Footer">
+      <ul>
+        <li><a href={path(locale, '/services')}>{d.nav.services}</a></li>
+        <li><a href={path(locale, '/about')}>{d.nav.about}</a></li>
+        <li><a href={path(locale, '/careers')}>{d.nav.careers}</a></li>
+        <li><a href={path(locale, '/contact')}>{d.nav.contact}</a></li>
+      </ul>
+    </nav>
+    <div>
+      <p>
+        {company.address.map((line) => (<>{line}<br /></>))}
+      </p>
+      <p>
+        <a href={company.phoneHref}>{company.phone}</a><br />
+        <a href={`mailto:${company.email}`}>{company.email}</a>
+      </p>
+      <ul class="social">
+        <li><a href={company.social.facebook} aria-label="Facebook">Fb</a></li>
+        <li><a href={company.social.instagram} aria-label="Instagram">Ig</a></li>
+        <li><a href={company.social.linkedin} aria-label="LinkedIn">In</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container site-footer__bottom">
+    <span>© {year} {company.name}. {d.footer.rights}</span>
+    <a href={path(locale, '/privacy')}>{d.footer.privacy}</a>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--navy-900);
+    color: rgba(255, 255, 255, 0.78);
+    padding-top: 56px;
+    font-size: 0.95rem;
+  }
+  .site-footer a {
+    color: #fff;
+    text-decoration: none;
+  }
+  .site-footer a:hover {
+    color: var(--amber-500);
+  }
+  .site-footer__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 32px;
+    padding-bottom: 40px;
+  }
+  .site-footer__tagline {
+    margin-top: 16px;
+    max-width: 280px;
+  }
+  .site-footer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .site-footer nav li {
+    margin-bottom: 8px;
+  }
+  .social {
+    display: flex;
+    gap: 10px;
+  }
+  .social a {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+  .site-footer__bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding-block: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+  }
+</style>
