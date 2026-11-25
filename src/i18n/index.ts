@@ -29,16 +29,25 @@ export function localePaths() {
   return locales.map((locale) => ({ params: { lang: langParam(locale) }, props: { locale } }));
 }
 
+// Base path the site is served from: '/' normally, '/logitrade-web/' on GitHub Pages.
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
 /** Build an internal URL for a locale, e.g. path('en', '/about') -> '/en/about'. */
 export function path(locale: Locale, to = '/'): string {
   const clean = to === '/' ? '' : to;
-  if (locale === defaultLocale) return clean || '/';
-  return `/${locale}${clean}`;
+  const local = locale === defaultLocale ? clean || '/' : `/${locale}${clean}`;
+  return base + local;
 }
 
-/** Strip the locale prefix from a pathname, e.g. '/en/about' -> '/about'. */
+/** Path to a file in public/, honouring the base path. */
+export function asset(file: string): string {
+  return `${base}/${file.replace(/^\//, '')}`;
+}
+
+/** Strip the base and locale prefix from a pathname, e.g. '/en/about' -> '/about'. */
 export function stripLocale(pathname: string): string {
-  const parts = pathname.split('/').filter(Boolean);
+  const rest = base && pathname.startsWith(base) ? pathname.slice(base.length) : pathname;
+  const parts = rest.split('/').filter(Boolean);
   if (parts.length && (locales as readonly string[]).includes(parts[0])) parts.shift();
   return '/' + parts.join('/');
 }
