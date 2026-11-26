@@ -4,6 +4,7 @@ import ServiceIcon from '../../components/ServiceIcon.astro';
 import Stats from '../../components/Stats.astro';
 import CoverageMap from '../../components/CoverageMap.astro';
 import Channels from '../../components/Channels.astro';
+import DeliveryScene from '../../components/DeliveryScene.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import { localePaths, path, t, type Locale } from '../../i18n';
 
@@ -15,6 +16,7 @@ const d = t(locale);
 <Base locale={locale}>
   <section class="hero">
     <div class="container hero__inner">
+      <div class="hero__text">
       <span class="eyebrow">{d.home.eyebrow}</span>
       <h1>{d.home.title}</h1>
       <p class="hero__lead">{d.home.lead}</p>
@@ -22,13 +24,9 @@ const d = t(locale);
         <a class="btn btn--primary" href={path(locale, '/services')}>{d.home.primaryCta}</a>
         <a class="btn btn--ghost" href={path(locale, '/contact')}>{d.home.secondaryCta}</a>
       </div>
+      </div>
+      <DeliveryScene label={d.home.sceneLabel} />
     </div>
-    <svg class="hero__route" viewBox="0 0 600 400" aria-hidden="true">
-      <path d="M20 360 C 160 300, 140 160, 300 170 S 480 60, 580 40" fill="none" stroke="rgba(245,165,36,.55)" stroke-width="3" stroke-dasharray="10 12"></path>
-      <circle cx="20" cy="360" r="9" fill="#f5a524"></circle>
-      <circle cx="300" cy="170" r="7" fill="#fff"></circle>
-      <circle cx="580" cy="40" r="9" fill="#f5a524"></circle>
-    </svg>
   </section>
 
   <section class="section">
@@ -77,6 +75,7 @@ const d = t(locale);
   }
   .hero h1 {
     max-width: 760px;
+    font-size: clamp(2.1rem, 4.4vw, 3.3rem);
   }
   .hero .eyebrow {
     color: var(--amber-500);
@@ -92,16 +91,17 @@ const d = t(locale);
     gap: 14px;
     margin-top: 32px;
   }
-  .hero__route {
-    position: absolute;
-    right: -40px;
-    bottom: 0;
-    width: min(60vw, 640px);
-    opacity: 0.9;
+  @media (min-width: 961px) {
+    .hero__inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+      gap: 48px;
+      align-items: center;
+    }
   }
-  @media (max-width: 720px) {
-    .hero__route {
-      opacity: 0.35;
+  @media (max-width: 960px) {
+    .hero__inner :global(.scene) {
+      margin-top: 40px;
     }
   }
 </style>

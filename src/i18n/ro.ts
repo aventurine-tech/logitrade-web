@@ -23,6 +23,7 @@ const ro: Dictionary = {
     lead: 'Logitrade aduce produsele producătorilor în alimentarele de cartier și piețele tradiționale din toată Moldova, cu flotă, depozite și echipă proprie.',
     primaryCta: 'Serviciile noastre',
     secondaryCta: 'Contactează-ne',
+    sceneLabel: 'O dubă Logitrade oprește în fața unei alimentare.',
     servicesTitle: 'Ce facem',
     servicesLead: 'Trei servicii care funcționează împreună sau separat.',
     statsTitle: 'De ce Logitrade',

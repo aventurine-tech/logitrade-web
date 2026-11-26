@@ -22,6 +22,7 @@ const en = {
     lead: 'Logitrade brings producers’ goods to neighbourhood grocery shops and traditional markets across Moldova, with our own fleet, warehouses and field team.',
     primaryCta: 'Our services',
     secondaryCta: 'Talk to us',
+    sceneLabel: 'A Logitrade delivery van pulling up in front of a village grocery shop.',
     servicesTitle: 'What we do',
     servicesLead: 'Three services that work together, or on their own.',
     statsTitle: 'Why Logitrade',
