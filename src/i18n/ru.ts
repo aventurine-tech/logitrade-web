@@ -82,6 +82,8 @@ const ru: Dictionary = {
     ],
     legendHub: 'Региональный хаб',
     legendTown: 'Точка доставки',
+    /** Delivery-point town names on the map, keyed by Romanian name. */
+    towns: { 'Soroca': 'Сороки', 'Edineț': 'Единец', 'Orhei': 'Орхей', 'Ungheni': 'Унгены', 'Comrat': 'Комрат', 'Căușeni': 'Каушаны', 'Hîncești': 'Хынчешты', 'Florești': 'Флорешты' } as Record<string, string>,
   },
   about: {
     title: 'О компании Logitrade',

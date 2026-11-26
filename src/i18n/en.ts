@@ -82,6 +82,8 @@ const en = {
     ],
     legendHub: 'Regional hub',
     legendTown: 'Delivery point',
+    /** Delivery-point town names on the map, keyed by Romanian name. */
+    towns: { 'Soroca': 'Soroca', 'Edineț': 'Edineț', 'Orhei': 'Orhei', 'Ungheni': 'Ungheni', 'Comrat': 'Comrat', 'Căușeni': 'Căușeni', 'Hîncești': 'Hîncești', 'Florești': 'Florești' } as Record<string, string>,
   },
   about: {
     title: 'About Logitrade',

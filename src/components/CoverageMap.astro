@@ -13,7 +13,10 @@ const hubKeys = ['Bălți', 'Chișinău', 'Cahul'] as const;
 const hubs = hubKeys.map((k, i) => ({ xy: towns[k], ...d.coverage.hubs[i] }));
 const others = Object.entries(towns)
   .filter(([k]) => !(hubKeys as readonly string[]).includes(k))
-  .map(([, xy]) => xy);
+  .map(([key, xy]) => ({ xy, name: d.coverage.towns[key] ?? key }));
+// Labels go on the side facing the centre so they never spill past the map edge.
+const label = (x: number, gap: number) =>
+  x > 200 ? { x: x - gap, 'text-anchor': 'end' as const } : { x: x + gap, 'text-anchor': 'start' as const };
 // Each delivery point links to its nearest hub.
 const nearest = (p: [number, number]) =>
   hubs.reduce((a, b) => (Math.hypot(a.xy[0] - p[0], a.xy[1] - p[1]) <= Math.hypot(b.xy[0] - p[0], b.xy[1] - p[1]) ? a : b)).xy;
@@ -50,19 +53,31 @@ const nearest = (p: [number, number]) =>
         </defs>
         <path d={outline} fill="url(#md-fill)" stroke="#f5a524" stroke-width="2" stroke-linejoin="round"></path>
         {
-          others.map((p) => {
+          others.map(({ xy: p }) => {
             const h = nearest(p);
             return <line x1={h[0]} y1={h[1]} x2={p[0]} y2={p[1]} class="route" />;
           })
         }
         <polyline points={hubs.map((h) => h.xy.join(',')).join(' ')} class="route route--main" />
-        {others.map((p) => <circle cx={p[0]} cy={p[1]} r="4.5" class="town" />)}
+        {
+          others.map((o) => (
+            <g class="city city--town" tabindex="0" aria-label={o.name}>
+              <circle cx={o.xy[0]} cy={o.xy[1]} r="14" class="city__hit" />
+              <g class="city__grow" style={`transform-origin:${o.xy[0]}px ${o.xy[1]}px`}>
+                <circle cx={o.xy[0]} cy={o.xy[1]} r="4.5" class="town" />
+                <text {...label(o.xy[0], 10)} y={o.xy[1] - 8}>{o.name}</text>
+              </g>
+            </g>
+          ))
+        }
         {
           hubs.map((h) => (
-            <g class="hub">
+            <g class="city city--hub" tabindex="0" aria-label={`${h.city}, ${h.region}`}>
               <circle cx={h.xy[0]} cy={h.xy[1]} r="16" class="hub__pulse" />
-              <circle cx={h.xy[0]} cy={h.xy[1]} r="8" class="hub__dot" />
-              <text x={h.xy[0] + 14} y={h.xy[1] - 12}>{h.city}</text>
+              <g class="city__grow" style={`transform-origin:${h.xy[0]}px ${h.xy[1]}px`}>
+                <circle cx={h.xy[0]} cy={h.xy[1]} r="8" class="hub__dot" />
+                <text {...label(h.xy[0], 14)} y={h.xy[1] - 12}>{h.city}</text>
+              </g>
             </g>
           ))
         }
@@ -163,6 +178,10 @@ const nearest = (p: [number, number]) =>
   .town {
     fill: #fff;
   }
+  .city__sub {
+    font-size: 10px !important;
+    font-weight: 600 !important;
+  }
   .hub__dot {
     fill: #f5a524;
     stroke: #fff;
@@ -174,6 +193,38 @@ const nearest = (p: [number, number]) =>
     transform-origin: center;
     animation: pulse 2.4s ease-out infinite;
   }
+  .city {
+    cursor: pointer;
+    outline: none;
+  }
+  .city__hit {
+    fill: transparent;
+  }
+  .city__grow {
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .city:hover .city__grow,
+  .city:focus-visible .city__grow {
+    transform: scale(1.6);
+  }
+  .city:hover,
+  .city:focus-visible {
+    position: relative;
+  }
+  .city--town text,
+  .city__sub {
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .city:hover text,
+  .city:focus-visible text {
+    opacity: 1;
+  }
+  .city:hover .town,
+  .city:focus-visible .town {
+    fill: #f5a524;
+  }
+  .city text,
   .hub text {
     fill: #fff;
     font-weight: 800;
@@ -203,3 +254,13 @@ const nearest = (p: [number, number]) =>
     }
   }
 </style>
+
+<script>
+  // Bring the hovered city to the front so its enlarged label isn't covered.
+  document.querySelectorAll<SVGGElement>('.coverage .city').forEach((g) => {
+    const raise = () => {
+      if (g.parentNode && g.parentNode.lastElementChild !== g) g.parentNode.appendChild(g);
+    };
+    g.addEventListener('mouseenter', raise);
+  });
+</script>
