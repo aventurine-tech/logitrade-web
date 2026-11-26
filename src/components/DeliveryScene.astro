@@ -1,7 +1,8 @@
 ---
 // Hero intro: a Logitrade delivery van (Sprinter-style, unbranded apart from our logo)
 // races in and brakes in front of a typical Moldovan village "Alimentară".
-// Plays once per browser session; later visits and reduced-motion users see the final frame.
+// Then the courier carries boxes into the shop and drops a carton of cigarettes on the way.
+// Plays on every page load; reduced-motion users see the final frame.
 interface Props {
   label: string;
 }
@@ -23,6 +24,14 @@ const { label } = Astro.props;
         <stop offset="0" stop-color="#ffffff"></stop>
         <stop offset="1" stop-color="#dde4ee"></stop>
       </linearGradient>
+      <linearGradient id="sc-road-fade" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#24324a" stop-opacity="0"></stop>
+        <stop offset="1" stop-color="#24324a"></stop>
+      </linearGradient>
+      <linearGradient id="sc-walk-fade" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#3a4a63" stop-opacity="0"></stop>
+        <stop offset="1" stop-color="#3a4a63"></stop>
+      </linearGradient>
       <radialGradient id="sc-glow" cx="0.5" cy="0.5" r="0.5">
         <stop offset="0" stop-color="#fff6d6" stop-opacity="0.9"></stop>
         <stop offset="1" stop-color="#fff6d6" stop-opacity="0"></stop>
@@ -30,10 +39,12 @@ const { label } = Astro.props;
     </defs>
 
     <!-- Ground: pavement and road -->
+    <rect x="-160" y="262" width="160" height="16" fill="url(#sc-walk-fade)"></rect>
+    <rect x="-160" y="278" width="160" height="52" fill="url(#sc-road-fade)"></rect>
     <rect x="0" y="262" width="640" height="16" fill="#3a4a63"></rect>
     <rect x="0" y="278" width="640" height="52" fill="#24324a"></rect>
     <g class="lane">
-      {Array.from({ length: 9 }, (_, i) => <rect x={i * 80 + 10} y="301" width="40" height="4" rx="2" fill="rgba(255,255,255,.35)" />)}
+      {Array.from({ length: 8 }, (_, i) => <rect x={i * 80 + 10} y="301" width="40" height="4" rx="2" fill="rgba(255,255,255,.35)" />)}
     </g>
 
     <!-- Tree -->
@@ -84,13 +95,6 @@ const { label } = Astro.props;
       <text x="569" y="216" text-anchor="middle" class="shop__open">DESCHIS</text>
     </g>
 
-    <!-- Speed lines behind the van -->
-    <g class="speed">
-      <rect x="-40" y="196" width="120" height="3" rx="1.5"></rect>
-      <rect x="-20" y="214" width="90" height="3" rx="1.5"></rect>
-      <rect x="-60" y="232" width="140" height="3" rx="1.5"></rect>
-    </g>
-
     <!-- Dust puff where the van stops -->
     <g class="dust">
       <circle cx="84" cy="270" r="9"></circle>
@@ -101,6 +105,11 @@ const { label } = Astro.props;
     <!-- Van: high-roof panel van, facing right. Local origin = top-left of body. -->
     <g class="van" transform="translate(84 138)">
       <g class="van__drive">
+        <g class="speed">
+          <rect x="-190" y="58" width="150" height="3" rx="1.5"></rect>
+          <rect x="-150" y="76" width="110" height="3" rx="1.5"></rect>
+          <rect x="-220" y="94" width="180" height="3" rx="1.5"></rect>
+        </g>
         <g class="van__body">
           <ellipse cx="116" cy="134" rx="112" ry="6" fill="rgba(0,0,0,.28)"></ellipse>
           <path
@@ -148,29 +157,71 @@ const { label } = Astro.props;
         ))}
       </g>
     </g>
+
+    <!-- Courier: walks from the van to the shop door carrying boxes -->
+    <g class="courier">
+      <g transform="scale(1.9)">
+        <ellipse cx="2" cy="1" rx="11" ry="2" fill="rgba(0,0,0,.25)"></ellipse>
+        <g class="leg leg--back"><rect x="-3" y="-17" width="5" height="17" rx="2" fill="#1d2a3f"></rect><rect x="-3" y="-2" width="8" height="3" rx="1.5" fill="#111827"></rect></g>
+        <g class="leg leg--front"><rect x="-2" y="-17" width="5" height="17" rx="2" fill="#2b3a55"></rect><rect x="-2" y="-2" width="8" height="3" rx="1.5" fill="#111827"></rect></g>
+        <rect x="-6" y="-38" width="12" height="23" rx="4" fill="#0f2c54"></rect>
+        <rect x="-6" y="-24" width="12" height="3" fill="#f5a524"></rect>
+        <circle cx="0" cy="-44" r="6" fill="#f1c7a3"></circle>
+        <path d="M-6.5 -45 a6.5 6.5 0 0 1 13 0 h3 v2 h-16 z" fill="#f5a524"></path>
+        <g class="stack">
+          <rect x="5" y="-31" width="18" height="12" rx="1" fill="#c48a4a"></rect>
+          <path d="M5 -25 h18" stroke="#9c6a35" stroke-width="1"></path>
+          <rect x="6" y="-42" width="16" height="11" rx="1" fill="#d9a15f"></rect>
+          <path d="M14 -42 v11" stroke="#b07d42" stroke-width="1.5"></path>
+          <g class="stack__carton">
+            <rect x="7" y="-49" width="15" height="7" rx="1" fill="#ffffff" stroke="#c9d1dd" stroke-width="0.5"></rect>
+            <rect x="7" y="-46.5" width="15" height="2.4" fill="#d8342c"></rect>
+          </g>
+        </g>
+        <path d="M2 -33 L9 -26 L14 -27" fill="none" stroke="#f1c7a3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+        <text x="-12" y="-54" class="oops">!</text>
+      </g>
+    </g>
+    <!-- Falling cigarette carton (appears when it slips off the courier's stack) -->
+    <g class="drop">
+      <g class="drop__carton">
+        <rect x="-12" y="-6" width="24" height="12" rx="1.5" fill="#ffffff" stroke="#c9d1dd"></rect>
+        <rect x="-12" y="-2" width="24" height="4" fill="#d8342c"></rect>
+      </g>
+    </g>
+
   </svg>
 </figure>
 
 <script is:inline>
-  // Skip the intro after the first view in this browser session.
-  try {
-    if (sessionStorage.getItem('lt-intro')) document.documentElement.classList.add('intro-seen');
-    else sessionStorage.setItem('lt-intro', '1');
-  } catch (e) {}
+  // Start the van just past the browser's left edge, wherever the scene sits on the page.
+  (function () {
+    var fig = document.currentScript && document.currentScript.previousElementSibling;
+    var svg = fig && fig.querySelector('svg');
+    if (!svg) return;
+    var r = svg.getBoundingClientRect();
+    var scale = r.width / 640 || 1;
+    var start = -(r.left / scale + 84 + 240 + 40);
+    fig.style.setProperty('--van-start', start.toFixed(0) + 'px');
+  })();
 </script>
 
 <style>
+  /* Timeline (all on page load):
+     0 – 2.8s   van drives in from the browser's left edge and brakes
+     2.9s       hero text fades in (styled in the home page)
+     3.3 – 6.3s courier walks to the shop; the cigarette carton slips off at 4.9s
+     6.3s       courier goes into the shop */
   .scene {
     margin: 0;
     width: 100%;
+    --van-start: -1400px;
   }
   .scene svg {
     display: block;
     width: 100%;
     height: auto;
-    overflow: hidden;
-    border-radius: 20px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0));
+    overflow: visible;
   }
   .shop__sign {
     font: 800 21px var(--font);
@@ -196,36 +247,41 @@ const { label } = Astro.props;
   .dust circle {
     fill: rgba(220, 226, 236, 0.8);
   }
+  .oops {
+    font: 800 14px var(--font);
+    fill: #f5a524;
+    opacity: 0;
+  }
 
-  /* --- Animation ------------------------------------------------------- */
+  /* --- Van ------------------------------------------------------------- */
   .van__drive {
-    animation: van-arrive 2s cubic-bezier(0.12, 0.75, 0.2, 1) both;
+    animation: van-arrive 2.8s cubic-bezier(0.2, 0.6, 0.25, 1) both;
   }
   .van__body {
     transform-box: fill-box;
     transform-origin: 85% 100%;
-    animation: van-brake 2s ease-out both;
+    animation: van-brake 2.8s ease-out both;
   }
   .wheel {
     transform-box: fill-box;
     transform-origin: center;
-    animation: wheel-spin 2s cubic-bezier(0.12, 0.75, 0.2, 1) both;
+    animation: wheel-spin 2.8s cubic-bezier(0.2, 0.6, 0.25, 1) both;
   }
   .speed {
-    animation: speed-lines 2s ease-out both;
+    animation: fade-out 2.8s ease-in both;
   }
   .dust {
     transform-box: fill-box;
     transform-origin: center;
-    animation: dust 2s ease-out both;
+    animation: dust 3.4s ease-out both;
   }
   .shop__glow {
-    animation: glow 2.6s ease-in-out 1.6s infinite alternate;
+    animation: glow 2.6s ease-in-out 3s infinite alternate;
   }
 
   @keyframes van-arrive {
     from {
-      transform: translateX(-900px);
+      transform: translateX(var(--van-start));
     }
     to {
       transform: translateX(0);
@@ -234,13 +290,13 @@ const { label } = Astro.props;
   /* Nose dives as the van brakes, then settles. */
   @keyframes van-brake {
     0%,
-    55% {
+    70% {
       transform: rotate(-0.6deg);
     }
-    75% {
+    84% {
       transform: rotate(2.2deg);
     }
-    88% {
+    93% {
       transform: rotate(-0.8deg);
     }
     100% {
@@ -249,33 +305,28 @@ const { label } = Astro.props;
   }
   @keyframes wheel-spin {
     from {
-      transform: rotate(-2160deg);
+      transform: rotate(-3600deg);
     }
     to {
       transform: rotate(0);
     }
   }
-  @keyframes speed-lines {
-    0% {
+  @keyframes fade-out {
+    0%,
+    70% {
       opacity: 1;
-      transform: translateX(-500px);
-    }
-    60% {
-      opacity: 0.9;
-      transform: translateX(10px);
     }
     100% {
       opacity: 0;
-      transform: translateX(30px);
     }
   }
   @keyframes dust {
     0%,
-    62% {
+    76% {
       opacity: 0;
       transform: scale(0.3);
     }
-    75% {
+    84% {
       opacity: 1;
       transform: scale(1);
     }
@@ -290,21 +341,148 @@ const { label } = Astro.props;
     }
   }
 
-  :global(.intro-seen) .scene *,
-  :global(.intro-seen) .scene {
-    animation-duration: 0s !important;
-    animation-delay: 0s !important;
+  /* --- Courier --------------------------------------------------------- */
+  .courier {
+    opacity: 0;
+    transform: translate(200px, 270px);
+    animation:
+      courier-out 0.3s ease-out 3.2s forwards,
+      courier-walk 2.8s linear 3.5s forwards,
+      courier-in 0.35s ease-in 6.3s forwards;
   }
-  :global(.intro-seen) .speed,
-  :global(.intro-seen) .dust {
-    display: none;
+  .leg {
+    transform-box: fill-box;
+    transform-origin: 50% 0;
   }
+  .leg--front {
+    animation: step 0.35s ease-in-out 3.5s 8 alternate;
+  }
+  .leg--back {
+    animation: step-back 0.35s ease-in-out 3.5s 8 alternate;
+  }
+  .stack__carton {
+    animation: hide 0.01s linear 4.9s forwards;
+  }
+  .oops {
+    animation: oops 0.9s ease-out 5s forwards;
+  }
+  .drop {
+    opacity: 0;
+    transform: translate(380px, 184px);
+    animation: carton-fall 0.9s cubic-bezier(0.5, 0, 0.75, 0) 4.9s forwards;
+  }
+  .drop__carton {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: carton-spin 0.9s ease-in 4.9s forwards;
+  }
+
+  @keyframes courier-out {
+    from {
+      opacity: 0;
+      transform: translate(200px, 262px);
+    }
+    to {
+      opacity: 1;
+      transform: translate(200px, 270px);
+    }
+  }
+  @keyframes courier-walk {
+    from {
+      opacity: 1;
+      transform: translate(200px, 270px);
+    }
+    to {
+      opacity: 1;
+      transform: translate(505px, 270px);
+    }
+  }
+  @keyframes courier-in {
+    from {
+      opacity: 1;
+      transform: translate(505px, 270px);
+    }
+    to {
+      opacity: 0;
+      transform: translate(515px, 262px) scale(0.9);
+    }
+  }
+  @keyframes step {
+    from {
+      transform: rotate(-22deg);
+    }
+    to {
+      transform: rotate(22deg);
+    }
+  }
+  @keyframes step-back {
+    from {
+      transform: rotate(22deg);
+    }
+    to {
+      transform: rotate(-22deg);
+    }
+  }
+  @keyframes hide {
+    to {
+      opacity: 0;
+    }
+  }
+  @keyframes oops {
+    0% {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    25% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  /* The carton slips back off the stack, drops, bounces once and lies on the pavement. */
+  @keyframes carton-fall {
+    0% {
+      opacity: 1;
+      transform: translate(380px, 184px);
+    }
+    60% {
+      opacity: 1;
+      transform: translate(370px, 266px);
+    }
+    75% {
+      opacity: 1;
+      transform: translate(364px, 253px);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(358px, 266px);
+    }
+  }
+  @keyframes carton-spin {
+    0% {
+      transform: rotate(0);
+    }
+    60% {
+      transform: rotate(-150deg);
+    }
+    100% {
+      transform: rotate(-180deg);
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .scene * {
       animation: none !important;
     }
     .speed,
-    .dust {
+    .dust,
+    .courier,
+    .drop {
       display: none;
     }
   }

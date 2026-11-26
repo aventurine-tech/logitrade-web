@@ -91,6 +91,37 @@ const d = t(locale);
     gap: 14px;
     margin-top: 32px;
   }
+  /* Text appears once the van has parked (see DeliveryScene timeline). */
+  .hero__text > * {
+    animation: hero-in 0.6s ease-out both;
+  }
+  .hero__text > :nth-child(1) {
+    animation-delay: 2.8s;
+  }
+  .hero__text > :nth-child(2) {
+    animation-delay: 2.95s;
+  }
+  .hero__text > :nth-child(3) {
+    animation-delay: 3.1s;
+  }
+  .hero__text > :nth-child(4) {
+    animation-delay: 3.25s;
+  }
+  @keyframes hero-in {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero__text > * {
+      animation: none;
+    }
+  }
   @media (min-width: 961px) {
     .hero__inner {
       display: grid;
