@@ -185,6 +185,9 @@ const { label } = Astro.props;
 
     <!-- Courier comes back out with the signed invoice and the cash, and returns to the van -->
     <g class="courier-back">
+      <g class="hopper">
+      <text x="-6" y="-112" class="heart">♥</text>
+      <g class="bender">
       <g transform="scale(-1.9 1.9)">
         <ellipse cx="2" cy="1" rx="11" ry="2" fill="rgba(0,0,0,.25)"></ellipse>
         <g class="leg leg--back2"><rect x="-3" y="-17" width="5" height="17" rx="2" fill="#1d2a3f"></rect><rect x="-3" y="-2" width="8" height="3" rx="1.5" fill="#111827"></rect></g>
@@ -206,7 +209,13 @@ const { label } = Astro.props;
           <rect x="-12" y="-55" width="13" height="7" rx="1" fill="#57b874" transform="rotate(6 -6 -51)"></rect>
           <circle cx="-5.5" cy="-51.5" r="1.6" fill="#2f7a4a"></circle>
         </g>
+        <g class="held-carton">
+          <rect x="9" y="-27" width="15" height="7" rx="1" fill="#ffffff" stroke="#c9d1dd" stroke-width="0.5"></rect>
+          <rect x="9" y="-24.5" width="15" height="2.4" fill="#d8342c"></rect>
+        </g>
+        <path class="smile" d="M2.2 -42 q2 2.4 4.2 0" fill="none" stroke="#7a3b1f" stroke-width="1" stroke-linecap="round"></path>
       </g>
+      </g></g>
     </g>
     <!-- Falling cigarette carton (appears when it slips off the courier's stack) -->
     <g class="drop">
@@ -238,7 +247,9 @@ const { label } = Astro.props;
      2.9s       hero text fades in (styled in the home page)
      3.3 – 6.3s courier walks to the shop; the cigarette carton slips off at 4.9s
      6.3s       courier goes into the shop
-     7.6 – 10.7s he comes back out with the invoice and cash and returns to the van */
+     7.6s       he comes back out with the invoice and cash
+     9.0 – 10s  stops, picks up the dropped carton, hops with joy
+     11.7s      back in the van */
   .scene {
     margin: 0;
     width: 100%;
@@ -396,7 +407,9 @@ const { label } = Astro.props;
   .drop {
     opacity: 0;
     transform: translate(380px, 184px);
-    animation: carton-fall 0.9s cubic-bezier(0.5, 0, 0.75, 0) 4.9s forwards;
+    animation:
+      carton-fall 0.9s cubic-bezier(0.5, 0, 0.75, 0) 4.9s forwards,
+      hide 0.01s linear 9.45s forwards;
   }
   .drop__carton {
     transform-box: fill-box;
@@ -508,14 +521,82 @@ const { label } = Astro.props;
     transform: translate(515px, 262px);
     animation:
       back-out 0.35s ease-out 7.6s forwards,
-      back-walk 2.5s linear 7.95s forwards,
-      back-in 0.3s ease-in 10.45s forwards;
+      back-walk 3.42s linear 7.95s forwards,
+      back-in 0.3s ease-in 11.37s forwards;
   }
   .leg--front2 {
-    animation: step 0.35s ease-in-out 7.95s 7 alternate;
+    animation:
+      step 0.36s ease-in-out 7.95s 3 alternate,
+      step 0.36s ease-in-out 9.95s 4 alternate;
   }
   .leg--back2 {
-    animation: step-back 0.35s ease-in-out 7.95s 7 alternate;
+    animation:
+      step-back 0.36s ease-in-out 7.95s 3 alternate,
+      step-back 0.36s ease-in-out 9.95s 4 alternate;
+  }
+  /* 9.03s: stops next to the carton, bends down, picks it up, hops with joy. */
+  .bender {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: bend 0.8s ease-in-out 9.05s;
+  }
+  .hopper {
+    animation: hop 0.45s ease-out 9.55s 2;
+  }
+  .held-carton,
+  .smile {
+    opacity: 0;
+    animation: show 0.01s linear 9.45s forwards;
+  }
+  .heart {
+    transform-box: fill-box;
+    transform-origin: center;
+    font: 800 22px var(--font);
+    fill: #ff5a5f;
+    opacity: 0;
+    animation: heart 1.2s ease-out 9.55s forwards;
+  }
+  @keyframes bend {
+    0%,
+    100% {
+      transform: none;
+    }
+    35%,
+    60% {
+      transform: rotate(-32deg) scaleY(0.9);
+    }
+  }
+  @keyframes hop {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-10px);
+    }
+  }
+  @keyframes show {
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes heart {
+    0% {
+      opacity: 0;
+      transform: translateY(6px) scale(0.6);
+    }
+    25% {
+      opacity: 1;
+      transform: translateY(0) scale(1.2);
+    }
+    75% {
+      opacity: 1;
+      transform: translateY(-10px) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-18px);
+    }
   }
   .cash {
     transform-box: fill-box;
@@ -533,11 +614,16 @@ const { label } = Astro.props;
     }
   }
   @keyframes back-walk {
-    from {
+    0% {
       opacity: 1;
       transform: translate(505px, 270px);
     }
-    to {
+    31.6%,
+    58.5% {
+      opacity: 1;
+      transform: translate(380px, 270px);
+    }
+    100% {
       opacity: 1;
       transform: translate(215px, 270px);
     }
