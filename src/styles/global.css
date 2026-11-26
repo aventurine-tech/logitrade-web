@@ -26,6 +26,7 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -237,4 +238,22 @@ p {
 :focus-visible {
   outline: 3px solid var(--amber-500);
   outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding-block: 52px;
+  }
+  .section__head {
+    margin-bottom: 28px;
+  }
+  .card {
+    padding: 22px;
+  }
+  .page-hero {
+    padding: calc(var(--header-h) + 36px) 0 40px;
+  }
+  .page-hero p {
+    font-size: 1.05rem;
+  }
 }

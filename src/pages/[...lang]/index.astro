@@ -61,6 +61,7 @@ const d = t(locale);
     position: relative;
     overflow: hidden;
     min-height: min(92vh, 760px);
+    min-height: min(92svh, 760px);
     display: flex;
     align-items: center;
     padding: calc(var(--header-h) + 48px) 0 72px;
@@ -130,9 +131,33 @@ const d = t(locale);
       align-items: center;
     }
   }
+  /* Phones and tablets: the scene goes first so the van arrives at the top of the screen,
+     then the text appears under it. */
   @media (max-width: 960px) {
+    .hero {
+      min-height: 0;
+      padding: calc(var(--header-h) + 20px) 0 48px;
+    }
+    .hero__inner {
+      display: flex;
+      flex-direction: column;
+    }
     .hero__inner :global(.scene) {
-      margin-top: 40px;
+      order: -1;
+      /* full-bleed so the road runs edge to edge */
+      width: calc(100% + 32px);
+      margin: 0 -16px 28px;
+    }
+    .hero__lead {
+      font-size: 1.05rem;
+    }
+    .hero__actions {
+      margin-top: 24px;
+    }
+  }
+  @media (max-width: 480px) {
+    .hero__actions .btn {
+      flex: 1 1 100%;
     }
   }
 </style>

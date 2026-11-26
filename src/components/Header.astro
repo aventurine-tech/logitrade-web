@@ -196,15 +196,44 @@ const links = [
     .site-nav__end {
       justify-content: space-between;
     }
-    .nav-open .site-header {
+    :global(.nav-open) .site-header {
       background: #fff;
       color: var(--ink);
     }
-    .nav-open .brand-light {
+    :global(.nav-open) .brand-light {
       display: none;
     }
-    .nav-open .brand-dark {
+    :global(.nav-open) .brand-dark {
       display: inline;
+    }
+    /* Hamburger turns into a close (X) icon. */
+    .nav-toggle[aria-expanded='true'] .nav-toggle__bar:nth-child(2) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .nav-toggle[aria-expanded='true'] .nav-toggle__bar:nth-child(3) {
+      opacity: 0;
+    }
+    .nav-toggle[aria-expanded='true'] .nav-toggle__bar:nth-child(4) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+    .nav-toggle {
+      width: 44px;
+      height: 44px;
+      margin-right: -10px;
+    }
+    .nav-toggle__bar {
+      margin: 5px auto;
+    }
+    .lang a {
+      display: inline-grid;
+      place-items: center;
+      min-width: 44px;
+      min-height: 40px;
+      font-size: 0.95rem;
+    }
+    .site-nav {
+      max-height: calc(100svh - var(--header-h));
+      overflow-y: auto;
     }
   }
 </style>
