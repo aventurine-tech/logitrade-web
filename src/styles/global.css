@@ -5,11 +5,12 @@
   --navy-700: #16407a;
   --amber-500: #f5a524;
   --amber-600: #d98b0b;
-  --ink: #142033;
-  --muted: #5a6779;
-  --line: #e3e8ef;
-  --surface: #ffffff;
-  --surface-alt: #f4f6fa;
+  /* One continuous dark theme: light text on a navy gradient that runs the full page. */
+  --ink: #eef3fa;
+  --muted: rgba(226, 234, 245, 0.74);
+  --line: rgba(255, 255, 255, 0.12);
+  --surface: rgba(255, 255, 255, 0.06);
+  --surface-alt: transparent;
   --radius: 14px;
   --shadow: 0 10px 30px rgba(10, 31, 60, 0.08);
   --container: 1160px;
@@ -33,7 +34,8 @@ body {
   margin: 0;
   font-family: var(--font);
   color: var(--ink);
-  background: var(--surface);
+  background: var(--navy-900);
+  min-height: 100vh;
   line-height: 1.6;
   font-size: 1.0625rem;
 }
@@ -45,7 +47,19 @@ svg {
 }
 
 a {
-  color: var(--navy-700);
+  color: #ffc35c;
+}
+
+/* Full-page gradient, fixed behind everything (a pseudo-element works on iOS too). */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(900px 600px at 85% 0%, rgba(245, 165, 36, 0.14), transparent 60%),
+    radial-gradient(800px 700px at 0% 100%, rgba(37, 99, 184, 0.35), transparent 60%),
+    linear-gradient(160deg, #0a1f3c 0%, #0f2c54 45%, #153f78 100%);
 }
 
 h1,
@@ -159,7 +173,8 @@ p {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 28px;
-  box-shadow: var(--shadow);
+  box-shadow: none;
+  backdrop-filter: blur(6px);
 }
 
 .card p:last-child {
@@ -167,7 +182,7 @@ p {
 }
 
 .page-hero {
-  background: linear-gradient(135deg, var(--navy-900), var(--navy-700));
+  background: transparent;
   color: #fff;
   padding: calc(var(--header-h) + 64px) 0 64px;
 }
