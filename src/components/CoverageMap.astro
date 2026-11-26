@@ -1,82 +1,156 @@
 ---
 import { t, type Locale } from '../i18n';
-import { outline, towns, viewBox } from '../data/moldova-map';
+import {
+  borders,
+  hubTown,
+  outline,
+  regionIds,
+  regionShapes,
+  towns,
+  viewBox,
+  type RegionId,
+} from '../data/moldova-map';
 
 interface Props {
   locale: Locale;
 }
 const { locale } = Astro.props;
 const d = t(locale);
+const c = d.coverage;
 
-// TODO: confirm real hub locations with Logitrade. Order matches d.coverage.hubs.
-const hubKeys = ['Bălți', 'Chișinău', 'Cahul'] as const;
-const hubs = hubKeys.map((k, i) => ({ xy: towns[k], ...d.coverage.hubs[i] }));
-const others = Object.entries(towns)
-  .filter(([k]) => !(hubKeys as readonly string[]).includes(k))
-  .map(([key, xy]) => ({ xy, name: d.coverage.towns[key] ?? key }));
+type Pt = [number, number];
+
+// d.coverage.hubs is ordered north, centre, south.
+const regions = regionIds.map((id, i) => {
+  const hubKey = hubTown[id];
+  const hubXY = towns[id][hubKey] as Pt;
+  const dests = Object.entries(towns[id])
+    .filter(([k]) => k !== hubKey)
+    .map(([key, xy]) => ({ xy: xy as Pt, name: c.towns[key] ?? key }));
+  return { id, name: c.regions[id], hub: { xy: hubXY, ...c.hubs[i] }, dests };
+});
+
+/** A gently curved arrow from the hub to a town, stopping short of the town dot. */
+function arrow(from: Pt, to: Pt): string {
+  const [x1, y1] = from;
+  const dx = to[0] - x1;
+  const dy = to[1] - y1;
+  const len = Math.hypot(dx, dy) || 1;
+  const ux = dx / len;
+  const uy = dy / len;
+  const sx = x1 + ux * 11;
+  const sy = y1 + uy * 11;
+  const ex = to[0] - ux * 9;
+  const ey = to[1] - uy * 9;
+  const bend = Math.min(18, len * 0.18);
+  const cx = (sx + ex) / 2 - uy * bend;
+  const cy = (sy + ey) / 2 + ux * bend;
+  return `M${sx.toFixed(1)} ${sy.toFixed(1)} Q${cx.toFixed(1)} ${cy.toFixed(1)} ${ex.toFixed(1)} ${ey.toFixed(1)}`;
+}
+
 // Labels go on the side facing the centre so they never spill past the map edge.
 const label = (x: number, gap: number) =>
   x > 200 ? { x: x - gap, 'text-anchor': 'end' as const } : { x: x + gap, 'text-anchor': 'start' as const };
-// Each delivery point links to its nearest hub.
-const nearest = (p: [number, number]) =>
-  hubs.reduce((a, b) => (Math.hypot(a.xy[0] - p[0], a.xy[1] - p[1]) <= Math.hypot(b.xy[0] - p[0], b.xy[1] - p[1]) ? a : b)).xy;
+const pts = (p: Pt[]) => p.map((q) => q.join(',')).join(' ');
+const regionOf = (id: RegionId) => id;
 ---
 
 <section class="section coverage">
   <div class="container coverage__inner">
     <div class="coverage__text reveal">
-      <h2>{d.coverage.title}</h2>
-      <p>{d.coverage.lead}</p>
+      <h2>{c.title}</h2>
+      <p>{c.lead}</p>
       <ol class="coverage__hubs">
         {
-          hubs.map((h) => (
-            <li>
-              <strong>{h.city}</strong>
-              <span>{h.region}</span>
+          regions.map((r) => (
+            <li data-region={r.id} tabindex="0">
+              <strong>
+                {r.hub.city} <em>· {r.name}</em>
+              </strong>
+              <span>{r.hub.region}</span>
             </li>
           ))
         }
       </ol>
+      <p class="coverage__hint">{c.hint}</p>
       <div class="coverage__legend">
-        <span><i class="dot dot--hub"></i>{d.coverage.legendHub}</span>
-        <span><i class="dot"></i>{d.coverage.legendTown}</span>
+        <span><i class="dot dot--hub"></i>{c.legendHub}</span>
+        <span><i class="dot"></i>{c.legendTown}</span>
       </div>
     </div>
 
     <figure class="coverage__map reveal">
-      <svg viewBox={viewBox} role="img" aria-label={d.coverage.title}>
+      <svg viewBox={viewBox} role="img" aria-label={c.title} data-map data-active="">
         <defs>
-          <linearGradient id="md-fill" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#16407a"></stop>
-            <stop offset="1" stop-color="#0f2c54"></stop>
-          </linearGradient>
+          <clipPath id="md-clip">
+            <path d={outline}></path>
+          </clipPath>
+          {
+            regionIds.map((id) => (
+              <clipPath id={`md-clip-${id}`}>
+                <polygon points={regionShapes[id]} />
+              </clipPath>
+            ))
+          }
+          <marker id="md-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="#f5a524"></path>
+          </marker>
         </defs>
-        <path d={outline} fill="url(#md-fill)" stroke="#f5a524" stroke-width="2" stroke-linejoin="round"></path>
-        {
-          others.map(({ xy: p }) => {
-            const h = nearest(p);
-            return <line x1={h[0]} y1={h[1]} x2={p[0]} y2={p[1]} class="route" />;
-          })
-        }
-        <polyline points={hubs.map((h) => h.xy.join(',')).join(' ')} class="route route--main" />
-        {
-          others.map((o) => (
-            <g class="city city--town" tabindex="0" aria-label={o.name}>
-              <circle cx={o.xy[0]} cy={o.xy[1]} r="14" class="city__hit" />
-              <g class="city__grow" style={`transform-origin:${o.xy[0]}px ${o.xy[1]}px`}>
-                <circle cx={o.xy[0]} cy={o.xy[1]} r="4.5" class="town" />
-                <text {...label(o.xy[0], 10)} y={o.xy[1] - 8}>{o.name}</text>
+
+        <!-- Regions: the outline clipped three times -->
+        <g clip-path="url(#md-clip)">
+          {
+            regionIds.map((id) => (
+              <g clip-path={`url(#md-clip-${id})`}>
+                <path d={outline} class={`region region--${regionOf(id)}`} data-region={id} />
               </g>
+            ))
+          }
+          {borders.map((b) => <polyline points={pts(b as Pt[])} class="border" />)}
+        </g>
+        <path d={outline} class="outline"></path>
+
+        <polyline points={pts(regions.map((r) => r.hub.xy))} class="trunk" />
+
+        <!-- Delivery arrows, shown for the active region -->
+        {
+          regions.map((r) => (
+            <g class={`arrows arrows--${r.id}`}>
+              {r.dests.map((dst, i) => (
+                <path d={arrow(r.hub.xy, dst.xy)} pathLength="1" style={`--i:${i}`} marker-end="url(#md-arrow)" />
+              ))}
             </g>
           ))
         }
+
+        <!-- Towns -->
         {
-          hubs.map((h) => (
-            <g class="city city--hub" tabindex="0" aria-label={`${h.city}, ${h.region}`}>
-              <circle cx={h.xy[0]} cy={h.xy[1]} r="16" class="hub__pulse" />
-              <g class="city__grow" style={`transform-origin:${h.xy[0]}px ${h.xy[1]}px`}>
-                <circle cx={h.xy[0]} cy={h.xy[1]} r="8" class="hub__dot" />
-                <text {...label(h.xy[0], 14)} y={h.xy[1] - 12}>{h.city}</text>
+          regions.map((r) =>
+            r.dests.map((o) => (
+              <g class={`city city--town town--${r.id}`} tabindex="-1" aria-label={o.name}>
+                <circle cx={o.xy[0]} cy={o.xy[1]} r="12" class="city__hit" />
+                <g class="city__grow" style={`transform-origin:${o.xy[0]}px ${o.xy[1]}px`}>
+                  <circle cx={o.xy[0]} cy={o.xy[1]} r="4" class="town" />
+                  <text {...label(o.xy[0], 9)} y={o.xy[1] - 7}>
+                    {o.name}
+                  </text>
+                </g>
+              </g>
+            )),
+          )
+        }
+
+        <!-- Hubs -->
+        {
+          regions.map((r) => (
+            <g class="city city--hub" tabindex="0" data-region={r.id} aria-label={`${r.hub.city}, ${r.hub.region}`}>
+              <circle cx={r.hub.xy[0]} cy={r.hub.xy[1]} r="22" class="city__hit" />
+              <circle cx={r.hub.xy[0]} cy={r.hub.xy[1]} r="16" class="hub__pulse" />
+              <g class="city__grow" style={`transform-origin:${r.hub.xy[0]}px ${r.hub.xy[1]}px`}>
+                <circle cx={r.hub.xy[0]} cy={r.hub.xy[1]} r="8" class="hub__dot" />
+                <text {...label(r.hub.xy[0], 14)} y={r.hub.xy[1] - 12}>
+                  {r.hub.city}
+                </text>
               </g>
             </g>
           ))
@@ -100,9 +174,9 @@ const nearest = (p: [number, number]) =>
   .coverage__hubs {
     list-style: none;
     padding: 0;
-    margin: 24px 0;
+    margin: 24px 0 12px;
     display: grid;
-    gap: 12px;
+    gap: 6px;
     counter-reset: hub;
   }
   .coverage__hubs li {
@@ -111,6 +185,16 @@ const nearest = (p: [number, number]) =>
     column-gap: 12px;
     align-items: center;
     counter-increment: hub;
+    padding: 8px 10px;
+    margin-inline: -10px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .coverage__hubs li:hover,
+  .coverage__hubs li:focus-visible,
+  .coverage__hubs li.is-active {
+    background: rgba(245, 165, 36, 0.14);
   }
   .coverage__hubs li::before {
     content: counter(hub);
@@ -124,9 +208,18 @@ const nearest = (p: [number, number]) =>
     color: var(--navy-900);
     font-weight: 800;
   }
+  .coverage__hubs em {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--amber-600);
+  }
   .coverage__hubs span {
     color: var(--muted);
     font-size: 0.95rem;
+  }
+  .coverage__hint {
+    font-size: 0.9rem !important;
+    font-style: italic;
   }
   .coverage__legend {
     display: flex;
@@ -156,7 +249,7 @@ const nearest = (p: [number, number]) =>
   .coverage__map {
     margin: 0;
     justify-self: center;
-    width: min(100%, 420px);
+    width: min(100%, 440px);
   }
   .coverage__map svg {
     width: 100%;
@@ -164,35 +257,81 @@ const nearest = (p: [number, number]) =>
     overflow: visible;
     filter: drop-shadow(0 20px 30px rgba(10, 31, 60, 0.18));
   }
-  .route {
-    stroke: rgba(255, 255, 255, 0.45);
-    stroke-width: 1.5;
-    stroke-dasharray: 4 5;
+
+  /* Regions */
+  .region {
+    transition: fill 0.3s;
   }
-  .route--main {
+  .region--north {
+    fill: #1a4b8a;
+  }
+  .region--centre {
+    fill: #143d73;
+  }
+  .region--south {
+    fill: #0f305c;
+  }
+  .border {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.55);
+    stroke-width: 1.5;
+    stroke-dasharray: 5 4;
+  }
+  .outline {
     fill: none;
     stroke: #f5a524;
+    stroke-width: 2;
+    stroke-linejoin: round;
+  }
+  .trunk {
+    fill: none;
+    stroke: rgba(245, 165, 36, 0.7);
     stroke-width: 2.5;
     stroke-dasharray: 8 6;
   }
-  .town {
-    fill: #fff;
+
+  /* Active region (set from JS via data-active) */
+  [data-active]:not([data-active='']) .region {
+    fill: #0c2648;
   }
-  .city__sub {
-    font-size: 10px !important;
-    font-weight: 600 !important;
+  [data-active='north'] .region.region--north,
+  [data-active='centre'] .region.region--centre,
+  [data-active='south'] .region.region--south {
+    fill: #2563b8;
   }
-  .hub__dot {
+  [data-active]:not([data-active='']) .city--town .town {
+    opacity: 0.35;
+  }
+  [data-active='north'] .town--north .town.town,
+  [data-active='centre'] .town--centre .town.town,
+  [data-active='south'] .town--south .town.town {
+    opacity: 1;
     fill: #f5a524;
-    stroke: #fff;
-    stroke-width: 3;
   }
-  .hub__pulse {
-    fill: rgba(245, 165, 36, 0.3);
-    transform-box: fill-box;
-    transform-origin: center;
-    animation: pulse 2.4s ease-out infinite;
+  /* Arrows */
+  .arrows path {
+    fill: none;
+    stroke: #f5a524;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    opacity: 0;
   }
+  [data-active='north'] .arrows--north path,
+  [data-active='centre'] .arrows--centre path,
+  [data-active='south'] .arrows--south path {
+    opacity: 1;
+    animation: draw 0.55s ease-out forwards;
+    animation-delay: calc(var(--i) * 60ms);
+  }
+  @keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  /* Cities */
   .city {
     cursor: pointer;
     outline: none;
@@ -204,34 +343,49 @@ const nearest = (p: [number, number]) =>
     transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   .city:hover .city__grow,
-  .city:focus-visible .city__grow {
-    transform: scale(1.6);
+  .city:focus-visible .city__grow,
+  .city--hub.is-active .city__grow {
+    transform: scale(1.5);
   }
-  .city:hover,
-  .city:focus-visible {
-    position: relative;
-  }
-  .city--town text,
-  .city__sub {
+  .city--town text {
     opacity: 0;
     transition: opacity 0.2s;
   }
-  .city:hover text,
-  .city:focus-visible text {
+  .city--town:hover text {
     opacity: 1;
   }
-  .city:hover .town,
-  .city:focus-visible .town {
+  .city--town:hover .town {
     fill: #f5a524;
+    opacity: 1;
   }
-  .city text,
-  .hub text {
+  .town {
+    fill: #fff;
+    transition: fill 0.2s, opacity 0.2s;
+  }
+  .city text {
     fill: #fff;
     font-weight: 800;
     font-size: 15px;
     paint-order: stroke;
     stroke: #0a1f3c;
     stroke-width: 4px;
+    pointer-events: none;
+  }
+  .city--town text {
+    font-size: 11px;
+    stroke-width: 3px;
+  }
+  .hub__dot {
+    fill: #f5a524;
+    stroke: #fff;
+    stroke-width: 3;
+  }
+  .hub__pulse {
+    fill: rgba(245, 165, 36, 0.3);
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: pulse 2.4s ease-out infinite;
+    pointer-events: none;
   }
   @keyframes pulse {
     from {
@@ -247,6 +401,10 @@ const nearest = (p: [number, number]) =>
     .hub__pulse {
       animation: none;
     }
+    .arrows path {
+      animation: none !important;
+      stroke-dashoffset: 0;
+    }
   }
   @media (max-width: 860px) {
     .coverage__inner {
@@ -256,11 +414,42 @@ const nearest = (p: [number, number]) =>
 </style>
 
 <script>
-  // Bring the hovered city to the front so its enlarged label isn't covered.
-  document.querySelectorAll<SVGGElement>('.coverage .city').forEach((g) => {
-    const raise = () => {
-      if (g.parentNode && g.parentNode.lastElementChild !== g) g.parentNode.appendChild(g);
+  document.querySelectorAll<HTMLElement>('.coverage').forEach((section) => {
+    const svg = section.querySelector<SVGSVGElement>('[data-map]');
+    if (!svg) return;
+    const hubs = section.querySelectorAll<SVGGElement>('.city--hub');
+    const items = section.querySelectorAll<HTMLElement>('.coverage__hubs li');
+
+    const activate = (region: string) => {
+      if (svg.dataset.active === region) return;
+      svg.dataset.active = region;
+      hubs.forEach((h) => h.classList.toggle('is-active', h.dataset.region === region));
+      items.forEach((li) => li.classList.toggle('is-active', li.dataset.region === region));
+      // Restart the arrow draw animation for the newly active region.
+      svg.querySelectorAll<SVGPathElement>(`.arrows--${region} path`).forEach((p) => {
+        p.style.animation = 'none';
+        void p.getBoundingClientRect();
+        p.style.animation = '';
+      });
     };
-    g.addEventListener('mouseenter', raise);
+    const clear = () => activate('');
+
+    [...hubs, ...items].forEach((el) => {
+      const region = el.dataset.region ?? '';
+      el.addEventListener('mouseenter', () => activate(region));
+      el.addEventListener('mouseleave', clear);
+      el.addEventListener('focus', () => activate(region));
+      el.addEventListener('blur', clear);
+      // Touch: tap toggles.
+      el.addEventListener('click', () => activate(svg.dataset.active === region ? '' : region));
+    });
+
+    // Bring a hovered town to the front so its enlarged label isn't covered.
+    svg.querySelectorAll<SVGGElement>('.city--town').forEach((g) => {
+      g.addEventListener('mouseenter', () => {
+        const parent = g.parentNode;
+        if (parent && parent.lastElementChild !== g) parent.insertBefore(g, svg.querySelector('.city--hub'));
+      });
+    });
   });
 </script>

@@ -84,7 +84,9 @@ const ro: Dictionary = {
     legendHub: 'Centru regional',
     legendTown: 'Punct de livrare',
     /** Delivery-point town names on the map, keyed by Romanian name. */
-    towns: { 'Soroca': 'Soroca', 'Edineț': 'Edineț', 'Orhei': 'Orhei', 'Ungheni': 'Ungheni', 'Comrat': 'Comrat', 'Căușeni': 'Căușeni', 'Hîncești': 'Hîncești', 'Florești': 'Florești' } as Record<string, string>,
+    towns: { 'Soroca': 'Soroca', 'Edineț': 'Edineț', 'Florești': 'Florești', 'Briceni': 'Briceni', 'Drochia': 'Drochia', 'Rîșcani': 'Rîșcani', 'Fălești': 'Fălești', 'Sîngerei': 'Sîngerei', 'Orhei': 'Orhei', 'Ungheni': 'Ungheni', 'Hîncești': 'Hîncești', 'Strășeni': 'Strășeni', 'Călărași': 'Călărași', 'Ialoveni': 'Ialoveni', 'Criuleni': 'Criuleni', 'Rezina': 'Rezina', 'Anenii Noi': 'Anenii Noi', 'Nisporeni': 'Nisporeni', 'Comrat': 'Comrat', 'Căușeni': 'Căușeni', 'Ștefan Vodă': 'Ștefan Vodă', 'Cimișlia': 'Cimișlia', 'Leova': 'Leova', 'Taraclia': 'Taraclia', 'Ceadîr-Lunga': 'Ceadîr-Lunga', 'Basarabeasca': 'Basarabeasca', 'Cantemir': 'Cantemir' } as Record<string, string>,
+    regions: { north: 'Nord', centre: 'Centru', south: 'Sud' },
+    hint: 'Treci cu mouse-ul peste un centru ca să vezi unde livrează.',
   },
   about: {
     title: 'Despre Logitrade',
