@@ -72,6 +72,17 @@ const en = {
     { value: '50+', label: 'Vehicles', text: 'An in-house fleet delivers the day after an order is placed.' },
     { value: '5,000+', label: 'Points of sale', text: 'Neighbourhood grocery shops, market stalls and small independent stores.' },
   ],
+  coverage: {
+    title: 'Across the whole of Moldova',
+    lead: 'Three regional hubs put every town and village within next-day reach.',
+    hubs: [
+      { city: 'Bălți', region: 'North hub' },
+      { city: 'Chișinău', region: 'Central hub and head office' },
+      { city: 'Cahul', region: 'South hub' },
+    ],
+    legendHub: 'Regional hub',
+    legendTown: 'Delivery point',
+  },
   about: {
     title: 'About Logitrade',
     lead: 'A distribution partner built around people, reliability and modern logistics.',

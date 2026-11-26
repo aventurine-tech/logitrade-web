@@ -1,0 +1,205 @@
+---
+import { t, type Locale } from '../i18n';
+import { outline, towns, viewBox } from '../data/moldova-map';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const d = t(locale);
+
+// TODO: confirm real hub locations with Logitrade. Order matches d.coverage.hubs.
+const hubKeys = ['Bălți', 'Chișinău', 'Cahul'] as const;
+const hubs = hubKeys.map((k, i) => ({ xy: towns[k], ...d.coverage.hubs[i] }));
+const others = Object.entries(towns)
+  .filter(([k]) => !(hubKeys as readonly string[]).includes(k))
+  .map(([, xy]) => xy);
+// Each delivery point links to its nearest hub.
+const nearest = (p: [number, number]) =>
+  hubs.reduce((a, b) => (Math.hypot(a.xy[0] - p[0], a.xy[1] - p[1]) <= Math.hypot(b.xy[0] - p[0], b.xy[1] - p[1]) ? a : b)).xy;
+---
+
+<section class="section coverage">
+  <div class="container coverage__inner">
+    <div class="coverage__text reveal">
+      <h2>{d.coverage.title}</h2>
+      <p>{d.coverage.lead}</p>
+      <ol class="coverage__hubs">
+        {
+          hubs.map((h) => (
+            <li>
+              <strong>{h.city}</strong>
+              <span>{h.region}</span>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="coverage__legend">
+        <span><i class="dot dot--hub"></i>{d.coverage.legendHub}</span>
+        <span><i class="dot"></i>{d.coverage.legendTown}</span>
+      </div>
+    </div>
+
+    <figure class="coverage__map reveal">
+      <svg viewBox={viewBox} role="img" aria-label={d.coverage.title}>
+        <defs>
+          <linearGradient id="md-fill" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#16407a"></stop>
+            <stop offset="1" stop-color="#0f2c54"></stop>
+          </linearGradient>
+        </defs>
+        <path d={outline} fill="url(#md-fill)" stroke="#f5a524" stroke-width="2" stroke-linejoin="round"></path>
+        {
+          others.map((p) => {
+            const h = nearest(p);
+            return <line x1={h[0]} y1={h[1]} x2={p[0]} y2={p[1]} class="route" />;
+          })
+        }
+        <polyline points={hubs.map((h) => h.xy.join(',')).join(' ')} class="route route--main" />
+        {others.map((p) => <circle cx={p[0]} cy={p[1]} r="4.5" class="town" />)}
+        {
+          hubs.map((h) => (
+            <g class="hub">
+              <circle cx={h.xy[0]} cy={h.xy[1]} r="16" class="hub__pulse" />
+              <circle cx={h.xy[0]} cy={h.xy[1]} r="8" class="hub__dot" />
+              <text x={h.xy[0] + 14} y={h.xy[1] - 12}>{h.city}</text>
+            </g>
+          ))
+        }
+      </svg>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .coverage__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 48px;
+    align-items: center;
+  }
+  .coverage__text p {
+    color: var(--muted);
+    font-size: 1.1rem;
+  }
+  .coverage__hubs {
+    list-style: none;
+    padding: 0;
+    margin: 24px 0;
+    display: grid;
+    gap: 12px;
+    counter-reset: hub;
+  }
+  .coverage__hubs li {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    column-gap: 12px;
+    align-items: center;
+    counter-increment: hub;
+  }
+  .coverage__hubs li::before {
+    content: counter(hub);
+    grid-row: span 2;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--amber-500);
+    color: var(--navy-900);
+    font-weight: 800;
+  }
+  .coverage__hubs span {
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .coverage__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  .coverage__legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid var(--navy-700);
+  }
+  .dot--hub {
+    width: 14px;
+    height: 14px;
+    background: var(--amber-500);
+    border-color: var(--amber-600);
+  }
+  .coverage__map {
+    margin: 0;
+    justify-self: center;
+    width: min(100%, 420px);
+  }
+  .coverage__map svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    filter: drop-shadow(0 20px 30px rgba(10, 31, 60, 0.18));
+  }
+  .route {
+    stroke: rgba(255, 255, 255, 0.45);
+    stroke-width: 1.5;
+    stroke-dasharray: 4 5;
+  }
+  .route--main {
+    fill: none;
+    stroke: #f5a524;
+    stroke-width: 2.5;
+    stroke-dasharray: 8 6;
+  }
+  .town {
+    fill: #fff;
+  }
+  .hub__dot {
+    fill: #f5a524;
+    stroke: #fff;
+    stroke-width: 3;
+  }
+  .hub__pulse {
+    fill: rgba(245, 165, 36, 0.3);
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: pulse 2.4s ease-out infinite;
+  }
+  .hub text {
+    fill: #fff;
+    font-weight: 800;
+    font-size: 15px;
+    paint-order: stroke;
+    stroke: #0a1f3c;
+    stroke-width: 4px;
+  }
+  @keyframes pulse {
+    from {
+      transform: scale(0.6);
+      opacity: 1;
+    }
+    to {
+      transform: scale(1.8);
+      opacity: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hub__pulse {
+      animation: none;
+    }
+  }
+  @media (max-width: 860px) {
+    .coverage__inner {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

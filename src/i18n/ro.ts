@@ -72,6 +72,17 @@ const ro: Dictionary = {
     { value: '50+', label: 'Unități de transport', text: 'Flota proprie livrează a doua zi după comandă.' },
     { value: '5.000+', label: 'Puncte de vânzare', text: 'Alimentare de cartier, tarabe din piețe și magazine mici independente.' },
   ],
+  coverage: {
+    title: 'În toată Republica Moldova',
+    lead: 'Trei centre regionale aduc fiecare oraș și sat la o zi distanță.',
+    hubs: [
+      { city: 'Bălți', region: 'Centrul de Nord' },
+      { city: 'Chișinău', region: 'Centrul din Centru și oficiul central' },
+      { city: 'Cahul', region: 'Centrul de Sud' },
+    ],
+    legendHub: 'Centru regional',
+    legendTown: 'Punct de livrare',
+  },
   about: {
     title: 'Despre Logitrade',
     lead: 'Un partener de distribuție construit pe oameni, încredere și logistică modernă.',

@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import Stats from '../../components/Stats.astro';
+import CoverageMap from '../../components/CoverageMap.astro';
 import Channels from '../../components/Channels.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import { localePaths, t, type Locale } from '../../i18n';
@@ -50,6 +51,7 @@ const d = t(locale);
   </section>
 
   <Stats locale={locale} />
+  <CoverageMap locale={locale} />
   <Channels locale={locale} />
   <CtaBand locale={locale} />
 </Base>
