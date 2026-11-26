@@ -19,7 +19,7 @@ const en = {
   home: {
     eyebrow: 'Distribution & logistics',
     title: 'Your goods on every shelf, on time.',
-    lead: 'Logitrade connects producers with shops, fuel stations and retail chains across Moldova, with our own fleet, warehouses and field team.',
+    lead: 'Logitrade brings producers’ goods to neighbourhood grocery shops and traditional markets across Moldova, with our own fleet, warehouses and field team.',
     primaryCta: 'Our services',
     secondaryCta: 'Talk to us',
     servicesTitle: 'What we do',
@@ -27,9 +27,13 @@ const en = {
     statsTitle: 'Why Logitrade',
     // TODO: confirm real figures with Logitrade.
     statsLead: 'The network behind every delivery.',
-    partnersTitle: 'Trusted by producers and retailers',
-    // TODO: replace placeholder partner tiles with real logos.
-    partnersLead: 'Producers and retailers who rely on us every day.',
+    channelsTitle: 'Where we deliver',
+    channelsLead: 'We specialise in traditional trade: the local shops and markets where people buy every day.',
+    channels: [
+      { name: 'Neighbourhood grocery shops', text: 'The local “alimentară” in every town and village, restocked by our agents every week.' },
+      { name: 'Traditional markets', text: 'Stalls and shops in city and regional markets, supplied reliably and on schedule.' },
+      { name: 'Small independent shops', text: 'Family-run stores that need small, frequent deliveries rather than pallets.' },
+    ],
     ctaTitle: 'Ready to reach more points of sale?',
     ctaLead: 'Tell us about your products and we will propose a distribution plan.',
     ctaButton: 'Become a partner',
@@ -42,7 +46,7 @@ const en = {
         id: 'distribution',
         name: 'Distribution',
         short: 'Next-day delivery to points of sale across the country.',
-        body: 'Our own fleet delivers orders to shops, kiosks, fuel stations, wholesale bases and retail chains, usually the day after the order is placed.',
+        body: 'Our own fleet delivers orders to neighbourhood grocery shops, traditional markets and small independent stores, usually the day after the order is placed.',
         points: ['Nationwide coverage', 'Next-day delivery', 'Route planning and tracking'],
       },
       {
@@ -66,7 +70,7 @@ const en = {
     { value: '3', label: 'Regional hubs', text: 'Warehouses in the North, Centre and South keep delivery times short.' },
     { value: '25+', label: 'Sales agents', text: 'Our agents visit customers every week to take orders and support sales.' },
     { value: '50+', label: 'Vehicles', text: 'An in-house fleet delivers the day after an order is placed.' },
-    { value: '5,000+', label: 'Points of sale', text: 'Shops, kiosks, fuel stations, wholesale bases and retail chains.' },
+    { value: '5,000+', label: 'Points of sale', text: 'Neighbourhood grocery shops, market stalls and small independent stores.' },
   ],
   about: {
     title: 'About Logitrade',
