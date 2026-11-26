@@ -1,0 +1,30 @@
+name: Deploy contact form worker
+
+# Runs once the repository variable FORM_WORKER_ENABLED is "true" and these
+# secrets exist: CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID, TURNSTILE_SECRET, RESEND_API_KEY.
+on:
+  push:
+    branches: [main, claude/project-thread-r7ul95]
+    paths: [form-worker/**, .github/workflows/form-worker.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    if: vars.FORM_WORKER_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: form-worker
+          secrets: |
+            TURNSTILE_SECRET
+            RESEND_API_KEY
+        env:
+          TURNSTILE_SECRET: ${{ secrets.TURNSTILE_SECRET }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}

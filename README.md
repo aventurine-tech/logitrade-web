@@ -38,3 +38,25 @@ The site is built in Romanian (default, served at `/`), English (`/en/...`) and 
 - Replace the placeholder logo (`src/components/Logo.astro`, `public/favicon.svg`) and partner tiles.
 - Connect the contact form to a backend (Formspree, Netlify Forms or a small API).
 - Have RO and RU copy reviewed by native speakers.
+
+## Contact form
+
+The form posts to a small Cloudflare Worker in `form-worker/`. The worker checks
+Cloudflare Turnstile (free bot protection), ignores honeypot hits and emails the
+message to office@logitrade.md through Resend, sending from `website@logitrade.md`
+with SPF and DKIM so it doesn't land in spam. Until it is set up, the form only
+shows the thank-you page.
+
+To turn it on, add these in GitHub under Settings > Secrets and variables > Actions:
+
+| Kind | Name | Value |
+| --- | --- | --- |
+| Secret | `CLOUDFLARE_API_TOKEN` | Cloudflare API token with "Edit Cloudflare Workers" |
+| Secret | `CLOUDFLARE_ACCOUNT_ID` | Cloudflare account ID |
+| Secret | `TURNSTILE_SECRET` | Turnstile widget secret key |
+| Secret | `RESEND_API_KEY` | Resend API key |
+| Variable | `FORM_WORKER_ENABLED` | `true` |
+| Variable | `TURNSTILE_SITE_KEY` | Turnstile widget site key |
+| Variable | `FORM_ENDPOINT` | The worker URL, e.g. `https://logitrade-form.<subdomain>.workers.dev` |
+
+Then run the "Deploy contact form worker" and "Deploy to GitHub Pages" workflows.

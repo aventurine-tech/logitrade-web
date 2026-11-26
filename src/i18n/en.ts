@@ -131,8 +131,12 @@ const en = {
     company: 'Company (optional)',
     message: 'Your message',
     send: 'Send message',
-    // TODO: wire the form to a backend before launch.
     formNote: 'We reply within one business day.',
+    formErrors: {
+      captcha: 'We could not confirm you are not a robot. Please try again.',
+      invalid: 'Please fill in your name, a valid email address and your message.',
+      error: 'Your message could not be sent. Please try again or write to office@logitrade.md.',
+    },
     legalTitle: 'Company details',
     legalName: 'Legal name',
     idno: 'IDNO (fiscal code)',

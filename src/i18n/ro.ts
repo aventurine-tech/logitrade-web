@@ -131,6 +131,11 @@ const ro: Dictionary = {
     message: 'Mesajul tău',
     send: 'Trimite',
     formNote: 'Răspundem în cel mult o zi lucrătoare.',
+    formErrors: {
+      captcha: 'Nu am putut confirma că nu ești robot. Te rugăm să încerci din nou.',
+      invalid: 'Completează numele, o adresă de email validă și mesajul.',
+      error: 'Mesajul nu a putut fi trimis. Încearcă din nou sau scrie-ne la office@logitrade.md.',
+    },
     legalTitle: 'Date de identificare',
     legalName: 'Denumire',
     idno: 'IDNO (cod fiscal)',

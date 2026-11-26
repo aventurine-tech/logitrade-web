@@ -32,6 +32,9 @@ jobs:
         env:
           SITE: ${{ steps.pages.outputs.origin }}
           BASE_PATH: ${{ steps.pages.outputs.base_path }}/
+          # Contact form: worker URL and Turnstile site key (both public), set as repository variables.
+          PUBLIC_FORM_ENDPOINT: ${{ vars.FORM_ENDPOINT }}
+          PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.TURNSTILE_SITE_KEY }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

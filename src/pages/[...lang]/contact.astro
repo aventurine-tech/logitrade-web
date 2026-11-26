@@ -7,6 +7,12 @@ export const getStaticPaths = localePaths;
 const { locale } = Astro.props as { locale: Locale };
 const d = t(locale);
 const c = d.contact;
+
+// The form goes live once the deploy sets the worker URL and Turnstile site key
+// (see form-worker/ and README). Until then it just shows the thank-you page.
+const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT as string | undefined;
+const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY as string | undefined;
+const live = Boolean(endpoint && siteKey);
 ---
 
 <Base locale={locale} title={c.title}>
@@ -34,12 +40,18 @@ const c = d.contact;
         </div>
       </div>
 
-      <!--
-        TODO: connect to a form backend (e.g. Formspree, Netlify Forms or a small API)
-        before launch. On success it should redirect to the thank-you page.
-      -->
-      <form class="card form reveal" action={path(locale, '/thanks')} method="get">
+      <form
+        id="form"
+        class="card form reveal"
+        action={live ? endpoint : path(locale, '/thanks')}
+        method={live ? 'post' : 'get'}
+      >
         <h2>{c.formTitle}</h2>
+        <input type="hidden" name="lang" value={locale} />
+        <label class="hp" aria-hidden="true">
+          Website
+          <input name="website" tabindex="-1" autocomplete="off" />
+        </label>
         <div class="form__row">
           <label>
             {c.firstName} *
@@ -60,8 +72,10 @@ const c = d.contact;
         </label>
         <label>
           {c.message} *
-          <textarea name="message" rows="5" required></textarea>
+          <textarea name="message" rows="5" maxlength="5000" required></textarea>
         </label>
+        {live && <div class="cf-turnstile" data-sitekey={siteKey} data-theme="dark" data-language={locale} data-size="flexible"></div>}
+        <p class="form__error" role="alert" data-form-error hidden></p>
         <button class="btn btn--primary" type="submit">{c.send}</button>
         <p class="form__note">{c.formNote}</p>
       </form>
@@ -75,9 +89,39 @@ const c = d.contact;
       src={`https://www.openstreetmap.org/export/embed.html?bbox=${company.geo.lon - 0.02}%2C${company.geo.lat - 0.009}%2C${company.geo.lon + 0.02}%2C${company.geo.lat + 0.009}&layer=mapnik&marker=${company.geo.lat}%2C${company.geo.lon}`}
     ></iframe>
   </section>
+  {live && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+  <script is:inline define:vars={{ errors: c.formErrors }}>
+    // The form worker redirects back with ?form=<reason> when a message could not be sent.
+    var reason = new URLSearchParams(location.search).get('form');
+    var box = document.querySelector('[data-form-error]');
+    if (reason && box) {
+      box.textContent = errors[reason] || errors.error;
+      box.hidden = false;
+    }
+  </script>
 </Base>
 
 <style>
+  #form {
+    scroll-margin-top: 96px;
+  }
+  .hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  .form__error {
+    margin: 0;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: rgba(216, 52, 44, 0.18);
+    border: 1px solid rgba(255, 120, 110, 0.45);
+    color: #ffd9d5;
+    font-size: 0.95rem;
+  }
+
   .legal dl {
     margin: 0;
     display: grid;

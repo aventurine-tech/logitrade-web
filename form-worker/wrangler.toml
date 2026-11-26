@@ -1,0 +1,14 @@
+# Cloudflare Worker that receives the contact form, checks Cloudflare Turnstile
+# and emails the message to the office through Resend.
+# Deployed by .github/workflows/form-worker.yml. Secrets (set by that workflow):
+#   TURNSTILE_SECRET  Turnstile widget secret key
+#   RESEND_API_KEY    Resend API key with sending access for logitrade.md
+name = "logitrade-form"
+main = "src/index.js"
+compatibility_date = "2026-11-01"
+workers_dev = true
+
+[vars]
+SITE_URL = "https://logitrade.md"
+TO_EMAIL = "office@logitrade.md"
+FROM_EMAIL = "Logitrade website <website@logitrade.md>"
