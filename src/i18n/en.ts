@@ -134,6 +134,13 @@ const en = {
     send: 'Send message',
     // TODO: wire the form to a backend before launch.
     formNote: 'We reply within one business day.',
+    legalTitle: 'Company details',
+    legalName: 'Legal name',
+    idno: 'IDNO (fiscal code)',
+    registered: 'Registered',
+    registeredDate: '18 August 2026',
+    licences: 'Licensed activities',
+    licenceList: ['Wholesale of tobacco products', 'Customs brokerage'],
   },
   thanks: {
     title: 'Thank you!',

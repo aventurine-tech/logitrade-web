@@ -52,10 +52,23 @@ export function stripLocale(pathname: string): string {
   return '/' + parts.join('/');
 }
 
-/** Company details shared by every locale. Placeholders until confirmed. */
+/**
+ * Company details shared by every locale.
+ * Legal name, IDNO and address come from the state register (srl.md, datero.md).
+ * Phone, emails and social links are still placeholders until confirmed.
+ */
 export const company = {
-  name: 'Logitrade',
-  address: ['Str. Exemplu 1', 'MD-2000, Chișinău', 'Republic of Moldova'],
+  name: 'Logitrade Group',
+  legalName: 'SRL „Logitrade Group”',
+  idno: '1026023134466',
+  registered: '2026-08-18',
+  address: {
+    ro: ['str. Cetatea Albă 176', 'MD-2002, Chișinău, sect. Botanica', 'Republica Moldova'],
+    en: ['176 Cetatea Albă St.', 'MD-2002, Chișinău, Botanica', 'Republic of Moldova'],
+    ru: ['ул. Четатя Албэ, 176', 'MD-2002, Кишинёв, сектор Ботаника', 'Республика Молдова'],
+  } satisfies Record<Locale, string[]>,
+  /** Office location on OpenStreetMap. */
+  geo: { lat: 46.98518, lon: 28.88626 },
   phone: '+373 22 000 000',
   phoneHref: 'tel:+37322000000',
   email: 'office@logitrade.md',

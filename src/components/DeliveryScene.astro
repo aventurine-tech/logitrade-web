@@ -160,6 +160,7 @@ const { label } = Astro.props;
 
     <!-- Courier: walks from the van to the shop door carrying boxes -->
     <g class="courier">
+      <g class="bender bender--in">
       <g transform="scale(1.9)">
         <ellipse cx="2" cy="1" rx="11" ry="2" fill="rgba(0,0,0,.25)"></ellipse>
         <g class="leg leg--back"><rect x="-3" y="-17" width="5" height="17" rx="2" fill="#1d2a3f"></rect><rect x="-3" y="-2" width="8" height="3" rx="1.5" fill="#111827"></rect></g>
@@ -182,12 +183,13 @@ const { label } = Astro.props;
         <text x="-12" y="-54" class="oops">!</text>
       </g>
     </g>
+    </g>
 
     <!-- Courier comes back out with the signed invoice and the cash, and returns to the van -->
     <g class="courier-back">
       <g class="hopper">
       <text x="-6" y="-112" class="heart">♥</text>
-      <g class="bender">
+      <g>
       <g transform="scale(-1.9 1.9)">
         <ellipse cx="2" cy="1" rx="11" ry="2" fill="rgba(0,0,0,.25)"></ellipse>
         <g class="leg leg--back2"><rect x="-3" y="-17" width="5" height="17" rx="2" fill="#1d2a3f"></rect><rect x="-3" y="-2" width="8" height="3" rx="1.5" fill="#111827"></rect></g>
@@ -208,10 +210,6 @@ const { label } = Astro.props;
           <rect x="-13" y="-57" width="13" height="7" rx="1" fill="#3f9b5d" transform="rotate(-12 -6 -53)"></rect>
           <rect x="-12" y="-55" width="13" height="7" rx="1" fill="#57b874" transform="rotate(6 -6 -51)"></rect>
           <circle cx="-5.5" cy="-51.5" r="1.6" fill="#2f7a4a"></circle>
-        </g>
-        <g class="held-carton">
-          <rect x="9" y="-27" width="15" height="7" rx="1" fill="#ffffff" stroke="#c9d1dd" stroke-width="0.5"></rect>
-          <rect x="9" y="-24.5" width="15" height="2.4" fill="#d8342c"></rect>
         </g>
         <path class="smile" d="M2.2 -42 q2 2.4 4.2 0" fill="none" stroke="#7a3b1f" stroke-width="1" stroke-linecap="round"></path>
       </g>
@@ -245,11 +243,10 @@ const { label } = Astro.props;
   /* Timeline (all on page load):
      0 – 2.8s   van drives in from the browser's left edge and brakes
      2.9s       hero text fades in (styled in the home page)
-     3.3 – 6.3s courier walks to the shop; the cigarette carton slips off at 4.9s
-     6.3s       courier goes into the shop
-     7.6s       he comes back out with the invoice and cash
-     9.0 – 10s  stops, picks up the dropped carton, hops with joy
-     11.7s      back in the van */
+     3.3s       courier walks to the shop with the boxes
+     4.9s       the cigarette carton slips off; he stops, picks it up (5.5s), carries on (6.2s)
+     7.5s       into the shop
+     8.9s       back out with the invoice and cash, hops with joy, walks back to the van (12.4s) */
   .scene {
     margin: 0;
     width: 100%;
@@ -385,36 +382,42 @@ const { label } = Astro.props;
     transform: translate(200px, 270px);
     animation:
       courier-out 0.3s ease-out 3.2s forwards,
-      courier-walk 2.8s linear 3.5s forwards,
-      courier-in 0.35s ease-in 6.3s forwards;
+      courier-walk 4s linear 3.5s forwards,
+      courier-in 0.35s ease-in 7.5s forwards;
   }
   .leg {
     transform-box: fill-box;
     transform-origin: 50% 0;
   }
   .leg--front {
-    animation: step 0.35s ease-in-out 3.5s 8 alternate;
+    animation:
+      step 0.36s ease-in-out 3.5s 4 alternate,
+      step 0.36s ease-in-out 6.2s 4 alternate;
   }
   .leg--back {
-    animation: step-back 0.35s ease-in-out 3.5s 8 alternate;
+    animation:
+      step-back 0.36s ease-in-out 3.5s 4 alternate,
+      step-back 0.36s ease-in-out 6.2s 4 alternate;
   }
   .stack__carton {
-    animation: hide 0.01s linear 4.9s forwards;
+    animation:
+      hide 0.01s linear 4.9s forwards,
+      show 0.01s linear 5.85s forwards;
   }
   .oops {
-    animation: oops 0.9s ease-out 5s forwards;
+    animation: oops 0.8s ease-out 4.95s forwards;
   }
   .drop {
     opacity: 0;
     transform: translate(380px, 184px);
     animation:
-      carton-fall 0.9s cubic-bezier(0.5, 0, 0.75, 0) 4.9s forwards,
-      hide 0.01s linear 9.45s forwards;
+      carton-fall 0.6s cubic-bezier(0.5, 0, 0.75, 0) 4.9s forwards,
+      hide 0.01s linear 5.85s forwards;
   }
   .drop__carton {
     transform-box: fill-box;
     transform-origin: center;
-    animation: carton-spin 0.9s ease-in 4.9s forwards;
+    animation: carton-spin 0.6s ease-in 4.9s forwards;
   }
 
   @keyframes courier-out {
@@ -427,12 +430,18 @@ const { label } = Astro.props;
       transform: translate(200px, 270px);
     }
   }
+  /* Stops at 5.0s when the carton falls, picks it up, carries on at 6.2s. */
   @keyframes courier-walk {
-    from {
+    0% {
       opacity: 1;
       transform: translate(200px, 270px);
     }
-    to {
+    37.5%,
+    67.5% {
+      opacity: 1;
+      transform: translate(363px, 270px);
+    }
+    100% {
       opacity: 1;
       transform: translate(505px, 270px);
     }
@@ -490,17 +499,17 @@ const { label } = Astro.props;
       opacity: 1;
       transform: translate(380px, 184px);
     }
-    60% {
+    65% {
       opacity: 1;
-      transform: translate(370px, 266px);
+      transform: translate(396px, 266px);
     }
-    75% {
+    82% {
       opacity: 1;
-      transform: translate(364px, 253px);
+      transform: translate(399px, 257px);
     }
     100% {
       opacity: 1;
-      transform: translate(358px, 266px);
+      transform: translate(402px, 266px);
     }
   }
   @keyframes carton-spin {
@@ -520,33 +529,29 @@ const { label } = Astro.props;
     opacity: 0;
     transform: translate(515px, 262px);
     animation:
-      back-out 0.35s ease-out 7.6s forwards,
-      back-walk 3.42s linear 7.95s forwards,
-      back-in 0.3s ease-in 11.37s forwards;
+      back-out 0.35s ease-out 8.9s forwards,
+      back-walk 2.5s linear 9.6s forwards,
+      back-in 0.3s ease-in 12.1s forwards;
   }
   .leg--front2 {
-    animation:
-      step 0.36s ease-in-out 7.95s 3 alternate,
-      step 0.36s ease-in-out 9.95s 4 alternate;
+    animation: step 0.36s ease-in-out 9.6s 7 alternate;
   }
   .leg--back2 {
-    animation:
-      step-back 0.36s ease-in-out 7.95s 3 alternate,
-      step-back 0.36s ease-in-out 9.95s 4 alternate;
+    animation: step-back 0.36s ease-in-out 9.6s 7 alternate;
   }
-  /* 9.03s: stops next to the carton, bends down, picks it up, hops with joy. */
-  .bender {
+  /* 5.0s: bends down for the dropped carton and puts it back on the stack. */
+  .bender--in {
     transform-box: fill-box;
     transform-origin: 50% 100%;
-    animation: bend 0.8s ease-in-out 9.05s;
+    animation: bend-fwd 0.7s ease-in-out 5.5s;
   }
+  /* 8.9s: out of the shop, paid, happy. */
   .hopper {
-    animation: hop 0.45s ease-out 9.55s 2;
+    animation: hop 0.35s ease-out 9.0s 2;
   }
-  .held-carton,
   .smile {
     opacity: 0;
-    animation: show 0.01s linear 9.45s forwards;
+    animation: show 0.01s linear 8.9s forwards;
   }
   .heart {
     transform-box: fill-box;
@@ -554,16 +559,16 @@ const { label } = Astro.props;
     font: 800 22px var(--font);
     fill: #ff5a5f;
     opacity: 0;
-    animation: heart 1.2s ease-out 9.55s forwards;
+    animation: heart 1.2s ease-out 9.0s forwards;
   }
-  @keyframes bend {
+  @keyframes bend-fwd {
     0%,
     100% {
       transform: none;
     }
     35%,
     60% {
-      transform: rotate(-32deg) scaleY(0.9);
+      transform: rotate(32deg) scaleY(0.9);
     }
   }
   @keyframes hop {
@@ -617,11 +622,6 @@ const { label } = Astro.props;
     0% {
       opacity: 1;
       transform: translate(505px, 270px);
-    }
-    31.6%,
-    58.5% {
-      opacity: 1;
-      transform: translate(380px, 270px);
     }
     100% {
       opacity: 1;

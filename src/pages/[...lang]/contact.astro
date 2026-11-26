@@ -17,7 +17,7 @@ const c = d.contact;
       <div class="contact__info">
         <div class="card reveal">
           <h3>{c.officeTitle}</h3>
-          <p>{company.address.map((line) => (<>{line}<br /></>))}</p>
+          <p>{company.address[locale].map((line) => (<>{line}<br /></>))}</p>
         </div>
         <div class="card reveal">
           <h3>{c.phoneTitle}</h3>
@@ -26,6 +26,15 @@ const c = d.contact;
         <div class="card reveal">
           <h3>{c.emailTitle}</h3>
           <p><a href={`mailto:${company.email}`}>{company.email}</a></p>
+        </div>
+        <div class="card reveal legal">
+          <h3>{c.legalTitle}</h3>
+          <dl>
+            <dt>{c.legalName}</dt><dd>{company.legalName}</dd>
+            <dt>{c.idno}</dt><dd>{company.idno}</dd>
+            <dt>{c.registered}</dt><dd>{c.registeredDate}</dd>
+            <dt>{c.licences}</dt><dd>{c.licenceList.join('; ')}</dd>
+          </dl>
         </div>
       </div>
 
@@ -67,12 +76,30 @@ const c = d.contact;
     <iframe
       title="Map"
       loading="lazy"
-      src="https://www.openstreetmap.org/export/embed.html?bbox=28.78%2C46.98%2C28.90%2C47.06&layer=mapnik"
+      src={`https://www.openstreetmap.org/export/embed.html?bbox=${company.geo.lon - 0.02}%2C${company.geo.lat - 0.009}%2C${company.geo.lon + 0.02}%2C${company.geo.lat + 0.009}&layer=mapnik&marker=${company.geo.lat}%2C${company.geo.lon}`}
     ></iframe>
   </section>
 </Base>
 
 <style>
+  .legal dl {
+    margin: 0;
+    display: grid;
+    gap: 2px 0;
+  }
+  .legal dt {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+  .legal dt:first-child {
+    margin-top: 0;
+  }
+  .legal dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+
   .contact {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);

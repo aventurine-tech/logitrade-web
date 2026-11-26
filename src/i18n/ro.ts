@@ -132,6 +132,13 @@ const ro: Dictionary = {
     message: 'Mesajul tău',
     send: 'Trimite',
     formNote: 'Răspundem în cel mult o zi lucrătoare.',
+    legalTitle: 'Date de identificare',
+    legalName: 'Denumire',
+    idno: 'IDNO (cod fiscal)',
+    registered: 'Data înregistrării',
+    registeredDate: '18 august 2026',
+    licences: 'Activități licențiate',
+    licenceList: ['Comerț angro cu articole din tutun', 'Activitate de broker vamal'],
   },
   thanks: {
     title: 'Mulțumim!',

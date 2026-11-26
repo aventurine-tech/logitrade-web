@@ -26,7 +26,7 @@ const year = new Date().getFullYear();
     </nav>
     <div>
       <p>
-        {company.address.map((line) => (<>{line}<br /></>))}
+        {company.address[locale].map((line) => (<>{line}<br /></>))}
       </p>
       <p>
         <a href={company.phoneHref}>{company.phone}</a><br />
@@ -40,7 +40,7 @@ const year = new Date().getFullYear();
     </div>
   </div>
   <div class="container site-footer__bottom">
-    <span>© {year} {company.name}. {d.footer.rights}</span>
+    <span>© {year} {company.legalName} · IDNO {company.idno}. {d.footer.rights}</span>
     <a href={path(locale, '/privacy')}>{d.footer.privacy}</a>
   </div>
 </footer>
