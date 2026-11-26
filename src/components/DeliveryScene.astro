@@ -182,6 +182,32 @@ const { label } = Astro.props;
         <text x="-12" y="-54" class="oops">!</text>
       </g>
     </g>
+
+    <!-- Courier comes back out with the signed invoice and the cash, and returns to the van -->
+    <g class="courier-back">
+      <g transform="scale(-1.9 1.9)">
+        <ellipse cx="2" cy="1" rx="11" ry="2" fill="rgba(0,0,0,.25)"></ellipse>
+        <g class="leg leg--back2"><rect x="-3" y="-17" width="5" height="17" rx="2" fill="#1d2a3f"></rect><rect x="-3" y="-2" width="8" height="3" rx="1.5" fill="#111827"></rect></g>
+        <g class="leg leg--front2"><rect x="-2" y="-17" width="5" height="17" rx="2" fill="#2b3a55"></rect><rect x="-2" y="-2" width="8" height="3" rx="1.5" fill="#111827"></rect></g>
+        <rect x="-6" y="-38" width="12" height="23" rx="4" fill="#0f2c54"></rect>
+        <rect x="-6" y="-24" width="12" height="3" fill="#f5a524"></rect>
+        <circle cx="0" cy="-44" r="6" fill="#f1c7a3"></circle>
+        <path d="M-6.5 -45 a6.5 6.5 0 0 1 13 0 h3 v2 h-16 z" fill="#f5a524"></path>
+        <!-- arm with invoice, held in front -->
+        <path d="M2 -33 L8 -27 L12 -28" fill="none" stroke="#f1c7a3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+        <g transform="translate(11 -36) rotate(8)">
+          <rect width="9" height="12" rx="0.8" fill="#ffffff" stroke="#c9d1dd" stroke-width="0.5"></rect>
+          <path d="M1.8 3 h5.4 M1.8 5.5 h5.4 M1.8 8 h3.5" stroke="#9aa6b8" stroke-width="0.8"></path>
+        </g>
+        <!-- raised arm waving the cash -->
+        <path d="M-2 -34 L-7 -42 L-6 -49" fill="none" stroke="#f1c7a3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+        <g class="cash">
+          <rect x="-13" y="-57" width="13" height="7" rx="1" fill="#3f9b5d" transform="rotate(-12 -6 -53)"></rect>
+          <rect x="-12" y="-55" width="13" height="7" rx="1" fill="#57b874" transform="rotate(6 -6 -51)"></rect>
+          <circle cx="-5.5" cy="-51.5" r="1.6" fill="#2f7a4a"></circle>
+        </g>
+      </g>
+    </g>
     <!-- Falling cigarette carton (appears when it slips off the courier's stack) -->
     <g class="drop">
       <g class="drop__carton">
@@ -211,7 +237,8 @@ const { label } = Astro.props;
      0 – 2.8s   van drives in from the browser's left edge and brakes
      2.9s       hero text fades in (styled in the home page)
      3.3 – 6.3s courier walks to the shop; the cigarette carton slips off at 4.9s
-     6.3s       courier goes into the shop */
+     6.3s       courier goes into the shop
+     7.6 – 10.7s he comes back out with the invoice and cash and returns to the van */
   .scene {
     margin: 0;
     width: 100%;
@@ -475,6 +502,65 @@ const { label } = Astro.props;
     }
   }
 
+  /* Back out of the shop with invoice and cash (7.6s), then back to the van (10.5s). */
+  .courier-back {
+    opacity: 0;
+    transform: translate(515px, 262px);
+    animation:
+      back-out 0.35s ease-out 7.6s forwards,
+      back-walk 2.5s linear 7.95s forwards,
+      back-in 0.3s ease-in 10.45s forwards;
+  }
+  .leg--front2 {
+    animation: step 0.35s ease-in-out 7.95s 7 alternate;
+  }
+  .leg--back2 {
+    animation: step-back 0.35s ease-in-out 7.95s 7 alternate;
+  }
+  .cash {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: wave 0.3s ease-in-out 7.6s 10 alternate;
+  }
+  @keyframes back-out {
+    from {
+      opacity: 0;
+      transform: translate(515px, 262px);
+    }
+    to {
+      opacity: 1;
+      transform: translate(505px, 270px);
+    }
+  }
+  @keyframes back-walk {
+    from {
+      opacity: 1;
+      transform: translate(505px, 270px);
+    }
+    to {
+      opacity: 1;
+      transform: translate(215px, 270px);
+    }
+  }
+  @keyframes back-in {
+    from {
+      opacity: 1;
+      transform: translate(215px, 270px);
+    }
+    to {
+      opacity: 0;
+      transform: translate(205px, 262px);
+    }
+  }
+  @keyframes wave {
+    from {
+      transform: rotate(-14deg);
+    }
+    to {
+      transform: rotate(14deg);
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .scene * {
       animation: none !important;
@@ -482,6 +568,7 @@ const { label } = Astro.props;
     .speed,
     .dust,
     .courier,
+    .courier-back,
     .drop {
       display: none;
     }
