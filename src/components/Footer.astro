@@ -29,14 +29,8 @@ const year = new Date().getFullYear();
         {company.address[locale].map((line) => (<>{line}<br /></>))}
       </p>
       <p>
-        <a href={company.phoneHref}>{company.phone}</a><br />
         <a href={`mailto:${company.email}`}>{company.email}</a>
       </p>
-      <ul class="social">
-        <li><a href={company.social.facebook} aria-label="Facebook">Fb</a></li>
-        <li><a href={company.social.instagram} aria-label="Instagram">Ig</a></li>
-        <li><a href={company.social.linkedin} aria-label="LinkedIn">In</a></li>
-      </ul>
     </div>
   </div>
   <div class="container site-footer__bottom">
@@ -85,20 +79,6 @@ const year = new Date().getFullYear();
   .site-footer__bottom a {
     display: inline-block;
     padding: 8px 0;
-  }
-  .social {
-    display: flex;
-    gap: 10px;
-  }
-  .social a {
-    display: grid;
-    place-items: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    font-size: 0.8rem;
-    font-weight: 700;
   }
   .site-footer__bottom {
     border-top: 1px solid rgba(255, 255, 255, 0.12);

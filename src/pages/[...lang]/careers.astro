@@ -23,7 +23,7 @@ const d = t(locale);
               <p>{job.text}</p>
               <a
                 class="btn btn--primary"
-                href={`mailto:${company.hrEmail}?subject=${encodeURIComponent(job.title)}`}
+                href={`mailto:${company.email}?subject=${encodeURIComponent(job.title)}`}
               >
                 {d.careers.apply}
               </a>

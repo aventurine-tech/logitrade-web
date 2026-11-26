@@ -121,7 +121,6 @@ const ru: Dictionary = {
     title: 'Контакты',
     lead: 'Вопросы, партнёрство или предложения, мы рады помочь.',
     officeTitle: 'Офис',
-    phoneTitle: 'Телефон',
     emailTitle: 'Email',
     hours: 'Понедельник – пятница, 8:30 – 17:30',
     formTitle: 'Напишите нам',

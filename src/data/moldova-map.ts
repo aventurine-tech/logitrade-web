@@ -14,7 +14,7 @@ export const regionShapes: Record<RegionId, string> = {"north": "-2000,-2000 200
 /** Boundary lines between regions, for drawing. */
 export const borders: [number, number][][] = [[[-13.5, 187.6], [213.7, 171.6], [267.7, 123.4], [440.8, 107.3]], [[-13.5, 319.4], [440.8, 294.1]]];
 
-/** Regional hub town per region. TODO: confirm real hub locations with Logitrade. */
+/** Regional hub town per region (confirmed by Logitrade, 2026-11-26). */
 export const hubTown: Record<RegionId, string> = { north: 'Bălți', centre: 'Chișinău', south: 'Cahul' };
 
 /** Towns (keyed by Romanian name) and their positions, grouped by region. Includes the hubs. */

@@ -121,7 +121,6 @@ const ro: Dictionary = {
     title: 'Contacte',
     lead: 'Întrebări, parteneriate sau oferte, te ajutăm cu plăcere.',
     officeTitle: 'Oficiu',
-    phoneTitle: 'Telefon',
     emailTitle: 'Email',
     hours: 'Luni – Vineri, 8:30 – 17:30',
     formTitle: 'Trimite-ne un mesaj',

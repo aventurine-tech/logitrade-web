@@ -55,7 +55,7 @@ export function stripLocale(pathname: string): string {
 /**
  * Company details shared by every locale.
  * Legal name, IDNO and address come from the state register (srl.md, datero.md).
- * Phone, emails and social links are still placeholders until confirmed.
+ * There is no public phone number or social media yet (Radu, 2026-11-26).
  */
 export const company = {
   name: 'Logitrade Group',
@@ -69,13 +69,5 @@ export const company = {
   } satisfies Record<Locale, string[]>,
   /** Office location on OpenStreetMap. */
   geo: { lat: 46.98518, lon: 28.88626 },
-  phone: '+373 22 000 000',
-  phoneHref: 'tel:+37322000000',
   email: 'office@logitrade.md',
-  hrEmail: 'hr@logitrade.md',
-  social: {
-    facebook: '#',
-    instagram: '#',
-    linkedin: '#',
-  },
 };

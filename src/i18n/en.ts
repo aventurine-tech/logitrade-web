@@ -122,7 +122,6 @@ const en = {
     title: 'Contact',
     lead: 'Questions, partnerships or quotes, we are happy to help.',
     officeTitle: 'Office',
-    phoneTitle: 'Phone',
     emailTitle: 'Email',
     hours: 'Monday to Friday, 8:30 to 17:30',
     formTitle: 'Send us a message',
