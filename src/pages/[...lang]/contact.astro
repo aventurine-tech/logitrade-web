@@ -82,7 +82,7 @@ const live = Boolean(endpoint && siteKey);
     </div>
   </section>
 
-  <section class="map" aria-label={c.officeTitle}>
+  <section class="container map" aria-label={c.officeTitle}>
     <iframe
       title="Map"
       loading="lazy"
@@ -192,6 +192,13 @@ const live = Boolean(endpoint && siteKey);
     font-size: 0.85rem;
     color: var(--muted);
     margin: 0;
+  }
+  .map {
+    margin-top: calc(clamp(56px, 8vw, 104px) * -0.5);
+    margin-bottom: clamp(56px, 8vw, 104px);
+    border-radius: var(--radius, 18px);
+    overflow: hidden;
+    border: 1px solid var(--line);
   }
   .map iframe {
     display: block;
