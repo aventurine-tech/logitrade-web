@@ -1,13 +1,13 @@
 {
   "published": true,
-  "order": 3,
+  "order": 2,
   "title_ro": "Promotor",
-  "title_en": "Promoter",
-  "title_ru": "Промоутер",
   "place_ro": "Raioane",
-  "place_en": "Regions",
-  "place_ru": "Районы",
   "text_ro": "Prezinți produsele partenerilor în magazine.",
+  "title_en": "Promoter",
+  "place_en": "Regions",
   "text_en": "Present our partners’ products to stores and customers.",
+  "title_ru": "Промоутер",
+  "place_ru": "Районы",
   "text_ru": "Презентация продукции партнёров в магазинах."
 }
