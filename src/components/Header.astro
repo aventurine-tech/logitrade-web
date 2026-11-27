@@ -82,10 +82,11 @@ const links = [
     color: #fff;
   }
   .site-header.is-solid {
-    background: rgba(10, 31, 60, 0.82);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 1px 0 var(--line);
+    /* Opaque once scrolled: page text must not show through behind the menu. */
+    background: var(--navy-900);
+    box-shadow:
+      0 1px 0 var(--line),
+      0 8px 24px rgba(0, 0, 0, 0.35);
     color: #fff;
   }
   .site-header__inner {
