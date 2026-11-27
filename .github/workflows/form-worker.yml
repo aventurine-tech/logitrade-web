@@ -7,7 +7,7 @@ name: Deploy contact form worker
 # LOGITRADE_FORME secret.
 on:
   push:
-    branches: [main, claude/project-thread-r7ul95]
+    branches: [main]
     paths: [form-worker/**, .github/workflows/form-worker.yml]
   workflow_dispatch:
 
