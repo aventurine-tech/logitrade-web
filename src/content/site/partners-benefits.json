@@ -1,0 +1,36 @@
+{
+  "items": [
+    {
+      "name_ro": "Acoperire în toată țara",
+      "name_en": "Reach across the country",
+      "name_ru": "Охват всей страны",
+      "text_ro": "Trei centre regionale și flota proprie livrează în orașele și satele din Nord, Centru și Sud.",
+      "text_en": "Three regional hubs and our own fleet deliver to towns and villages in the North, Centre and South.",
+      "text_ru": "Три региональных центра и собственный автопарк доставляют товары в города и сёла Севера, Центра и Юга."
+    },
+    {
+      "name_ro": "O echipă de teren care vinde",
+      "name_en": "A field team that sells",
+      "name_ru": "Торговая команда в полях",
+      "text_ro": "Agenții noștri vizitează magazinele săptămânal, preiau comenzi și au grijă ca produsele tale să fie listate și reaprovizionate.",
+      "text_en": "Our agents visit shops every week, take orders and make sure your products are listed and restocked.",
+      "text_ru": "Наши агенты каждую неделю посещают магазины, принимают заказы и следят, чтобы ваши товары были в ассортименте и на полке."
+    },
+    {
+      "name_ro": "Depozitare și logistică",
+      "name_en": "Storage and logistics",
+      "name_ru": "Хранение и логистика",
+      "text_ro": "Păstrăm stocul în depozite regionale și ne ocupăm de pregătirea comenzilor, livrare și retururi.",
+      "text_en": "We store your stock in regional warehouses and handle picking, delivery and returns.",
+      "text_ru": "Храним ваш товар на региональных складах, собираем заказы, доставляем и обрабатываем возвраты."
+    },
+    {
+      "name_ro": "Rapoarte clare",
+      "name_en": "Clear reporting",
+      "name_ru": "Понятная отчётность",
+      "text_ro": "Rapoarte regulate despre vânzări, acoperire și prezența la raft, ca să știi mereu cum merge brandul tău.",
+      "text_en": "Regular reports on sales, coverage and shelf presence, so you always know how your brand is doing.",
+      "text_ru": "Регулярные отчёты о продажах, охвате и присутствии на полке, чтобы вы всегда знали, как идут дела у бренда."
+    }
+  ]
+}

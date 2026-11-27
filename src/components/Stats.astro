@@ -1,11 +1,13 @@
 ---
 import { t, type Locale } from '../i18n';
+import { getStats } from '../data/site';
 
 interface Props {
   locale: Locale;
 }
 const { locale } = Astro.props;
 const d = t(locale);
+const stats = getStats(locale);
 ---
 
 <section class="section stats">
@@ -16,7 +18,7 @@ const d = t(locale);
     </div>
     <div class="grid grid--4">
       {
-        d.stats.map((s) => (
+        stats.map((s) => (
           <div class="stat reveal">
             <strong class="stat__value">{s.value}</strong>
             <span class="stat__label">{s.label}</span>

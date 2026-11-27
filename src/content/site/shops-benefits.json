@@ -1,0 +1,36 @@
+{
+  "items": [
+    {
+      "name_ro": "Un agent al tău",
+      "name_en": "A regular agent",
+      "name_ru": "Свой агент",
+      "text_ro": "Agentul vine într-o zi fixă în fiecare săptămână, te ajută să alegi ce se vinde și preia comanda.",
+      "text_en": "Your agent visits on a fixed day each week, helps you choose what sells and takes your order.",
+      "text_ru": "Агент приходит в определённый день каждую неделю, помогает выбрать, что продаётся, и принимает заказ."
+    },
+    {
+      "name_ro": "Livrare la ușă",
+      "name_en": "Delivery to your door",
+      "name_ru": "Доставка к двери",
+      "text_ro": "Comanda ajunge a doua zi, în cantitățile de care are nevoie un magazin mic.",
+      "text_en": "Orders arrive the next day, in the quantities a small shop needs.",
+      "text_ru": "Заказ приезжает на следующий день, в тех количествах, которые нужны небольшому магазину."
+    },
+    {
+      "name_ro": "Prețuri și acte clare",
+      "name_en": "Clear prices and papers",
+      "name_ru": "Понятные цены и документы",
+      "text_ro": "Prețuri clare și factură cu toate documentele la fiecare livrare.",
+      "text_en": "Clear prices, and an invoice with all the documents for every delivery.",
+      "text_ru": "Понятные цены и счёт-фактура со всеми документами при каждой поставке."
+    },
+    {
+      "name_ro": "Ajutor la raft",
+      "name_en": "Help on the shelf",
+      "name_ru": "Помощь с полкой",
+      "text_ro": "Te ajutăm să așezi bine produsele și aducem materiale promoționale de la producători.",
+      "text_en": "We help you place products well and bring promotional materials from producers.",
+      "text_ru": "Поможем правильно выставить товар и привезём рекламные материалы от производителей."
+    }
+  ]
+}

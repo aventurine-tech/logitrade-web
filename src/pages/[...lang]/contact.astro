@@ -3,11 +3,13 @@ import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import ContactForm from '../../components/ContactForm.astro';
 import { company, localePaths, t, type Locale } from '../../i18n';
+import { getContact } from '../../data/site';
 
 export const getStaticPaths = localePaths;
 const { locale } = Astro.props as { locale: Locale };
 const d = t(locale);
 const c = d.contact;
+const contact = getContact(locale);
 ---
 
 <Base locale={locale} title={c.title}>
@@ -18,12 +20,20 @@ const c = d.contact;
       <div class="contact__info">
         <div class="card reveal">
           <h2>{c.officeTitle}</h2>
-          <p>{company.address[locale].map((line) => (<>{line}<br /></>))}</p>
+          <p>{contact.address.map((line) => (<>{line}<br /></>))}</p>
         </div>
         <div class="card reveal">
           <h2>{c.emailTitle}</h2>
-          <p><a href={`mailto:${company.email}`}>{company.email}</a></p>
+          <p><a href={`mailto:${contact.email}`}>{contact.email}</a></p>
         </div>
+        {
+          contact.phone && (
+            <div class="card reveal">
+              <h2>{c.phoneTitle}</h2>
+              <p><a href={contact.phoneHref}>{contact.phone}</a></p>
+            </div>
+          )
+        }
         <div class="card reveal legal">
           <h2>{c.legalTitle}</h2>
           <dl>

@@ -70,12 +70,6 @@ const en = {
     ],
     more: 'Learn more',
   },
-  stats: [
-    { value: '3', label: 'Regional hubs', text: 'Warehouses in the North, Centre and South keep delivery times short.' },
-    { value: '25+', label: 'Sales agents', text: 'Our agents visit customers every week to take orders and support sales.' },
-    { value: '50+', label: 'Vehicles', text: 'An in-house fleet delivers the day after an order is placed.' },
-    { value: '5,000+', label: 'Points of sale', text: 'Neighbourhood grocery shops, market stalls and small independent stores.' },
-  ],
   coverage: {
     title: 'Across the whole of Moldova',
     lead: 'Three regional hubs put every town and village within next-day reach.',
@@ -132,6 +126,7 @@ const en = {
     title: 'Contact',
     lead: 'Questions, partnerships or quotes, we are happy to help.',
     officeTitle: 'Office',
+    phoneTitle: 'Phone',
     emailTitle: 'Email',
     hours: 'Monday to Friday, 8:30 to 17:30',
     formTitle: 'Send us a message',
@@ -163,12 +158,6 @@ const en = {
     // TODO: confirm benefits and figures with Logitrade.
     benefitsTitle: 'What you get',
     benefitsLead: 'One partner for the whole route, from your warehouse to the customer’s basket.',
-    benefits: [
-      { name: 'Reach across the country', text: 'Three regional hubs and our own fleet deliver to towns and villages in the North, Centre and South.' },
-      { name: 'A field team that sells', text: 'Our agents visit shops every week, take orders and make sure your products are listed and restocked.' },
-      { name: 'Storage and logistics', text: 'We store your stock in regional warehouses and handle picking, delivery and returns.' },
-      { name: 'Clear reporting', text: 'Regular reports on sales, coverage and shelf presence, so you always know how your brand is doing.' },
-    ],
     stepsTitle: 'How it works',
     steps: [
       { name: 'Tell us about your products', text: 'Send the form below with your range, volumes and the regions you want to reach.' },
@@ -191,12 +180,6 @@ const en = {
     cta: 'Ask for an agent visit',
     // TODO: confirm conditions (visit days, payment terms) with Logitrade.
     benefitsTitle: 'Why shops work with us',
-    benefits: [
-      { name: 'A regular agent', text: 'Your agent visits on a fixed day each week, helps you choose what sells and takes your order.' },
-      { name: 'Delivery to your door', text: 'Orders arrive the next day, in the quantities a small shop needs.' },
-      { name: 'Clear prices and papers', text: 'Clear prices, and an invoice with all the documents for every delivery.' },
-      { name: 'Help on the shelf', text: 'We help you place products well and bring promotional materials from producers.' },
-    ],
     stepsTitle: 'How to start',
     steps: [
       { name: 'Leave your details', text: 'Fill in the short form below. A phone number is enough, no email needed.' },
