@@ -7,13 +7,16 @@ import ServiceIcon from '../../components/ServiceIcon.astro';
 import Stats from '../../components/Stats.astro';
 import CoverageMap from '../../components/CoverageMap.astro';
 import ContactForm from '../../components/ContactForm.astro';
-import { company, localePaths, t, type Locale } from '../../i18n';
+import { localePaths, t, type Locale } from '../../i18n';
+import { getContact, getPartnerBenefits } from '../../data/site';
 
 export const getStaticPaths = localePaths;
 const { locale } = Astro.props as { locale: Locale };
 const d = t(locale);
 const p = d.partners;
 const icons = ['reach', 'team', 'storage', 'reports'];
+const benefits = getPartnerBenefits(locale);
+const contact = getContact(locale);
 ---
 
 <Base locale={locale} title={p.title} description={p.lead}>
@@ -27,9 +30,9 @@ const icons = ['reach', 'team', 'storage', 'reports'];
       </div>
       <div class="grid grid--4">
         {
-          p.benefits.map((b, i) => (
+          benefits.map((b, i) => (
             <div class="card reveal">
-              <ServiceIcon name={icons[i]} />
+              <ServiceIcon name={icons[i % icons.length]} />
               <h3>{b.name}</h3>
               <p>{b.text}</p>
             </div>
@@ -66,7 +69,7 @@ const icons = ['reach', 'team', 'storage', 'reports'];
     <div class="container partners__form">
       <ContactForm locale={locale} topic="partner" />
       <p class="partners__mail">
-        {d.contact.emailTitle}: <a href={`mailto:${company.email}`}>{company.email}</a>
+        {d.contact.emailTitle}: <a href={`mailto:${contact.email}`}>{contact.email}</a>
       </p>
     </div>
   </section>

@@ -7,11 +7,13 @@ import ServiceIcon from '../../components/ServiceIcon.astro';
 import CoverageMap from '../../components/CoverageMap.astro';
 import ContactForm from '../../components/ContactForm.astro';
 import { localePaths, t, type Locale } from '../../i18n';
+import { getShopBenefits } from '../../data/site';
 
 export const getStaticPaths = localePaths;
 const { locale } = Astro.props as { locale: Locale };
 const s = t(locale).shops;
 const icons = ['team', 'distribution', 'reports', 'merchandising'];
+const benefits = getShopBenefits(locale);
 ---
 
 <Base locale={locale} title={s.title} description={s.lead}>
@@ -24,9 +26,9 @@ const icons = ['team', 'distribution', 'reports', 'merchandising'];
       </div>
       <div class="grid grid--4">
         {
-          s.benefits.map((b, i) => (
+          benefits.map((b, i) => (
             <div class="card reveal">
-              <ServiceIcon name={icons[i]} />
+              <ServiceIcon name={icons[i % icons.length]} />
               <h3>{b.name}</h3>
               <p>{b.text}</p>
             </div>

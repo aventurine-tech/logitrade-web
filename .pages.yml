@@ -1,4 +1,4 @@
-# Pages CMS (https://app.pagescms.org): the editor staff use to manage job vacancies.
+# Pages CMS (https://app.pagescms.org): the editor staff use to manage vacancies and site texts.
 # Every save is a commit to main, which redeploys the site in about two minutes.
 content:
   - name: jobs
@@ -56,4 +56,131 @@ content:
         type: string
       - name: text_ru
         label: Description (RU) / Описание
+        type: text
+  - name: home_stats
+    label: Home figures / Cifre pe prima pagină
+    type: file
+    path: src/content/site/home-stats.json
+    format: json
+    fields:
+      - name: items
+        label: Cards / Carduri
+        description: Figures on the home and producers pages. Order here is the order on the page. Empty EN or RU fields show the Romanian text.
+        type: object
+        list: true
+        fields:
+          - name: value
+            label: Figure / Cifra
+            description: For example 25+ or 5000+ (the thousands separator is added for each language).
+            type: string
+            required: true
+          - name: label_ro
+            label: Label (RO)
+            type: string
+            required: true
+          - name: label_en
+            label: Label (EN)
+            type: string
+          - name: label_ru
+            label: Label (RU)
+            type: string
+          - name: text_ro
+            label: Short text (RO)
+            type: text
+            required: true
+          - name: text_en
+            label: Short text (EN)
+            type: text
+          - name: text_ru
+            label: Short text (RU)
+            type: text
+  - name: partners_benefits
+    label: Producers page benefits / Beneficii producători
+    type: file
+    path: src/content/site/partners-benefits.json
+    format: json
+    fields:
+      - name: items
+        label: Cards / Carduri
+        description: Order here is the order on the page. Empty EN or RU fields show the Romanian text.
+        type: object
+        list: true
+        fields:
+          - name: name_ro
+            label: Title (RO)
+            type: string
+            required: true
+          - name: name_en
+            label: Title (EN)
+            type: string
+          - name: name_ru
+            label: Title (RU)
+            type: string
+          - name: text_ro
+            label: Text (RO)
+            type: text
+            required: true
+          - name: text_en
+            label: Text (EN)
+            type: text
+          - name: text_ru
+            label: Text (RU)
+            type: text
+  - name: shops_benefits
+    label: Shops page benefits / Beneficii magazine
+    type: file
+    path: src/content/site/shops-benefits.json
+    format: json
+    fields:
+      - name: items
+        label: Cards / Carduri
+        description: Order here is the order on the page. Empty EN or RU fields show the Romanian text.
+        type: object
+        list: true
+        fields:
+          - name: name_ro
+            label: Title (RO)
+            type: string
+            required: true
+          - name: name_en
+            label: Title (EN)
+            type: string
+          - name: name_ru
+            label: Title (RU)
+            type: string
+          - name: text_ro
+            label: Text (RO)
+            type: text
+            required: true
+          - name: text_en
+            label: Text (EN)
+            type: text
+          - name: text_ru
+            label: Text (RU)
+            type: text
+  - name: contact
+    label: Contact details / Date de contact
+    type: file
+    path: src/content/site/contact.json
+    format: json
+    fields:
+      - name: email
+        label: Email
+        description: Shown on the site. Form messages still go to the address set in the form settings.
+        type: string
+        required: true
+      - name: phone
+        label: Phone / Telefon
+        description: Leave empty to hide the phone. Example +373 22 000 000
+        type: string
+      - name: address_ro
+        label: Address (RO) / Adresa
+        description: One line per row.
+        type: text
+        required: true
+      - name: address_en
+        label: Address (EN)
+        type: text
+      - name: address_ru
+        label: Address (RU) / Адрес
         type: text

@@ -70,12 +70,6 @@ const ro: Dictionary = {
     ],
     more: 'Află mai mult',
   },
-  stats: [
-    { value: '3', label: 'Centre regionale', text: 'Depozite în Nord, Centru și Sud pentru livrări rapide.' },
-    { value: '25+', label: 'Agenți de vânzări', text: 'Agenții noștri vizitează clienții săptămânal.' },
-    { value: '50+', label: 'Unități de transport', text: 'Flota proprie livrează a doua zi după comandă.' },
-    { value: '5.000+', label: 'Puncte de vânzare', text: 'Alimentare de cartier, tarabe din piețe și magazine mici independente.' },
-  ],
   coverage: {
     title: 'În toată Republica Moldova',
     lead: 'Trei centre regionale aduc fiecare oraș și sat la o zi distanță.',
@@ -132,6 +126,7 @@ const ro: Dictionary = {
     title: 'Contacte',
     lead: 'Întrebări, parteneriate sau oferte, te ajutăm cu plăcere.',
     officeTitle: 'Oficiu',
+    phoneTitle: 'Telefon',
     emailTitle: 'Email',
     hours: 'Luni – Vineri, 8:30 – 17:30',
     formTitle: 'Trimite-ne un mesaj',
@@ -163,12 +158,6 @@ const ro: Dictionary = {
     // TODO: de confirmat beneficiile și cifrele cu Logitrade.
     benefitsTitle: 'Ce primești',
     benefitsLead: 'Un singur partener pentru tot drumul, de la depozitul tău până în coșul cumpărătorului.',
-    benefits: [
-      { name: 'Acoperire în toată țara', text: 'Trei centre regionale și flota proprie livrează în orașele și satele din Nord, Centru și Sud.' },
-      { name: 'O echipă de teren care vinde', text: 'Agenții noștri vizitează magazinele săptămânal, preiau comenzi și au grijă ca produsele tale să fie listate și reaprovizionate.' },
-      { name: 'Depozitare și logistică', text: 'Păstrăm stocul în depozite regionale și ne ocupăm de pregătirea comenzilor, livrare și retururi.' },
-      { name: 'Rapoarte clare', text: 'Rapoarte regulate despre vânzări, acoperire și prezența la raft, ca să știi mereu cum merge brandul tău.' },
-    ],
     stepsTitle: 'Cum lucrăm',
     steps: [
       { name: 'Spune-ne despre produsele tale', text: 'Completează formularul de mai jos cu gama de produse, volumele și regiunile pe care vrei să le acoperi.' },
@@ -191,12 +180,6 @@ const ro: Dictionary = {
     cta: 'Cere vizita unui agent',
     // TODO: de confirmat condițiile (zilele de vizită, plata) cu Logitrade.
     benefitsTitle: 'De ce lucrează magazinele cu noi',
-    benefits: [
-      { name: 'Un agent al tău', text: 'Agentul vine într-o zi fixă în fiecare săptămână, te ajută să alegi ce se vinde și preia comanda.' },
-      { name: 'Livrare la ușă', text: 'Comanda ajunge a doua zi, în cantitățile de care are nevoie un magazin mic.' },
-      { name: 'Prețuri și acte clare', text: 'Prețuri clare și factură cu toate documentele la fiecare livrare.' },
-      { name: 'Ajutor la raft', text: 'Te ajutăm să așezi bine produsele și aducem materiale promoționale de la producători.' },
-    ],
     stepsTitle: 'Cum începem',
     steps: [
       { name: 'Lasă-ne datele', text: 'Completează formularul scurt de mai jos. Ajunge un număr de telefon, nu ai nevoie de email.' },

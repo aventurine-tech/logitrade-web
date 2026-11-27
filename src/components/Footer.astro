@@ -1,12 +1,14 @@
 ---
 import Logo from './Logo.astro';
 import { company, path, t, type Locale } from '../i18n';
+import { getContact } from '../data/site';
 
 interface Props {
   locale: Locale;
 }
 const { locale } = Astro.props;
 const d = t(locale);
+const contact = getContact(locale);
 const year = new Date().getFullYear();
 ---
 
@@ -28,10 +30,11 @@ const year = new Date().getFullYear();
     </nav>
     <div>
       <p>
-        {company.address[locale].map((line) => (<>{line}<br /></>))}
+        {contact.address.map((line) => (<>{line}<br /></>))}
       </p>
       <p>
-        <a href={`mailto:${company.email}`}>{company.email}</a>
+        <a href={`mailto:${contact.email}`}>{contact.email}</a>
+        {contact.phone && (<><br /><a href={contact.phoneHref}>{contact.phone}</a></>)}
       </p>
     </div>
   </div>

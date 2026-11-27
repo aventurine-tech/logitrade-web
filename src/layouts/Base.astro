@@ -5,6 +5,7 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { asset, company, defaultLocale, locales, pageUrl, stripLocale, t, type Locale } from '../i18n';
+import { getContact } from '../data/site';
 
 interface Props {
   locale: Locale;
@@ -27,6 +28,7 @@ const ogLocale = { ro: 'ro_MD', en: 'en_US', ru: 'ru_MD' } satisfies Record<Loca
 const ogImage = new URL(asset(`og/${locale}.png`), site).href;
 
 // Company data for search engines (schema.org). Only facts from the state register.
+const contact = getContact('ro');
 const orgData = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
@@ -35,12 +37,13 @@ const orgData = {
   legalName: 'Logitrade Group SRL',
   url: new URL(asset(''), site).href,
   logo: new URL(asset('logo.png'), site).href,
-  email: company.email,
+  email: contact.email,
+  ...(contact.phone && { telephone: contact.phone }),
   foundingDate: company.registered,
   identifier: { '@type': 'PropertyValue', propertyID: 'IDNO', value: company.idno },
   address: {
     '@type': 'PostalAddress',
-    streetAddress: company.address.ro[0],
+    streetAddress: contact.address[0],
     postalCode: 'MD-2002',
     addressLocality: 'Chișinău',
     addressCountry: 'MD',

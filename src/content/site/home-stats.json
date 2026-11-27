@@ -1,0 +1,40 @@
+{
+  "items": [
+    {
+      "value": "3",
+      "label_ro": "Centre regionale",
+      "label_en": "Regional hubs",
+      "label_ru": "Региональных хаба",
+      "text_ro": "Depozite în Nord, Centru și Sud pentru livrări rapide.",
+      "text_en": "Warehouses in the North, Centre and South keep delivery times short.",
+      "text_ru": "Склады на Севере, в Центре и на Юге сокращают сроки доставки."
+    },
+    {
+      "value": "25+",
+      "label_ro": "Agenți de vânzări",
+      "label_en": "Sales agents",
+      "label_ru": "Торговых агентов",
+      "text_ro": "Agenții noștri vizitează clienții săptămânal.",
+      "text_en": "Our agents visit customers every week to take orders and support sales.",
+      "text_ru": "Агенты еженедельно посещают клиентов."
+    },
+    {
+      "value": "50+",
+      "label_ro": "Unități de transport",
+      "label_en": "Vehicles",
+      "label_ru": "Автомобилей",
+      "text_ro": "Flota proprie livrează a doua zi după comandă.",
+      "text_en": "An in-house fleet delivers the day after an order is placed.",
+      "text_ru": "Собственный автопарк доставляет на следующий день после заказа."
+    },
+    {
+      "value": "5000+",
+      "label_ro": "Puncte de vânzare",
+      "label_en": "Points of sale",
+      "label_ru": "Точек продаж",
+      "text_ro": "Alimentare de cartier, tarabe din piețe și magazine mici independente.",
+      "text_en": "Neighbourhood grocery shops, market stalls and small independent stores.",
+      "text_ru": "Продуктовые магазины у дома, прилавки на рынках и небольшие независимые магазины."
+    }
+  ]
+}
