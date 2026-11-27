@@ -1,5 +1,5 @@
 // Form handler for logitrade.md.
-// The site's forms (contact, producers and shop-owner pages) post here as normal HTML forms.
+// The site's forms (contact, producers, shop-owner and careers pages) post here as normal HTML forms.
 // We verify the Turnstile token, drop honeypot hits, email the message to the office,
 // send the visitor a short confirmation in their language and redirect back to the site.
 
@@ -12,10 +12,24 @@ const LIMITS = {
   phone: 40,
   products: 300,
   town: 120,
+  position: 160,
   message: 5000,
 };
 /** Which page each form lives on, for error redirects. */
-const PAGES = { contact: 'contact', partner: 'partners', shop: 'shops' };
+const PAGES = { contact: 'contact', partner: 'partners', shop: 'shops', job: 'careers' };
+
+/** CV upload on the careers form: PDF, Word or a photo, at most 5 MB. */
+const CV_MAX_BYTES = 5 * 1024 * 1024;
+const CV_TYPES = ['pdf', 'doc', 'docx', 'odt', 'rtf', 'jpg', 'jpeg', 'png', 'heic', 'webp'];
+
+function toBase64(buffer) {
+  const bytes = new Uint8Array(buffer);
+  let binary = '';
+  for (let i = 0; i < bytes.length; i += 0x8000) {
+    binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+  }
+  return btoa(binary);
+}
 
 /** Confirmation email sent to the visitor. It never repeats what they typed,
  *  so the form can't be used to send someone else arbitrary text. */
@@ -117,16 +131,30 @@ export default {
     const phoneOk = (f.phone.match(/\d/g) ?? []).length >= 6;
     // Shop owners often have no email: they leave a phone number and the shop's
     // name and town instead. The other forms need a name, an email and a message.
+    // Job applicants likewise only need a name, phone and position.
     const valid =
       topic === 'shop'
         ? Boolean(f.firstName && f.company && f.town && phoneOk && (!f.email || emailOk))
-        : Boolean(f.firstName && f.lastName && f.message && emailOk && (topic !== 'partner' || f.company));
+        : topic === 'job'
+          ? Boolean(f.firstName && f.position && phoneOk && (!f.email || emailOk))
+          : Boolean(f.firstName && f.lastName && f.message && emailOk && (topic !== 'partner' || f.company));
     if (!valid) return fail('invalid');
+
+    // Optional CV, sent to the office as an email attachment.
+    const attachments = [];
+    const cv = topic === 'job' ? form.get('cv') : null;
+    if (cv && typeof cv === 'object' && cv.size > 0) {
+      const ext = String(cv.name ?? '').split('.').pop().toLowerCase();
+      if (cv.size > CV_MAX_BYTES || !CV_TYPES.includes(ext)) return fail('file');
+      const safeName = `CV ${f.firstName}`.replace(/[^\p{L}\p{N} _-]+/gu, '').trim().slice(0, 60) || 'CV';
+      attachments.push({ filename: `${safeName}.${ext}`, content: toBase64(await cv.arrayBuffer()) });
+    }
 
     const heading = {
       contact: 'Mesaj din formularul de contact',
       partner: 'Cerere de parteneriat (pagina „Pentru producători”)',
       shop: 'Cerere de vizită a agentului (pagina „Pentru magazine”)',
+      job: 'Candidatură pentru un post (pagina „Cariere”)',
     }[topic];
     const text = [
       heading,
@@ -134,7 +162,8 @@ export default {
       `Nume: ${`${f.firstName} ${f.lastName}`.trim()}`,
       `Email: ${f.email || '-'}`,
       `Telefon: ${f.phone || '-'}`,
-      `${topic === 'shop' ? 'Magazin' : 'Companie'}: ${f.company || '-'}`,
+      ...(topic === 'job' ? [] : [`${topic === 'shop' ? 'Magazin' : 'Companie'}: ${f.company || '-'}`]),
+      ...(topic === 'job' ? [`Post: ${f.position}`, `Localitate: ${f.town || '-'}`, `CV atașat: ${attachments.length ? 'da' : 'nu'}`] : []),
       ...(topic === 'shop' ? [`Localitate: ${f.town}`] : []),
       ...(topic === 'partner' ? [`Produse: ${f.products || '-'}`] : []),
       `Limba site-ului: ${LOCALES[lang] === undefined ? 'ro' : lang}`,
@@ -146,6 +175,7 @@ export default {
       contact: `Mesaj nou de pe site: ${f.firstName} ${f.lastName}`,
       partner: `Cerere de parteneriat: ${f.company} (${f.firstName} ${f.lastName})`,
       shop: `Magazin nou: ${f.company}, ${f.town} (${f.phone})`,
+      job: `Candidat: ${f.position}, ${`${f.firstName} ${f.lastName}`.trim()} (${f.phone})`,
     }[topic];
 
     const ok = await sendEmail(env, {
@@ -153,6 +183,7 @@ export default {
       ...(f.email ? { reply_to: f.email } : {}),
       subject: oneLine(subject),
       text,
+      ...(attachments.length ? { attachments } : {}),
     });
     if (!ok) return fail('error');
 

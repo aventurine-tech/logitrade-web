@@ -1,10 +1,15 @@
-/* Logitrade design tokens. Brand colours are a first proposal: deep navy + amber. */
+/* Logitrade design tokens: deep navy with the brand maroon from the logo. */
 :root {
   --navy-900: #0a1f3c;
   --navy-800: #0f2c54;
   --navy-700: #16407a;
-  --amber-500: #f5a524;
-  --amber-600: #d98b0b;
+  /* Brand maroon (#80141b, logo) is too dark to read on navy, so the site uses
+     two tints of it: a brighter red for buttons and fills (white text on it),
+     and a soft rose for small text, lines and highlights on the dark background. */
+  --brand-maroon: #80141b;
+  --accent: #b3202a;
+  --accent-hover: #c62b35;
+  --accent-soft: #ff8f95;
   /* One continuous dark theme: light text on a navy gradient that runs the full page. */
   --ink: #eef3fa;
   --muted: rgba(226, 234, 245, 0.74);
@@ -47,7 +52,7 @@ svg {
 }
 
 a {
-  color: #ffc35c;
+  color: var(--accent-soft);
 }
 
 /* Full-page gradient, fixed behind everything (a pseudo-element works on iOS too). */
@@ -57,7 +62,7 @@ body::before {
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(900px 600px at 85% 0%, rgba(245, 165, 36, 0.14), transparent 60%),
+    radial-gradient(900px 600px at 85% 0%, rgba(179, 32, 42, 0.22), transparent 60%),
     radial-gradient(800px 700px at 0% 100%, rgba(37, 99, 184, 0.35), transparent 60%),
     linear-gradient(160deg, #0a1f3c 0%, #0f2c54 45%, #153f78 100%);
 }
@@ -124,7 +129,7 @@ p {
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--amber-600);
+  color: var(--accent-soft);
   margin-bottom: 12px;
 }
 
@@ -149,12 +154,12 @@ p {
 }
 
 .btn--primary {
-  background: var(--amber-500);
-  color: var(--navy-900);
+  background: var(--accent);
+  color: #fff;
 }
 
 .btn--primary:hover {
-  background: var(--amber-600);
+  background: var(--accent-hover);
 }
 
 .btn--ghost {
@@ -220,8 +225,8 @@ p {
   top: 0.45em;
   width: 14px;
   height: 8px;
-  border-left: 3px solid var(--amber-500);
-  border-bottom: 3px solid var(--amber-500);
+  border-left: 3px solid var(--accent-soft);
+  border-bottom: 3px solid var(--accent-soft);
   transform: rotate(-45deg);
 }
 
@@ -258,7 +263,7 @@ p {
 }
 
 :focus-visible {
-  outline: 3px solid var(--amber-500);
+  outline: 3px solid var(--accent-soft);
   outline-offset: 2px;
 }
 

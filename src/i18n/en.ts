@@ -113,8 +113,20 @@ const en = {
     title: 'Careers',
     lead: 'Join a growing team that keeps the country supplied.',
     // TODO: replace with real openings.
-    intro: 'Send your CV with the position name in the subject line.',
-    apply: 'Apply by email',
+    intro: 'Pick a position and apply with the form below. A phone number is enough, and a CV is welcome but not required.',
+    apply: 'Apply',
+    other: 'Other / open application',
+    formTitle: 'Apply for a job',
+    formLead: 'Leave your details and we will call you within a few business days.',
+    name: 'Full name',
+    phone: 'Phone',
+    email: 'Email (optional)',
+    position: 'Position',
+    town: 'Where do you live? (optional)',
+    cv: 'CV (optional)',
+    cvHint: 'PDF, Word or a photo, up to 5 MB',
+    message: 'A few words about you (optional)',
+    send: 'Send application',
     jobs: [
       { title: 'Sales agent', place: 'Chișinău', text: 'Visit customers, take orders and grow sales in your area. Company car provided.' },
       { title: 'Accountant', place: 'Chișinău', text: 'Handle invoices, cash records and daily accounting checks.' },
@@ -136,8 +148,9 @@ const en = {
     send: 'Send message',
     formNote: 'We reply within one business day.',
     formErrors: {
+      file: 'The CV must be a PDF, Word file or photo of up to 5 MB.',
       captcha: 'We could not confirm you are not a robot. Please try again.',
-      invalid: 'Please fill in your name, a valid email address and your message.',
+      invalid: 'Please fill in all fields marked with * correctly.',
       error: 'Your message could not be sent. Please try again or write to office@logitrade.md.',
     },
     legalTitle: 'Company details',
@@ -221,7 +234,7 @@ const en = {
     // TODO: replace with text approved by Logitrade’s legal advisor.
     lead: 'How we handle your personal data on this website.',
     sections: [
-      { heading: 'What we collect', text: 'When you use one of our forms we receive your name, email address, message and any optional details you add, such as your company or phone number. We use this only to reply to you, and we send you one email confirming that your message arrived.' },
+      { heading: 'What we collect', text: 'When you use one of our forms we receive your name, email address, message and any optional details you add, such as your company or phone number. If you apply for a job, we also receive the CV you attach. We use this only to reply to you, and we send you one email confirming that your message arrived.' },
       { heading: 'How long we keep it', text: 'We keep messages only as long as needed to handle your request, and then delete them.' },
       { heading: 'Cookies and statistics', text: 'This site sets no cookies. We count visits with Cloudflare Web Analytics, which stores nothing on your device and gives us only anonymous totals, such as page views and countries. Fonts are served from our own site.' },
       { heading: 'Your rights', text: 'You can ask us to see, correct or delete your data by writing to our office email.' },

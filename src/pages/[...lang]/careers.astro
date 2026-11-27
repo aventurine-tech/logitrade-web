@@ -1,7 +1,8 @@
 ---
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
-import { company, localePaths, t, type Locale } from '../../i18n';
+import ContactForm from '../../components/ContactForm.astro';
+import { localePaths, t, type Locale } from '../../i18n';
 
 export const getStaticPaths = localePaths;
 const { locale } = Astro.props as { locale: Locale };
@@ -21,10 +22,7 @@ const d = t(locale);
               <span class="job__place">{job.place}</span>
               <h2 class="job__title">{job.title}</h2>
               <p>{job.text}</p>
-              <a
-                class="btn btn--primary"
-                href={`mailto:${company.email}?subject=${encodeURIComponent(job.title)}`}
-              >
+              <a class="btn btn--primary" href="#form" data-apply={job.title}>
                 {d.careers.apply}
               </a>
             </article>
@@ -33,9 +31,28 @@ const d = t(locale);
       </div>
     </div>
   </section>
+
+  <section class="section">
+    <div class="container careers__form">
+      <ContactForm locale={locale} topic="job" />
+    </div>
+  </section>
 </Base>
 
+<script is:inline>
+  // "Apply" on a job card preselects that position in the form below.
+  document.querySelectorAll('[data-apply]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      var select = document.querySelector('[data-position]');
+      if (select) select.value = a.getAttribute('data-apply');
+    });
+  });
+</script>
+
 <style>
+  .careers__form {
+    max-width: 780px;
+  }
   /* h2 for a correct heading order, styled like the other card titles. */
   .job__title {
     font-size: 1.25rem;
@@ -61,7 +78,7 @@ const d = t(locale);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--amber-600);
+    color: var(--accent-soft);
     margin-bottom: 8px;
   }
 </style>

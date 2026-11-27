@@ -29,7 +29,7 @@ The site is built in Romanian (default, served at `/`), English (`/en/...`) and 
 | `/about` | Story, mission, vision, values, figures, partners |
 | `/partners` | For producers and importers: benefits, how it works, partnership request form |
 | `/shops` | For shop owners: why order from Logitrade, agent-visit request form (phone is enough) |
-| `/careers` | Job openings, apply by email |
+| `/careers` | Job openings and an application form with optional CV upload (PDF, Word or photo, up to 5 MB, sent as an email attachment) |
 | `/contact` | Office details, contact form, map |
 | `/thanks` | Shown after a form is sent |
 | `/privacy` | Privacy and cookies |
@@ -42,7 +42,7 @@ The site is built in Romanian (default, served at `/`), English (`/en/...`) and 
 
 ## Contact form
 
-All forms (contact, producers and shop-owner pages, `src/components/ContactForm.astro`) post
+All forms (contact, producers, shop-owner and careers pages, `src/components/ContactForm.astro`) post
 to a small Cloudflare Worker in `form-worker/`. The worker checks Cloudflare Turnstile
 (free bot protection), ignores honeypot hits and emails the message to
 office@logitrade.md through Resend, sending from `website@logitrade.md` with SPF and
