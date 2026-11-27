@@ -1,0 +1,72 @@
+---
+// Body of the "page not found" page, shared by /404.html and /{en,ru}/not-found/.
+import { path, t, type Locale } from '../i18n';
+
+const { locale } = Astro.props as { locale: Locale };
+const d = t(locale).notFound;
+---
+
+<section class="nf">
+  <div class="container nf__inner">
+    <svg class="nf__van" viewBox="0 0 160 90" aria-hidden="true">
+      <path d="M8 20h86v46H8z" fill="#fff" stroke="currentColor" stroke-width="3" stroke-linejoin="round" />
+      <path d="M94 34h28l18 18v14H94z" fill="#fff" stroke="currentColor" stroke-width="3" stroke-linejoin="round" />
+      <path d="M102 40h17l11 11h-28z" fill="currentColor" opacity=".25" />
+      <rect x="8" y="48" width="86" height="6" fill="#80141b" />
+      <circle cx="34" cy="70" r="10" fill="#17264d" stroke="#fff" stroke-width="3" />
+      <circle cx="118" cy="70" r="10" fill="#17264d" stroke="#fff" stroke-width="3" />
+      <text x="51" y="42" text-anchor="middle" font-size="18" font-weight="800" fill="#17264d">?</text>
+    </svg>
+    <p class="nf__code">404</p>
+    <h1>{d.title}</h1>
+    <p class="nf__lead">{d.lead}</p>
+    <div class="nf__actions">
+      <a class="btn btn--primary" href={path(locale)}>{d.home}</a>
+      <a class="btn btn--ghost" href={path(locale, '/contact')}>{d.contact}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .nf {
+    padding: calc(var(--header-h) + 72px) 0 96px;
+  }
+  .nf__inner {
+    max-width: 640px;
+    text-align: center;
+  }
+  .nf__van {
+    width: 180px;
+    color: #17264d;
+    margin: 0 auto 8px;
+    display: block;
+    animation: nf-lost 3s ease-in-out infinite;
+  }
+  .nf__code {
+    font-size: clamp(64px, 14vw, 120px);
+    font-weight: 800;
+    line-height: 1;
+    color: var(--amber-500);
+    margin: 0;
+  }
+  .nf h1 {
+    margin: 8px 0 12px;
+  }
+  .nf__lead {
+    color: var(--muted);
+    margin: 0 0 28px;
+  }
+  .nf__actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  @keyframes nf-lost {
+    0%, 100% { transform: translateX(-10px) rotate(-1deg); }
+    50% { transform: translateX(10px) rotate(1deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nf__van { animation: none; }
+  }
+</style>

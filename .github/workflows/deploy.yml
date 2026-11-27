@@ -35,6 +35,7 @@ jobs:
           LOGITRADE_FORM: ${{ vars.LOGITRADE_FORM }}
           EP: ${{ vars.FORM_ENDPOINT }}
           KEY: ${{ vars.TURNSTILE_SITE_KEY }}
+          CFA: ${{ vars.CF_ANALYTICS_TOKEN }}
         run: |
           get() { printf '%s\n' "$LOGITRADE_FORM" | tr -d '\r' | sed -n "s/^[[:space:]]*$1[[:space:]]*[:=][[:space:]]*//p" | head -n1 | tr -d '[:space:]'; }
           [ -n "$EP" ] || EP=$(get FORM_ENDPOINT)
@@ -42,6 +43,9 @@ jobs:
           echo "PUBLIC_FORM_ENDPOINT=$EP" >> "$GITHUB_ENV"
           echo "PUBLIC_TURNSTILE_SITE_KEY=$KEY" >> "$GITHUB_ENV"
           echo "Form endpoint: ${EP:-not set}"
+          [ -n "$CFA" ] || CFA=$(get CF_ANALYTICS_TOKEN)
+          echo "PUBLIC_CF_ANALYTICS_TOKEN=$CFA" >> "$GITHUB_ENV"
+          if [ -n "$CFA" ]; then echo "Cloudflare Web Analytics: on"; else echo "Cloudflare Web Analytics: off"; fi
       - run: npm run build
         env:
           SITE: ${{ steps.pages.outputs.origin }}

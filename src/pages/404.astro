@@ -1,0 +1,18 @@
+---
+// GitHub Pages serves this file for every unknown address, in every language.
+// It shows the Romanian version; a missing /en/... or /ru/... address is sent
+// on to that language's own not-found page so the menu and footer match.
+import Base from '../layouts/Base.astro';
+import NotFound from '../components/NotFound.astro';
+import { defaultLocale, t } from '../i18n';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<Base locale={defaultLocale} title={t(defaultLocale).notFound.title} noindex route="/">
+  <script is:inline define:vars={{ base }}>
+    const lang = (location.pathname.slice(base.length).match(/^\/(en|ru)(\/|$)/) || [])[1];
+    if (lang && !location.pathname.includes('/not-found')) location.replace(`${base}/${lang}/not-found/`);
+  </script>
+  <NotFound locale={defaultLocale} />
+</Base>

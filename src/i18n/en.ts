@@ -145,6 +145,12 @@ const en = {
     licences: 'Licensed activities',
     licenceList: ['Wholesale of tobacco products', 'Customs brokerage'],
   },
+  notFound: {
+    title: 'Page not found',
+    lead: 'This address does not exist or the page has moved. The van must have taken a wrong turn.',
+    home: 'Back to the home page',
+    contact: 'Contact us',
+  },
   thanks: {
     title: 'Thank you!',
     lead: 'Your message has been received. We will get back to you within one business day.',

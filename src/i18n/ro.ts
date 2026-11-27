@@ -144,6 +144,12 @@ const ro: Dictionary = {
     licences: 'Activități licențiate',
     licenceList: ['Comerț angro cu articole din tutun', 'Activitate de broker vamal'],
   },
+  notFound: {
+    title: 'Pagina nu a fost găsită',
+    lead: 'Această adresă nu există sau pagina a fost mutată. Se pare că dubița a greșit drumul.',
+    home: 'Înapoi la pagina principală',
+    contact: 'Contactează-ne',
+  },
   thanks: {
     title: 'Mulțumim!',
     lead: 'Mesajul tău a fost primit. Revenim cu un răspuns în cel mult o zi lucrătoare.',

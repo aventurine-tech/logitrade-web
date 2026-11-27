@@ -71,3 +71,15 @@ export const company = {
   geo: { lat: 46.98518, lon: 28.88626 },
   email: 'office@logitrade.md',
 };
+
+/** Indexable routes (without locale prefix), used by the sitemap. /thanks is left out on purpose. */
+export const routes = ['/', '/services', '/about', '/careers', '/contact', '/privacy'] as const;
+
+/**
+ * Absolute URL of a page, with the trailing slash GitHub Pages redirects to,
+ * so canonical links and the sitemap point straight at the final address.
+ */
+export function pageUrl(locale: Locale, route: string, site: URL): string {
+  const p = path(locale, route);
+  return new URL(p.endsWith('/') ? p : `${p}/`, site).href;
+}

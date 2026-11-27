@@ -8,7 +8,7 @@ const { locale } = Astro.props as { locale: Locale };
 const d = t(locale);
 ---
 
-<Base locale={locale} title={d.thanks.title}>
+<Base locale={locale} title={d.thanks.title} noindex>
   <PageHero title={d.thanks.title} lead={d.thanks.lead} />
   <section class="section">
     <div class="container">
