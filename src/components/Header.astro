@@ -21,9 +21,8 @@ const links = [
 
 <header class:list={['site-header', { 'is-overlay': overlay, 'is-solid': !overlay }]} data-header>
   <div class="container site-header__inner">
-    <a href={path(locale)} class="site-header__brand" aria-label="Logitrade">
-      <span class="brand-light"><Logo light /></span>
-      <span class="brand-dark"><Logo /></span>
+    <a href={path(locale)} class="site-header__brand" aria-label="Logitrade Group">
+      <Logo light />
     </a>
 
     <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
@@ -93,10 +92,8 @@ const links = [
     gap: 24px;
   }
   .site-header__brand {
+    display: inline-flex;
     text-decoration: none;
-  }
-  .brand-dark {
-    display: none;
   }
   .site-nav {
     display: flex;

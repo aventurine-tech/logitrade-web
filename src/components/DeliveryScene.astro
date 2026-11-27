@@ -3,6 +3,7 @@
 // races in and brakes in front of a typical Moldovan village "Alimentară".
 // Then the courier carries boxes into the shop and drops a carton of cigarettes on the way.
 // Plays on every page load; reduced-motion users see the final frame.
+import { brand, logoViewBox, markPath, wordPath } from '../data/logo';
 interface Props {
   label: string;
 }
@@ -126,15 +127,13 @@ const { label } = Astro.props;
           <line x1="78" y1="10" x2="78" y2="118" stroke="#c4cddb" stroke-width="1"></line>
           <rect x="120" y="66" width="10" height="3" rx="1.5" fill="#9aa6b8"></rect>
           <!-- brand stripe -->
-          <rect x="2" y="92" width="230" height="7" fill="#f5a524"></rect>
-          <rect x="2" y="99" width="230" height="4" fill="#0f2c54"></rect>
-          <!-- Logitrade logo -->
-          <g transform="translate(16 36)">
-            <rect width="32" height="32" rx="8" fill="#0f2c54"></rect>
-            <path d="M10 7v15h10" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"></path>
-            <path d="M19 12l5 5-5 5" fill="none" stroke="#f5a524" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"></path>
-            <text x="40" y="23" class="van__word">Logi<tspan fill="#d98b0b">trade</tspan></text>
-          </g>
+          <rect x="2" y="92" width="230" height="7" fill={brand.maroon}></rect>
+          <rect x="2" y="99" width="230" height="4" fill={brand.navy}></rect>
+          <!-- Logitrade Group logo -->
+          <svg x="14" y="30" width="122" height="39" viewBox={logoViewBox}>
+            <path fill={brand.maroon} fill-rule="evenodd" d={markPath}></path>
+            <path fill={brand.navy} fill-rule="evenodd" d={wordPath}></path>
+          </svg>
           <text x="18" y="84" class="van__tag">logitrade.md</text>
           <!-- lights & bumper -->
           <rect x="222" y="72" width="10" height="8" rx="2" fill="#ffe08a"></rect>
@@ -310,11 +309,6 @@ const { label } = Astro.props;
   .shop__open {
     font: 800 6px var(--font);
     fill: #fff;
-  }
-  .van__word {
-    font: 800 19px var(--font);
-    fill: #0a1f3c;
-    letter-spacing: -0.02em;
   }
   .van__tag {
     font: 700 9px var(--font);
