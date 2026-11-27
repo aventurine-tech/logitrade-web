@@ -67,8 +67,9 @@ Then run the "Deploy contact form worker" and "Deploy to GitHub Pages" workflows
 - Every page carries company data for Google (schema.org `Organization`) and
   canonical/hreflang links for its three languages.
 - Link previews use `public/og/{ro,en,ru}.png` (1200x630), and Google uses
-  `public/logo.png`. Regenerate both after a logo or map change with
-  `node scripts/og-images.mjs` (needs Playwright with Chromium).
+  `public/logo.png` and the PNG/ICO favicons. Regenerate them after a logo or map
+  change with `node scripts/og-images.mjs` (needs Playwright with Chromium), then
+  `python3 scripts/favicon-ico.py` (needs Pillow).
 
 ## Visitor statistics
 

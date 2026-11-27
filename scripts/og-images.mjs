@@ -1,8 +1,8 @@
 // Renders the link-preview images (public/og/{ro,en,ru}.png, 1200x630) and the
-// raster logo Google uses (public/logo.png). Run after changing the logo or map:
+// raster logo Google uses (public/logo.png), plus PNG favicons. Run after changing the logo or map:
 //   node scripts/og-images.mjs
 // Needs Playwright with Chromium (not a project dependency).
-import { writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { brand, logoViewBox, markPath, wordPath } from '../src/data/logo.ts';
 import { outline, towns, viewBox as mapViewBox } from '../src/data/moldova-map.ts';
@@ -81,4 +81,18 @@ await p.setContent(
 );
 writeFileSync('public/logo.png', await p.screenshot({ type: 'png' }));
 console.log('public/logo.png');
+
+// Raster favicons: Google and older browsers do not use the SVG one.
+const svg = readFileSync('public/favicon.svg', 'utf8');
+for (const [file, size] of [['favicon-48.png', 48], ['favicon-192.png', 192], ['apple-touch-icon.png', 180]]) {
+  await p.setViewportSize({ width: size, height: size });
+  // The touch icon gets a full square; iOS rounds the corners itself.
+  const body = file.startsWith('apple')
+    ? svg.replace('rx="12"', 'rx="0"')
+    : svg;
+  await p.setContent(`<body style="margin:0;background:transparent">${body.replace('<svg ', `<svg width="${size}" height="${size}" `)}</body>`);
+  writeFileSync(`public/${file}`, await p.screenshot({ type: 'png', omitBackground: true }));
+  console.log(`public/${file}`);
+}
 await browser.close();
+// favicon.ico (16/32/48) is built from favicon-192.png with: python3 scripts/favicon-ico.py
