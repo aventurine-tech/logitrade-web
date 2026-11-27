@@ -27,6 +27,7 @@ The site is built in Romanian (default, served at `/`), English (`/en/...`) and 
 | `/` | Home: hero, services, key figures, partners, call to action |
 | `/services` | Distribution, storage and merchandising, each with an anchor |
 | `/about` | Story, mission, vision, values, figures, partners |
+| `/partners` | For producers and importers: benefits, how it works, partnership request form |
 | `/careers` | Job openings, apply by email |
 | `/contact` | Office details, contact form, map |
 | `/thanks` | Shown after a form is sent |
@@ -40,10 +41,14 @@ The site is built in Romanian (default, served at `/`), English (`/en/...`) and 
 
 ## Contact form
 
-The form posts to a small Cloudflare Worker in `form-worker/`. The worker checks
-Cloudflare Turnstile (free bot protection), ignores honeypot hits and emails the
-message to office@logitrade.md through Resend, sending from `website@logitrade.md`
-with SPF and DKIM so it doesn't land in spam. Until it is set up, the form only
+Both forms (contact page and producers page, `src/components/ContactForm.astro`) post
+to a small Cloudflare Worker in `form-worker/`. The worker checks Cloudflare Turnstile
+(free bot protection), ignores honeypot hits and emails the message to
+office@logitrade.md through Resend, sending from `website@logitrade.md` with SPF and
+DKIM so it doesn't land in spam. It then sends the visitor a short confirmation in
+their language. The confirmation never repeats what they typed, so the form can't be
+used to send text to someone else. Each message uses two emails of the Resend quota
+(100 a day on the free plan). Until it is set up, the form only
 shows the thank-you page.
 
 To turn it on, add these in GitHub under Settings > Secrets and variables > Actions:

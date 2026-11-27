@@ -1,18 +1,13 @@
 ---
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
-import { company, localePaths, path, t, type Locale } from '../../i18n';
+import ContactForm from '../../components/ContactForm.astro';
+import { company, localePaths, t, type Locale } from '../../i18n';
 
 export const getStaticPaths = localePaths;
 const { locale } = Astro.props as { locale: Locale };
 const d = t(locale);
 const c = d.contact;
-
-// The form goes live once the deploy sets the worker URL and Turnstile site key
-// (see form-worker/ and README). Until then it just shows the thank-you page.
-const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT as string | undefined;
-const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY as string | undefined;
-const live = Boolean(endpoint && siteKey);
 ---
 
 <Base locale={locale} title={c.title}>
@@ -40,45 +35,7 @@ const live = Boolean(endpoint && siteKey);
         </div>
       </div>
 
-      <form
-        id="form"
-        class="card form reveal"
-        action={live ? endpoint : path(locale, '/thanks')}
-        method={live ? 'post' : 'get'}
-      >
-        <h2>{c.formTitle}</h2>
-        <input type="hidden" name="lang" value={locale} />
-        <label class="hp" aria-hidden="true">
-          Website
-          <input name="website" tabindex="-1" autocomplete="off" />
-        </label>
-        <div class="form__row">
-          <label>
-            {c.firstName} *
-            <input name="firstName" autocomplete="given-name" required />
-          </label>
-          <label>
-            {c.lastName} *
-            <input name="lastName" autocomplete="family-name" required />
-          </label>
-        </div>
-        <label>
-          {c.email} *
-          <input name="email" type="email" autocomplete="email" required />
-        </label>
-        <label>
-          {c.company}
-          <input name="company" autocomplete="organization" />
-        </label>
-        <label>
-          {c.message} *
-          <textarea name="message" rows="5" maxlength="5000" required></textarea>
-        </label>
-        {live && <div class="cf-turnstile" data-sitekey={siteKey} data-theme="dark" data-language={locale} data-size="flexible"></div>}
-        <p class="form__error" role="alert" data-form-error hidden></p>
-        <button class="btn btn--primary" type="submit">{c.send}</button>
-        <p class="form__note">{c.formNote}</p>
-      </form>
+      <ContactForm locale={locale} />
     </div>
   </section>
 
@@ -89,39 +46,9 @@ const live = Boolean(endpoint && siteKey);
       src={`https://www.openstreetmap.org/export/embed.html?bbox=${company.geo.lon - 0.02}%2C${company.geo.lat - 0.009}%2C${company.geo.lon + 0.02}%2C${company.geo.lat + 0.009}&layer=mapnik&marker=${company.geo.lat}%2C${company.geo.lon}`}
     ></iframe>
   </section>
-  {live && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
-  <script is:inline define:vars={{ errors: c.formErrors }}>
-    // The form worker redirects back with ?form=<reason> when a message could not be sent.
-    var reason = new URLSearchParams(location.search).get('form');
-    var box = document.querySelector('[data-form-error]');
-    if (reason && box) {
-      box.textContent = errors[reason] || errors.error;
-      box.hidden = false;
-    }
-  </script>
 </Base>
 
 <style>
-  #form {
-    scroll-margin-top: 96px;
-  }
-  .hp {
-    position: absolute;
-    left: -9999px;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-  }
-  .form__error {
-    margin: 0;
-    padding: 10px 14px;
-    border-radius: 10px;
-    background: rgba(216, 52, 44, 0.18);
-    border: 1px solid rgba(255, 120, 110, 0.45);
-    color: #ffd9d5;
-    font-size: 0.95rem;
-  }
-
   .legal dl {
     margin: 0;
     display: grid;
@@ -150,49 +77,6 @@ const live = Boolean(endpoint && siteKey);
     display: grid;
     gap: 20px;
   }
-  .form {
-    display: grid;
-    gap: 18px;
-  }
-  .form h2 {
-    font-size: 1.6rem;
-    margin: 0;
-  }
-  .form__row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px;
-  }
-  .form label {
-    display: grid;
-    gap: 6px;
-    font-weight: 600;
-    font-size: 0.95rem;
-  }
-  .form input,
-  .form textarea {
-    font: inherit;
-    padding: 12px 14px;
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.07);
-    color: #fff;
-    width: 100%;
-  }
-  .form input:focus,
-  .form textarea:focus {
-    outline: none;
-    border-color: var(--amber-500);
-    background: rgba(255, 255, 255, 0.12);
-  }
-  .form .btn {
-    justify-self: start;
-  }
-  .form__note {
-    font-size: 0.85rem;
-    color: var(--muted);
-    margin: 0;
-  }
   .map {
     margin-top: calc(clamp(56px, 8vw, 104px) * -0.5);
     margin-bottom: clamp(56px, 8vw, 104px);
@@ -208,20 +92,11 @@ const live = Boolean(endpoint && siteKey);
     filter: grayscale(0.4);
   }
   @media (max-width: 860px) {
-    .contact,
-    .form__row {
+    .contact {
       grid-template-columns: 1fr;
     }
     .map iframe {
       height: 280px;
-    }
-  }
-  @media (max-width: 480px) {
-    .form .btn {
-      justify-self: stretch;
-    }
-    .form {
-      padding: 22px 18px;
     }
   }
 </style>

@@ -15,7 +15,7 @@
   --shadow: 0 10px 30px rgba(10, 31, 60, 0.08);
   --container: 1160px;
   --header-h: 72px;
-  --font: 'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font: 'Manrope Variable', 'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
 
 *,
