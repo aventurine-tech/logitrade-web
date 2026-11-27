@@ -1,0 +1,90 @@
+---
+// "For shop owners": why grocery shops and market stalls order from Logitrade,
+// how to start, and a short agent-visit form (topic=shop; a phone number is enough).
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import ServiceIcon from '../../components/ServiceIcon.astro';
+import CoverageMap from '../../components/CoverageMap.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import { localePaths, t, type Locale } from '../../i18n';
+
+export const getStaticPaths = localePaths;
+const { locale } = Astro.props as { locale: Locale };
+const s = t(locale).shops;
+const icons = ['team', 'distribution', 'reports', 'merchandising'];
+---
+
+<Base locale={locale} title={s.title} description={s.lead}>
+  <PageHero title={s.title} lead={s.lead} />
+
+  <section class="section">
+    <div class="container">
+      <div class="section__head reveal">
+        <h2>{s.benefitsTitle}</h2>
+      </div>
+      <div class="grid grid--4">
+        {
+          s.benefits.map((b, i) => (
+            <div class="card reveal">
+              <ServiceIcon name={icons[i]} />
+              <h3>{b.name}</h3>
+              <p>{b.text}</p>
+            </div>
+          ))
+        }
+      </div>
+      <a class="btn btn--primary shops__cta reveal" href="#form">{s.cta}</a>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section__head reveal">
+        <h2>{s.stepsTitle}</h2>
+      </div>
+      <ol class="grid grid--3 steps">
+        {
+          s.steps.map((step, i) => (
+            <li class="step reveal">
+              <span class="step__num">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{step.name}</h3>
+              <p>{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container shops__form">
+      <ContactForm locale={locale} topic="shop" />
+    </div>
+  </section>
+
+  <CoverageMap locale={locale} />
+</Base>
+
+<style>
+  .shops__cta {
+    margin-top: 32px;
+  }
+  .steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .step__num {
+    display: block;
+    font-weight: 800;
+    font-size: 1.6rem;
+    color: var(--amber-500);
+    margin-bottom: 8px;
+  }
+  .step p {
+    color: var(--muted);
+  }
+  .shops__form {
+    max-width: 780px;
+  }
+</style>

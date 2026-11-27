@@ -1,0 +1,168 @@
+---
+import Base from '../../layouts/Base.astro';
+import ServiceIcon from '../../components/ServiceIcon.astro';
+import Stats from '../../components/Stats.astro';
+import CoverageMap from '../../components/CoverageMap.astro';
+import Channels from '../../components/Channels.astro';
+import DeliveryScene from '../../components/DeliveryScene.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { localePaths, path, t, type Locale } from '../../i18n';
+
+export const getStaticPaths = localePaths;
+const { locale } = Astro.props as { locale: Locale };
+const d = t(locale);
+---
+
+<Base locale={locale}>
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__text">
+      <span class="eyebrow">{d.home.eyebrow}</span>
+      <h1>{d.home.title}</h1>
+      <p class="hero__lead">{d.home.lead}</p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href={path(locale, '/services')}>{d.home.primaryCta}</a>
+        <a class="btn btn--ghost" href={path(locale, '/contact')}>{d.home.secondaryCta}</a>
+      </div>
+      </div>
+      <DeliveryScene label={d.home.sceneLabel} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section__head reveal">
+        <h2>{d.home.servicesTitle}</h2>
+        <p>{d.home.servicesLead}</p>
+      </div>
+      <div class="grid grid--3">
+        {
+          d.services.items.map((s) => (
+            <article class="card reveal">
+              <ServiceIcon name={s.id} />
+              <h3>{s.name}</h3>
+              <p>{s.short}</p>
+              <a href={path(locale, `/services#${s.id}`)}>{d.services.more} →</a>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <Stats locale={locale} />
+  <CoverageMap locale={locale} />
+  <Channels locale={locale} />
+  <CtaBand locale={locale} />
+</Base>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    min-height: min(92vh, 760px);
+    min-height: min(92svh, 760px);
+    display: flex;
+    align-items: center;
+    padding: calc(var(--header-h) + 48px) 0 72px;
+    color: #fff;
+    background: transparent;
+  }
+  .hero__inner {
+    position: relative;
+    z-index: 1;
+  }
+  .hero h1 {
+    max-width: 760px;
+    font-size: clamp(2.1rem, 4.4vw, 3.3rem);
+  }
+  .hero .eyebrow {
+    color: var(--amber-500);
+  }
+  .hero__lead {
+    max-width: 620px;
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.82);
+  }
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 32px;
+  }
+  /* Text appears once the van has parked (see DeliveryScene timeline). */
+  .hero__text > * {
+    animation: hero-in 0.6s ease-out both;
+  }
+  .hero__text > :nth-child(1) {
+    animation-delay: 2.8s;
+  }
+  .hero__text > :nth-child(2) {
+    animation-delay: 2.95s;
+  }
+  .hero__text > :nth-child(3) {
+    animation-delay: 3.1s;
+  }
+  .hero__text > :nth-child(4) {
+    animation-delay: 3.25s;
+  }
+  @keyframes hero-in {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero__text > * {
+      animation: none;
+    }
+  }
+  /* Laptops and desktops: the scene takes the larger share of the hero and runs
+     past the page container into the right margin, so the animation reads big.
+     The text stays aligned with the logo and the rest of the page. */
+  @media (min-width: 961px) {
+    .hero__inner {
+      display: grid;
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.35fr);
+      gap: 36px;
+      align-items: center;
+    }
+    .hero__inner > :global(.scene) {
+      width: auto;
+      margin-right: max(-240px, min(0px, calc((var(--container) - 100vw) / 2 + 24px)));
+    }
+  }
+  /* Phones and tablets: the scene goes first so the van arrives at the top of the screen,
+     then the text appears under it. */
+  @media (max-width: 960px) {
+    .hero {
+      min-height: 0;
+      padding: calc(var(--header-h) + 20px) 0 48px;
+    }
+    .hero__inner {
+      display: flex;
+      flex-direction: column;
+    }
+    .hero__inner :global(.scene) {
+      order: -1;
+      /* full-bleed so the road runs edge to edge */
+      width: calc(100% + 32px);
+      margin: 0 -16px 28px;
+    }
+    .hero__lead {
+      font-size: 1.05rem;
+    }
+    .hero__actions {
+      margin-top: 24px;
+    }
+  }
+  @media (max-width: 480px) {
+    .hero__actions .btn {
+      flex: 1 1 100%;
+    }
+  }
+</style>

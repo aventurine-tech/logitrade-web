@@ -1,0 +1,54 @@
+---
+import { path, t, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const d = t(locale);
+---
+
+<section class="section section--alt">
+  <div class="container">
+    <div class="section__head reveal">
+      <h2>{d.home.channelsTitle}</h2>
+      <p>{d.home.channelsLead}</p>
+    </div>
+    <div class="grid grid--3">
+      {
+        d.home.channels.map((c, i) => (
+          <div class="card channel reveal">
+            <span class="channel__num">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{c.name}</h3>
+            <p>{c.text}</p>
+          </div>
+        ))
+      }
+    </div>
+    <p class="channels__shop reveal">
+      {d.home.shopOwnerQuestion} <a href={path(locale, '/shops')}>{d.shops.cta} →</a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .channels__shop {
+    margin: 28px 0 0;
+    font-weight: 600;
+  }
+  .channels__shop a {
+    color: var(--amber-500);
+  }
+  .channel {
+    border-top: 4px solid var(--amber-500);
+  }
+  .channel__num {
+    display: block;
+    font-weight: 800;
+    color: var(--amber-600);
+    margin-bottom: 8px;
+  }
+  .channel p {
+    color: var(--muted);
+  }
+</style>

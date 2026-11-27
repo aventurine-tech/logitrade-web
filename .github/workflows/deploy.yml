@@ -1,0 +1,65 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main, claude/project-thread-r7ul95]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - id: pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - run: npm ci
+      # Contact form settings (both public): separate repository variables, or one
+      # LOGITRADE_FORM variable with "NAME: value" lines.
+      - name: Read contact form settings
+        env:
+          LOGITRADE_FORM: ${{ vars.LOGITRADE_FORM }}
+          EP: ${{ vars.FORM_ENDPOINT }}
+          KEY: ${{ vars.TURNSTILE_SITE_KEY }}
+          CFA: ${{ vars.CF_ANALYTICS_TOKEN }}
+        run: |
+          get() { printf '%s\n' "$LOGITRADE_FORM" | tr -d '\r' | sed -n "s/^[[:space:]]*$1[[:space:]]*[:=][[:space:]]*//p" | head -n1 | tr -d '[:space:]'; }
+          [ -n "$EP" ] || EP=$(get FORM_ENDPOINT)
+          [ -n "$KEY" ] || KEY=$(get TURNSTILE_SITE_KEY)
+          echo "PUBLIC_FORM_ENDPOINT=$EP" >> "$GITHUB_ENV"
+          echo "PUBLIC_TURNSTILE_SITE_KEY=$KEY" >> "$GITHUB_ENV"
+          echo "Form endpoint: ${EP:-not set}"
+          [ -n "$CFA" ] || CFA=$(get CF_ANALYTICS_TOKEN)
+          echo "PUBLIC_CF_ANALYTICS_TOKEN=$CFA" >> "$GITHUB_ENV"
+          if [ -n "$CFA" ]; then echo "Cloudflare Web Analytics: on"; else echo "Cloudflare Web Analytics: off"; fi
+      - run: npm run build
+        env:
+          SITE: ${{ steps.pages.outputs.origin }}
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}/
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

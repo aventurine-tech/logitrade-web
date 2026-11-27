@@ -1,0 +1,736 @@
+---
+// Hero intro: a Logitrade delivery van (Sprinter-style, unbranded apart from our logo)
+// races in and brakes in front of a typical Moldovan village "Alimentară".
+// Then the courier carries boxes into the shop and drops a carton of cigarettes on the way.
+// Plays on every page load; reduced-motion users see the final frame.
+import { brand, logoViewBox, markPath, wordPath } from '../data/logo';
+interface Props {
+  label: string;
+}
+const { label } = Astro.props;
+---
+
+<figure class="scene" aria-label={label} role="img">
+  <svg viewBox="0 92 640 238" aria-hidden="true">
+    <defs>
+      <linearGradient id="sc-wall" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#f6e7c8"></stop>
+        <stop offset="1" stop-color="#e8d2a6"></stop>
+      </linearGradient>
+      <linearGradient id="sc-glass" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#9fc3e6"></stop>
+        <stop offset="1" stop-color="#4f7fb3"></stop>
+      </linearGradient>
+      <linearGradient id="sc-van" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ffffff"></stop>
+        <stop offset="1" stop-color="#dde4ee"></stop>
+      </linearGradient>
+      <linearGradient id="sc-road-fade" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#24324a" stop-opacity="0"></stop>
+        <stop offset="1" stop-color="#24324a"></stop>
+      </linearGradient>
+      <linearGradient id="sc-walk-fade" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#3a4a63" stop-opacity="0"></stop>
+        <stop offset="1" stop-color="#3a4a63"></stop>
+      </linearGradient>
+      <radialGradient id="sc-glow" cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0" stop-color="#fff6d6" stop-opacity="0.9"></stop>
+        <stop offset="1" stop-color="#fff6d6" stop-opacity="0"></stop>
+      </radialGradient>
+    </defs>
+
+    <!-- Ground: pavement and road -->
+    <rect x="-160" y="262" width="160" height="16" fill="url(#sc-walk-fade)"></rect>
+    <rect x="-160" y="278" width="160" height="52" fill="url(#sc-road-fade)"></rect>
+    <rect x="0" y="262" width="640" height="16" fill="#3a4a63"></rect>
+    <rect x="0" y="278" width="640" height="52" fill="#24324a"></rect>
+    <g class="lane">
+      {Array.from({ length: 8 }, (_, i) => <rect x={i * 80 + 10} y="301" width="40" height="4" rx="2" fill="rgba(255,255,255,.35)" />)}
+    </g>
+
+    <!-- Tree -->
+    <g>
+      <rect x="600" y="150" width="8" height="112" fill="#6b4a2e"></rect>
+      <circle cx="604" cy="140" r="30" fill="#2f7a4a"></circle>
+      <circle cx="588" cy="160" r="20" fill="#3a8f57"></circle>
+      <circle cx="620" cy="158" r="18" fill="#3a8f57"></circle>
+    </g>
+
+    <!-- Alimentară: single-storey plastered shop with a painted sign board -->
+    <g class="shop">
+      <rect x="340" y="128" width="250" height="134" fill="url(#sc-wall)"></rect>
+      <rect x="332" y="118" width="266" height="14" rx="2" fill="#b9a27a"></rect>
+      <rect x="340" y="250" width="250" height="12" fill="#c9b48c"></rect>
+      <!-- sign -->
+      <rect x="370" y="136" width="190" height="34" rx="4" fill="#1d5fa8" stroke="#f4f0e6" stroke-width="3"></rect>
+      <text x="465" y="160" text-anchor="middle" class="shop__sign">ALIMENTARĂ</text>
+      <!-- striped awning -->
+      <g>
+        {Array.from({ length: 10 }, (_, i) => (
+          <path d={`M${352 + i * 22.6} 178 h22.6 l-3 18 h-16.6 z`} fill={i % 2 ? '#ffffff' : '#d8342c'} />
+        ))}
+      </g>
+      <!-- window with shelves -->
+      <rect x="356" y="198" width="120" height="52" fill="url(#sc-glass)" stroke="#f4f0e6" stroke-width="4"></rect>
+      <g fill="#f5a524" opacity="0.9">
+        <rect x="364" y="214" width="10" height="12" rx="1"></rect>
+        <rect x="378" y="216" width="8" height="10" rx="1" fill="#d8342c"></rect>
+        <rect x="390" y="212" width="10" height="14" rx="1" fill="#ffffff"></rect>
+        <rect x="404" y="215" width="12" height="11" rx="1"></rect>
+        <rect x="420" y="213" width="9" height="13" rx="1" fill="#2f7a4a"></rect>
+        <rect x="434" y="216" width="11" height="10" rx="1" fill="#d8342c"></rect>
+        <rect x="450" y="212" width="10" height="14" rx="1" fill="#ffffff"></rect>
+      </g>
+      <rect x="360" y="226" width="112" height="3" fill="#f4f0e6"></rect>
+      <line x1="416" y1="198" x2="416" y2="250" stroke="#f4f0e6" stroke-width="3"></line>
+      <!-- door -->
+      <rect x="494" y="196" width="50" height="66" fill="#7a4e2d"></rect>
+      <rect x="500" y="202" width="38" height="30" fill="url(#sc-glass)"></rect>
+      <circle cx="536" cy="242" r="2.5" fill="#f5a524"></circle>
+      <rect x="488" y="262" width="62" height="6" fill="#9aa6b8"></rect>
+      <!-- lamp -->
+      <circle cx="519" cy="186" r="14" fill="url(#sc-glow)" class="shop__glow"></circle>
+      <circle cx="519" cy="186" r="3" fill="#fff3c4"></circle>
+      <!-- small "deschis" (open) plate -->
+      <rect x="555" y="206" width="28" height="14" rx="2" fill="#2f7a4a"></rect>
+      <text x="569" y="216" text-anchor="middle" class="shop__open">DESCHIS</text>
+    </g>
+
+    <!-- Dust puff where the van stops -->
+    <g class="dust">
+      <circle cx="84" cy="270" r="9"></circle>
+      <circle cx="72" cy="264" r="7"></circle>
+      <circle cx="96" cy="266" r="6"></circle>
+    </g>
+
+    <!-- Van: high-roof panel van, facing right. Local origin = top-left of body. -->
+    <g class="van" transform="translate(84 138)">
+      <g class="van__drive">
+        <g class="speed">
+          <rect x="-190" y="58" width="150" height="3" rx="1.5"></rect>
+          <rect x="-150" y="76" width="110" height="3" rx="1.5"></rect>
+          <rect x="-220" y="94" width="180" height="3" rx="1.5"></rect>
+        </g>
+        <g class="van__body">
+          <ellipse cx="116" cy="134" rx="112" ry="6" fill="rgba(0,0,0,.28)"></ellipse>
+          <path
+            d="M6 22 Q6 4 24 4 L168 4 Q182 4 190 16 L214 60 Q230 64 232 82 L232 112 Q232 120 224 120 L10 120 Q2 120 2 112 Z"
+            fill="url(#sc-van)"
+            stroke="#b8c3d3"
+            stroke-width="1.5"></path>
+          <!-- windscreen & side window -->
+          <path d="M176 14 L190 16 L212 60 L180 60 Z" fill="#20385c"></path>
+          <rect x="142" y="16" width="30" height="40" rx="4" fill="#20385c"></rect>
+          <path d="M178 18 L186 18 L200 44" stroke="rgba(255,255,255,.35)" stroke-width="3" fill="none"></path>
+          <!-- panel lines -->
+          <line x1="134" y1="10" x2="134" y2="118" stroke="#c4cddb" stroke-width="1.5"></line>
+          <line x1="78" y1="10" x2="78" y2="118" stroke="#c4cddb" stroke-width="1"></line>
+          <rect x="120" y="66" width="10" height="3" rx="1.5" fill="#9aa6b8"></rect>
+          <!-- brand stripe -->
+          <rect x="2" y="92" width="230" height="7" fill={brand.maroon}></rect>
+          <rect x="2" y="99" width="230" height="4" fill={brand.navy}></rect>
+          <!-- Logitrade Group logo -->
+          <svg x="14" y="30" width="122" height="39" viewBox={logoViewBox}>
+            <path fill={brand.maroon} fill-rule="evenodd" d={markPath}></path>
+            <path fill={brand.navy} fill-rule="evenodd" d={wordPath}></path>
+          </svg>
+          <text x="18" y="84" class="van__tag">logitrade.md</text>
+          <!-- lights & bumper -->
+          <rect x="222" y="72" width="10" height="8" rx="2" fill="#ffe08a"></rect>
+          <rect x="2" y="60" width="5" height="16" rx="1" fill="#d8342c"></rect>
+          <rect x="196" y="110" width="38" height="8" rx="3" fill="#3a4a63"></rect>
+          <rect x="0" y="110" width="20" height="8" rx="3" fill="#3a4a63"></rect>
+          <!-- wheel arches -->
+          <path d="M28 120 a24 24 0 0 1 48 0 Z" fill="#1d2a3f"></path>
+          <path d="M160 120 a24 24 0 0 1 48 0 Z" fill="#1d2a3f"></path>
+        </g>
+        <!-- wheels (outside the body group so they don't tilt) -->
+        {[52, 184].map((cx) => (
+          <g class="wheel">
+            <circle cx={cx} cy="120" r="19" fill="#141c2b" />
+            <circle cx={cx} cy="120" r="10" fill="#c9d1dd" />
+            <rect x={cx - 1.5} y="111" width="3" height="18" fill="#7d8aa0" />
+            <rect x={cx - 9} y="118.5" width="18" height="3" fill="#7d8aa0" />
+            <circle cx={cx} cy="120" r="3" fill="#5b677c" />
+          </g>
+        ))}
+      </g>
+    </g>
+
+    <!-- Courier: walks from the van to the shop door carrying boxes -->
+    <g class="courier">
+      <g class="bender bender--in">
+      <g transform="scale(1.9)">
+        <ellipse cx="2" cy="1" rx="11" ry="2" fill="rgba(0,0,0,.25)"></ellipse>
+        <g class="leg leg--back"><rect x="-3" y="-17" width="5" height="17" rx="2" fill="#1d2a3f"></rect><rect x="-3" y="-2" width="8" height="3" rx="1.5" fill="#111827"></rect></g>
+        <g class="leg leg--front"><rect x="-2" y="-17" width="5" height="17" rx="2" fill="#2b3a55"></rect><rect x="-2" y="-2" width="8" height="3" rx="1.5" fill="#111827"></rect></g>
+        <rect x="-6" y="-38" width="12" height="23" rx="4" fill="#0f2c54"></rect>
+        <rect x="-6" y="-24" width="12" height="3" fill="#f5a524"></rect>
+        <circle cx="0" cy="-44" r="6" fill="#f1c7a3"></circle>
+        <path d="M-6.5 -45 a6.5 6.5 0 0 1 13 0 h3 v2 h-16 z" fill="#f5a524"></path>
+        <g class="stack">
+          <rect x="5" y="-31" width="18" height="12" rx="1" fill="#c48a4a"></rect>
+          <path d="M5 -25 h18" stroke="#9c6a35" stroke-width="1"></path>
+          <rect x="6" y="-42" width="16" height="11" rx="1" fill="#d9a15f"></rect>
+          <path d="M14 -42 v11" stroke="#b07d42" stroke-width="1.5"></path>
+          <g class="stack__carton">
+            <rect x="7" y="-49" width="15" height="7" rx="1" fill="#ffffff" stroke="#c9d1dd" stroke-width="0.5"></rect>
+            <rect x="7" y="-46.5" width="15" height="2.4" fill="#d8342c"></rect>
+          </g>
+        </g>
+        <path d="M2 -33 L9 -26 L14 -27" fill="none" stroke="#f1c7a3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+        <text x="-12" y="-54" class="oops">!</text>
+      </g>
+    </g>
+    </g>
+
+    <!-- Tanti Maria, the shopkeeper, steps out of the door and waves him goodbye -->
+    <g class="maria">
+      <g class="maria__bubble">
+        <rect x="-62" y="-104" width="50" height="20" rx="10" fill="#ffffff"></rect>
+        <path d="M-24 -85 l6 8 l-1 -9 z" fill="#ffffff"></path>
+        <text x="-37" y="-90" text-anchor="middle" class="maria__say">Pa-pa!</text>
+      </g>
+      <g transform="scale(1.6)">
+        <ellipse cx="0" cy="1" rx="10" ry="2" fill="rgba(0,0,0,.25)"></ellipse>
+        <!-- legs and shoes -->
+        <rect x="-4" y="-9" width="3" height="9" fill="#d9a37a"></rect>
+        <rect x="1" y="-9" width="3" height="9" fill="#d9a37a"></rect>
+        <rect x="-6" y="-1.5" width="5" height="2.5" rx="1.2" fill="#3a2a22"></rect>
+        <rect x="0" y="-1.5" width="5" height="2.5" rx="1.2" fill="#3a2a22"></rect>
+        <!-- floral dress and apron -->
+        <path d="M-7 -33 h14 l4 25 h-22 z" fill="#2f5fa8"></path>
+        <g fill="#ffd166">
+          <circle cx="-8" cy="-12" r="1"></circle><circle cx="8" cy="-13" r="1"></circle>
+          <circle cx="-5" cy="-29" r="1"></circle><circle cx="6" cy="-28" r="1"></circle>
+        </g>
+        <path d="M-5 -26 h10 l1 17 h-12 z" fill="#ffffff"></path>
+        <path d="M-6 -25 h12" stroke="#d8342c" stroke-width="1.2"></path>
+        <rect x="-2.5" y="-20" width="5" height="4" rx="0.6" fill="none" stroke="#d8342c" stroke-width="0.7"></rect>
+        <!-- arm resting on the hip -->
+        <path d="M5 -31 L9 -24 L5 -20" fill="none" stroke="#2f5fa8" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"></path>
+        <circle cx="5" cy="-20" r="1.6" fill="#f1c7a3"></circle>
+        <!-- head, red headscarf with white dots -->
+        <circle cx="0" cy="-39" r="6" fill="#f1c7a3"></circle>
+        <path d="M-7 -39 a7 7.5 0 0 1 14 0 l0.5 3 h-2 l-0.5 -2 h-10 l-0.5 2 h-2 z" fill="#d8342c"></path>
+        <path d="M5 -37 l6 6 l-3.5 0.8 z" fill="#d8342c"></path>
+        <g fill="#ffffff"><circle cx="-3" cy="-43" r="0.8"></circle><circle cx="2" cy="-44.5" r="0.8"></circle><circle cx="4.5" cy="-41" r="0.8"></circle><circle cx="-5" cy="-39.6" r="0.7"></circle></g>
+        <path d="M-6 -38 q-1 2 0 3" stroke="#b9b4ae" stroke-width="1.4" fill="none"></path>
+        <circle cx="-2.6" cy="-38" r="0.8" fill="#3a2a22"></circle>
+        <circle cx="-1" cy="-35.6" r="1.3" fill="#f39a8f" opacity="0.7"></circle>
+        <path d="M-4.6 -35.2 q1.6 1.6 3.2 0" fill="none" stroke="#7a3b1f" stroke-width="0.8" stroke-linecap="round"></path>
+        <!-- waving arm -->
+        <g class="maria__arm">
+          <path d="M-5 -31 L-10 -39 L-11 -46" fill="none" stroke="#2f5fa8" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"></path>
+          <circle cx="-11" cy="-47.5" r="2" fill="#f1c7a3"></circle>
+        </g>
+      </g>
+    </g>
+
+    <!-- Courier comes back out with the signed invoice and the cash, and returns to the van -->
+    <g class="courier-back">
+      <g class="hopper">
+      <text x="-6" y="-112" class="heart">♥</text>
+      <g>
+      <g transform="scale(-1.9 1.9)">
+        <ellipse cx="2" cy="1" rx="11" ry="2" fill="rgba(0,0,0,.25)"></ellipse>
+        <g class="leg leg--back2"><rect x="-3" y="-17" width="5" height="17" rx="2" fill="#1d2a3f"></rect><rect x="-3" y="-2" width="8" height="3" rx="1.5" fill="#111827"></rect></g>
+        <g class="leg leg--front2"><rect x="-2" y="-17" width="5" height="17" rx="2" fill="#2b3a55"></rect><rect x="-2" y="-2" width="8" height="3" rx="1.5" fill="#111827"></rect></g>
+        <rect x="-6" y="-38" width="12" height="23" rx="4" fill="#0f2c54"></rect>
+        <rect x="-6" y="-24" width="12" height="3" fill="#f5a524"></rect>
+        <circle cx="0" cy="-44" r="6" fill="#f1c7a3"></circle>
+        <path d="M-6.5 -45 a6.5 6.5 0 0 1 13 0 h3 v2 h-16 z" fill="#f5a524"></path>
+        <!-- arm with invoice, held in front -->
+        <path d="M2 -33 L8 -27 L12 -28" fill="none" stroke="#f1c7a3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+        <g transform="translate(11 -36) rotate(8)">
+          <rect width="9" height="12" rx="0.8" fill="#ffffff" stroke="#c9d1dd" stroke-width="0.5"></rect>
+          <path d="M1.8 3 h5.4 M1.8 5.5 h5.4 M1.8 8 h3.5" stroke="#9aa6b8" stroke-width="0.8"></path>
+        </g>
+        <!-- raised arm waving the cash -->
+        <path d="M-2 -34 L-7 -42 L-6 -49" fill="none" stroke="#f1c7a3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+        <g class="cash">
+          <rect x="-13" y="-57" width="13" height="7" rx="1" fill="#3f9b5d" transform="rotate(-12 -6 -53)"></rect>
+          <rect x="-12" y="-55" width="13" height="7" rx="1" fill="#57b874" transform="rotate(6 -6 -51)"></rect>
+          <circle cx="-5.5" cy="-51.5" r="1.6" fill="#2f7a4a"></circle>
+        </g>
+        <path class="smile" d="M2.2 -42 q2 2.4 4.2 0" fill="none" stroke="#7a3b1f" stroke-width="1" stroke-linecap="round"></path>
+      </g>
+      </g></g>
+    </g>
+    <!-- Falling cigarette carton (appears when it slips off the courier's stack) -->
+    <g class="drop">
+      <g class="drop__carton">
+        <rect x="-12" y="-6" width="24" height="12" rx="1.5" fill="#ffffff" stroke="#c9d1dd"></rect>
+        <rect x="-12" y="-2" width="24" height="4" fill="#d8342c"></rect>
+      </g>
+    </g>
+
+  </svg>
+</figure>
+
+<script is:inline>
+  // Start the van just past the browser's left edge, wherever the scene sits on the page.
+  (function () {
+    var fig = document.currentScript && document.currentScript.previousElementSibling;
+    var svg = fig && fig.querySelector('svg');
+    if (!svg) return;
+    var r = svg.getBoundingClientRect();
+    var scale = r.width / 640 || 1;
+    var start = -(r.left / scale + 84 + 240 + 40);
+    fig.style.setProperty('--van-start', start.toFixed(0) + 'px');
+  })();
+</script>
+
+<style>
+  /* Timeline (all on page load):
+     0 – 2.8s   van drives in from the browser's left edge and brakes
+     2.9s       hero text fades in (styled in the home page)
+     3.3s       courier walks to the shop with the boxes
+     4.9s       the cigarette carton slips off; he stops, picks it up (5.5s), carries on (6.2s)
+     7.5s       into the shop
+     8.9s       back out with the invoice and cash, hops with joy, walks back to the van (12.4s)
+     10.0s      Tanti Maria steps out of the shop and waves him goodbye */
+  .scene {
+    margin: 0;
+    width: 100%;
+    --van-start: -1400px;
+  }
+  .scene svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  .shop__sign {
+    font: 800 21px var(--font);
+    letter-spacing: 0.08em;
+    fill: #ffffff;
+  }
+  .shop__open {
+    font: 800 6px var(--font);
+    fill: #fff;
+  }
+  .van__tag {
+    font: 700 9px var(--font);
+    fill: #5a6779;
+  }
+  .speed rect {
+    fill: rgba(255, 255, 255, 0.55);
+  }
+  .dust circle {
+    fill: rgba(220, 226, 236, 0.8);
+  }
+  .oops {
+    font: 800 14px var(--font);
+    fill: #f5a524;
+    opacity: 0;
+  }
+
+  /* --- Van ------------------------------------------------------------- */
+  .van__drive {
+    animation: van-arrive 2.8s cubic-bezier(0.2, 0.6, 0.25, 1) both;
+  }
+  .van__body {
+    transform-box: fill-box;
+    transform-origin: 85% 100%;
+    animation: van-brake 2.8s ease-out both;
+  }
+  .wheel {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: wheel-spin 2.8s cubic-bezier(0.2, 0.6, 0.25, 1) both;
+  }
+  .speed {
+    animation: fade-out 2.8s ease-in both;
+  }
+  .dust {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: dust 3.4s ease-out both;
+  }
+  .shop__glow {
+    animation: glow 2.6s ease-in-out 3s infinite alternate;
+  }
+
+  @keyframes van-arrive {
+    from {
+      transform: translateX(var(--van-start));
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+  /* Nose dives as the van brakes, then settles. */
+  @keyframes van-brake {
+    0%,
+    70% {
+      transform: rotate(-0.6deg);
+    }
+    84% {
+      transform: rotate(2.2deg);
+    }
+    93% {
+      transform: rotate(-0.8deg);
+    }
+    100% {
+      transform: rotate(0);
+    }
+  }
+  @keyframes wheel-spin {
+    from {
+      transform: rotate(-3600deg);
+    }
+    to {
+      transform: rotate(0);
+    }
+  }
+  @keyframes fade-out {
+    0%,
+    70% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes dust {
+    0%,
+    76% {
+      opacity: 0;
+      transform: scale(0.3);
+    }
+    84% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.8) translateX(-10px);
+    }
+  }
+  @keyframes glow {
+    to {
+      opacity: 0.4;
+    }
+  }
+
+  /* --- Courier --------------------------------------------------------- */
+  .courier {
+    opacity: 0;
+    transform: translate(200px, 270px);
+    animation:
+      courier-out 0.3s ease-out 3.2s forwards,
+      courier-walk 4s linear 3.5s forwards,
+      courier-in 0.35s ease-in 7.5s forwards;
+  }
+  .leg {
+    transform-box: fill-box;
+    transform-origin: 50% 0;
+  }
+  .leg--front {
+    animation:
+      step 0.36s ease-in-out 3.5s 4 alternate,
+      step 0.36s ease-in-out 6.2s 4 alternate;
+  }
+  .leg--back {
+    animation:
+      step-back 0.36s ease-in-out 3.5s 4 alternate,
+      step-back 0.36s ease-in-out 6.2s 4 alternate;
+  }
+  .stack__carton {
+    animation:
+      hide 0.01s linear 4.9s forwards,
+      show 0.01s linear 5.85s forwards;
+  }
+  .oops {
+    animation: oops 0.8s ease-out 4.95s forwards;
+  }
+  .drop {
+    opacity: 0;
+    transform: translate(380px, 184px);
+    animation:
+      carton-fall 0.6s cubic-bezier(0.5, 0, 0.75, 0) 4.9s forwards,
+      hide 0.01s linear 5.85s forwards;
+  }
+  .drop__carton {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: carton-spin 0.6s ease-in 4.9s forwards;
+  }
+
+  @keyframes courier-out {
+    from {
+      opacity: 0;
+      transform: translate(200px, 262px);
+    }
+    to {
+      opacity: 1;
+      transform: translate(200px, 270px);
+    }
+  }
+  /* Stops at 5.0s when the carton falls, picks it up, carries on at 6.2s. */
+  @keyframes courier-walk {
+    0% {
+      opacity: 1;
+      transform: translate(200px, 270px);
+    }
+    37.5%,
+    67.5% {
+      opacity: 1;
+      transform: translate(363px, 270px);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(505px, 270px);
+    }
+  }
+  @keyframes courier-in {
+    from {
+      opacity: 1;
+      transform: translate(505px, 270px);
+    }
+    to {
+      opacity: 0;
+      transform: translate(515px, 262px) scale(0.9);
+    }
+  }
+  @keyframes step {
+    from {
+      transform: rotate(-22deg);
+    }
+    to {
+      transform: rotate(22deg);
+    }
+  }
+  @keyframes step-back {
+    from {
+      transform: rotate(22deg);
+    }
+    to {
+      transform: rotate(-22deg);
+    }
+  }
+  @keyframes hide {
+    to {
+      opacity: 0;
+    }
+  }
+  @keyframes oops {
+    0% {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    25% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  /* The carton slips back off the stack, drops, bounces once and lies on the pavement. */
+  @keyframes carton-fall {
+    0% {
+      opacity: 1;
+      transform: translate(380px, 184px);
+    }
+    65% {
+      opacity: 1;
+      transform: translate(396px, 266px);
+    }
+    82% {
+      opacity: 1;
+      transform: translate(399px, 257px);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(402px, 266px);
+    }
+  }
+  @keyframes carton-spin {
+    0% {
+      transform: rotate(0);
+    }
+    60% {
+      transform: rotate(-150deg);
+    }
+    100% {
+      transform: rotate(-180deg);
+    }
+  }
+
+  /* Back out of the shop with invoice and cash (7.6s), then back to the van (10.5s). */
+  .courier-back {
+    opacity: 0;
+    transform: translate(515px, 262px);
+    animation:
+      back-out 0.35s ease-out 8.9s forwards,
+      back-walk 2.5s linear 9.6s forwards,
+      back-in 0.3s ease-in 12.1s forwards;
+  }
+  .leg--front2 {
+    animation: step 0.36s ease-in-out 9.6s 7 alternate;
+  }
+  .leg--back2 {
+    animation: step-back 0.36s ease-in-out 9.6s 7 alternate;
+  }
+  /* 5.0s: bends down for the dropped carton and puts it back on the stack. */
+  .bender--in {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: bend-fwd 0.7s ease-in-out 5.5s;
+  }
+  /* 8.9s: out of the shop, paid, happy. */
+  .hopper {
+    animation: hop 0.35s ease-out 9.0s 2;
+  }
+  .smile {
+    opacity: 0;
+    animation: show 0.01s linear 8.9s forwards;
+  }
+  .heart {
+    transform-box: fill-box;
+    transform-origin: center;
+    font: 800 22px var(--font);
+    fill: #ff5a5f;
+    opacity: 0;
+    animation: heart 1.2s ease-out 9.0s forwards;
+  }
+  @keyframes bend-fwd {
+    0%,
+    100% {
+      transform: none;
+    }
+    35%,
+    60% {
+      transform: rotate(32deg) scaleY(0.9);
+    }
+  }
+  @keyframes hop {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-10px);
+    }
+  }
+  @keyframes show {
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes heart {
+    0% {
+      opacity: 0;
+      transform: translateY(6px) scale(0.6);
+    }
+    25% {
+      opacity: 1;
+      transform: translateY(0) scale(1.2);
+    }
+    75% {
+      opacity: 1;
+      transform: translateY(-10px) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-18px);
+    }
+  }
+  .cash {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: wave 0.3s ease-in-out 7.6s 10 alternate;
+  }
+  @keyframes back-out {
+    from {
+      opacity: 0;
+      transform: translate(515px, 262px);
+    }
+    to {
+      opacity: 1;
+      transform: translate(505px, 270px);
+    }
+  }
+  @keyframes back-walk {
+    0% {
+      opacity: 1;
+      transform: translate(505px, 270px);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(215px, 270px);
+    }
+  }
+  @keyframes back-in {
+    from {
+      opacity: 1;
+      transform: translate(215px, 270px);
+    }
+    to {
+      opacity: 0;
+      transform: translate(205px, 262px);
+    }
+  }
+  @keyframes wave {
+    from {
+      transform: rotate(-14deg);
+    }
+    to {
+      transform: rotate(14deg);
+    }
+  }
+
+  /* --- Tanti Maria ------------------------------------------------------ */
+  /* 10.0s: she steps out of the door and waves goodbye as he walks to the van. */
+  .maria {
+    opacity: 0;
+    transform: translate(519px, 262px) scale(0.9);
+    animation: maria-out 0.5s ease-out 10s forwards;
+  }
+  .maria__arm {
+    transform-box: fill-box;
+    transform-origin: 100% 100%;
+    animation: wave 0.32s ease-in-out 10.4s 11 alternate;
+  }
+  .maria__bubble {
+    opacity: 0;
+    animation: oops 2.6s ease-out 10.5s forwards;
+  }
+  .maria__say {
+    font: 800 10px var(--font);
+    fill: #0a1f3c;
+  }
+  @keyframes maria-out {
+    from {
+      opacity: 0;
+      transform: translate(519px, 262px) scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: translate(532px, 272px) scale(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scene * {
+      animation: none !important;
+    }
+    .speed,
+    .dust,
+    .courier,
+    .courier-back,
+    .drop,
+    .maria__bubble {
+      display: none;
+    }
+    .maria {
+      opacity: 1;
+      transform: translate(532px, 272px);
+    }
+  }
+</style>

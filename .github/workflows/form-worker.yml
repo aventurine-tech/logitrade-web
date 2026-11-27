@@ -1,0 +1,47 @@
+name: Deploy contact form worker
+
+# Runs once FORM_WORKER_ENABLED is "true": its own repository variable, or a
+# "FORM_WORKER_ENABLED: true" line in the LOGITRADE_FORM variable.
+# Secrets: CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID, TURNSTILE_SECRET and
+# RESEND_API_KEY, either as separate secrets or as "NAME: value" lines in a single
+# LOGITRADE_FORME secret.
+on:
+  push:
+    branches: [main, claude/project-thread-r7ul95]
+    paths: [form-worker/**, .github/workflows/form-worker.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    if: "${{ vars.FORM_WORKER_ENABLED == 'true' || contains(vars.LOGITRADE_FORM, 'FORM_WORKER_ENABLED: true') }}"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Read secrets
+        env:
+          BUNDLE: ${{ secrets.LOGITRADE_FORME }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          TURNSTILE_SECRET: ${{ secrets.TURNSTILE_SECRET }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+        run: |
+          get() { printf '%s\n' "$BUNDLE" | tr -d '\r' | sed -n "s/^[[:space:]]*$1[[:space:]]*[:=][[:space:]]*//p" | head -n1 | tr -d '[:space:]'; }
+          for n in CLOUDFLARE_API_TOKEN CLOUDFLARE_ACCOUNT_ID TURNSTILE_SECRET RESEND_API_KEY; do
+            v="${!n}"
+            [ -n "$v" ] || v=$(get "$n")
+            if [ -z "$v" ]; then echo "::error::$n is missing"; exit 1; fi
+            echo "::add-mask::$v"
+            echo "$n=$v" >> "$GITHUB_ENV"
+          done
+      - name: Deploy worker and set its secrets
+        working-directory: form-worker
+        run: |
+          npx --yes wrangler@4 deploy
+          printf '%s' "$TURNSTILE_SECRET" | npx --yes wrangler@4 secret put TURNSTILE_SECRET
+          printf '%s' "$RESEND_API_KEY" | npx --yes wrangler@4 secret put RESEND_API_KEY

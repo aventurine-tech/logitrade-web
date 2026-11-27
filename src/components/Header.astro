@@ -1,0 +1,254 @@
+---
+import Logo from './Logo.astro';
+import { locales, localeNames, path, stripLocale, t, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+  /** Start transparent over a dark hero, then turn solid on scroll. */
+  overlay?: boolean;
+}
+const { locale, overlay = true } = Astro.props;
+const d = t(locale);
+const current = stripLocale(Astro.url.pathname).replace(/\/$/, '') || '/';
+// The not-found pages have no translations at the same address; switch to that language's home.
+const langTarget = current === '/404' || current === '/not-found' ? '/' : current;
+
+const links = [
+  { href: '/services', label: d.nav.services },
+  { href: '/about', label: d.nav.about },
+  { href: '/partners', label: d.nav.partners },
+  { href: '/shops', label: d.nav.shops },
+  { href: '/careers', label: d.nav.careers },
+  { href: '/contact', label: d.nav.contact },
+];
+---
+
+<header class:list={['site-header', { 'is-overlay': overlay, 'is-solid': !overlay }]} data-header>
+  <div class="container site-header__inner">
+    <a href={path(locale)} class="site-header__brand" aria-label="Logitrade Group">
+      <Logo light />
+    </a>
+
+    <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+      <span class="visually-hidden">{d.nav.menu}</span>
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+    </button>
+
+    <nav id="site-nav" class="site-nav" data-nav>
+      <ul class="site-nav__links">
+        {
+          links.map((l) => (
+            <li>
+              <a href={path(locale, l.href)} aria-current={current === l.href ? 'page' : undefined}>
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="site-nav__end">
+        <ul class="lang" aria-label={d.nav.language}>
+          {
+            locales.map((l) => (
+              <li>
+                <a
+                  href={path(l, langTarget)}
+                  hreflang={l}
+                  lang={l}
+                  title={localeNames[l]}
+                  aria-current={l === locale ? 'true' : undefined}
+                >
+                  {l.toUpperCase()}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <a class="btn btn--primary site-nav__cta" href={path(locale, '/contact')}>{d.nav.cta}</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    height: var(--header-h);
+    transition: background 0.25s, box-shadow 0.25s;
+    color: #fff;
+  }
+  .site-header.is-solid {
+    background: rgba(10, 31, 60, 0.82);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 1px 0 var(--line);
+    color: #fff;
+  }
+  .site-header__inner {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .site-header__brand {
+    display: inline-flex;
+    text-decoration: none;
+  }
+  .site-nav {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+  }
+  .site-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 18px;
+  }
+  .site-nav__links a {
+    color: inherit;
+    text-decoration: none;
+    font-weight: 600;
+    padding-block: 6px;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+  }
+  .site-nav__links a:hover,
+  .site-nav__links a[aria-current='page'] {
+    border-color: var(--amber-500);
+  }
+  .site-nav__end {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .lang {
+    gap: 4px !important;
+  }
+  .lang a {
+    color: inherit;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 6px;
+    opacity: 0.7;
+  }
+  .lang a[aria-current='true'] {
+    opacity: 1;
+    background: rgba(245, 165, 36, 0.2);
+  }
+  .site-nav__cta {
+    padding: 10px 18px;
+    font-size: 0.95rem;
+    white-space: nowrap;
+  }
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: 0;
+    padding: 8px;
+    cursor: pointer;
+    color: inherit;
+  }
+  .nav-toggle__bar {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: currentColor;
+    margin: 5px 0;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+
+  /* Six menu links plus the Russian CTA need about 1130px before they wrap. */
+  @media (max-width: 1180px) {
+    .nav-toggle {
+      display: block;
+    }
+    .site-nav {
+      position: fixed;
+      inset: var(--header-h) 0 auto;
+      background: #0c2548;
+      color: #fff;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 16px;
+      padding: 16px 16px 24px;
+      box-shadow: 0 12px 24px rgba(10, 31, 60, 0.12);
+      display: none;
+    }
+    .site-nav.is-open {
+      display: flex;
+    }
+    .site-nav ul.site-nav__links {
+      flex-direction: column;
+      gap: 0;
+    }
+    .site-nav__links a {
+      display: block;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .site-nav__end {
+      justify-content: space-between;
+    }
+    :global(.nav-open) .site-header {
+      background: #0c2548;
+      color: #fff;
+    }
+    /* Hamburger turns into a close (X) icon. */
+    .nav-toggle[aria-expanded='true'] .nav-toggle__bar:nth-child(2) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .nav-toggle[aria-expanded='true'] .nav-toggle__bar:nth-child(3) {
+      opacity: 0;
+    }
+    .nav-toggle[aria-expanded='true'] .nav-toggle__bar:nth-child(4) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+    .nav-toggle {
+      width: 44px;
+      height: 44px;
+      margin-right: -10px;
+    }
+    .nav-toggle__bar {
+      margin: 5px auto;
+    }
+    .lang a {
+      display: inline-grid;
+      place-items: center;
+      min-width: 44px;
+      min-height: 40px;
+      font-size: 0.95rem;
+    }
+    .site-nav {
+      max-height: calc(100svh - var(--header-h));
+      overflow-y: auto;
+    }
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');
+  const nav = document.querySelector<HTMLElement>('[data-nav]');
+
+  if (header?.classList.contains('is-overlay')) {
+    const update = () => header.classList.toggle('is-solid', window.scrollY > 24);
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+  }
+
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') !== 'true';
+    toggle.setAttribute('aria-expanded', String(open));
+    nav?.classList.toggle('is-open', open);
+    document.documentElement.classList.toggle('nav-open', open);
+  });
+</script>

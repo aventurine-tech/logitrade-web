@@ -1,0 +1,63 @@
+---
+import { t, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const d = t(locale);
+---
+
+<section class="section stats">
+  <div class="container">
+    <div class="section__head reveal">
+      <h2>{d.home.statsTitle}</h2>
+      <p>{d.home.statsLead}</p>
+    </div>
+    <div class="grid grid--4">
+      {
+        d.stats.map((s) => (
+          <div class="stat reveal">
+            <strong class="stat__value">{s.value}</strong>
+            <span class="stat__label">{s.label}</span>
+            <p>{s.text}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .stats {
+    background: transparent;
+    color: #fff;
+  }
+  .stats .section__head p {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .stats .eyebrow {
+    color: var(--amber-500);
+  }
+  .stat {
+    border-top: 3px solid var(--amber-500);
+    padding-top: 20px;
+  }
+  .stat__value {
+    display: block;
+    font-size: clamp(2.4rem, 5vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1;
+  }
+  .stat__label {
+    display: block;
+    font-weight: 700;
+    margin: 8px 0 10px;
+    color: var(--amber-500);
+  }
+  .stat p {
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.95rem;
+    margin: 0;
+  }
+</style>

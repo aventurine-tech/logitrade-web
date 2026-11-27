@@ -1,0 +1,93 @@
+---
+import Logo from './Logo.astro';
+import { company, path, t, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const d = t(locale);
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    <div>
+      <Logo light />
+      <p class="site-footer__tagline">{d.footer.tagline}</p>
+    </div>
+    <nav aria-label="Footer">
+      <ul>
+        <li><a href={path(locale, '/services')}>{d.nav.services}</a></li>
+        <li><a href={path(locale, '/about')}>{d.nav.about}</a></li>
+        <li><a href={path(locale, '/partners')}>{d.nav.partners}</a></li>
+        <li><a href={path(locale, '/shops')}>{d.nav.shops}</a></li>
+        <li><a href={path(locale, '/careers')}>{d.nav.careers}</a></li>
+        <li><a href={path(locale, '/contact')}>{d.nav.contact}</a></li>
+      </ul>
+    </nav>
+    <div>
+      <p>
+        {company.address[locale].map((line) => (<>{line}<br /></>))}
+      </p>
+      <p>
+        <a href={`mailto:${company.email}`}>{company.email}</a>
+      </p>
+    </div>
+  </div>
+  <div class="container site-footer__bottom">
+    <span>© {year} {company.legalName} · IDNO {company.idno}. {d.footer.rights}</span>
+    <a href={path(locale, '/privacy')}>{d.footer.privacy}</a>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: rgba(5, 16, 33, 0.35);
+    border-top: 1px solid var(--line);
+    color: rgba(255, 255, 255, 0.78);
+    padding-top: 56px;
+    font-size: 0.95rem;
+  }
+  .site-footer a {
+    color: #fff;
+    text-decoration: none;
+  }
+  .site-footer a:hover {
+    color: var(--amber-500);
+  }
+  .site-footer__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 32px;
+    padding-bottom: 40px;
+  }
+  .site-footer__tagline {
+    margin-top: 16px;
+    max-width: 280px;
+  }
+  .site-footer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .site-footer nav li {
+    margin-bottom: 4px;
+  }
+  .site-footer nav a {
+    display: inline-block;
+    padding: 6px 0;
+  }
+  .site-footer__bottom a {
+    display: inline-block;
+    padding: 8px 0;
+  }
+  .site-footer__bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding-block: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+  }
+</style>
