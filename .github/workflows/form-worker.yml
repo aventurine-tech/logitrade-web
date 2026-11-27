@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   deploy:
-    if: vars.FORM_WORKER_ENABLED == 'true' || contains(vars.LOGITRADE_FORM, 'FORM_WORKER_ENABLED: true')
+    if: "${{ vars.FORM_WORKER_ENABLED == 'true' || contains(vars.LOGITRADE_FORM, 'FORM_WORKER_ENABLED: true') }}"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
