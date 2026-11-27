@@ -121,12 +121,19 @@ const d = t(locale);
       animation: none;
     }
   }
+  /* Laptops and desktops: the scene takes the larger share of the hero and runs
+     past the page container into the right margin, so the animation reads big.
+     The text stays aligned with the logo and the rest of the page. */
   @media (min-width: 961px) {
     .hero__inner {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-      gap: 48px;
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.35fr);
+      gap: 36px;
       align-items: center;
+    }
+    .hero__inner > :global(.scene) {
+      width: auto;
+      margin-right: max(-240px, min(0px, calc((var(--container) - 100vw) / 2 + 24px)));
     }
   }
   /* Phones and tablets: the scene goes first so the van arrives at the top of the screen,
