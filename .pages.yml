@@ -1,6 +1,5 @@
 # Pages CMS (https://app.pagescms.org): the editor staff use to manage job vacancies.
 # Every save is a commit to main, which redeploys the site in about two minutes.
-media: false
 content:
   - name: jobs
     label: Job vacancies / Posturi vacante
