@@ -61,7 +61,6 @@ export const company = {
   name: 'Logitrade Group',
   legalName: 'SRL „Logitrade Group”',
   idno: '1026023134466',
-  registered: '2026-08-18',
   /** Office location on OpenStreetMap. */
   geo: { lat: 46.98518, lon: 28.88626 },
 };
