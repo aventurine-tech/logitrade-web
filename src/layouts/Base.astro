@@ -39,7 +39,6 @@ const orgData = {
   logo: new URL(asset('logo.png'), site).href,
   email: contact.email,
   ...(contact.phone && { telephone: contact.phone }),
-  foundingDate: company.registered,
   identifier: { '@type': 'PropertyValue', propertyID: 'IDNO', value: company.idno },
   address: {
     '@type': 'PostalAddress',
