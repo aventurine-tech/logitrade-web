@@ -73,7 +73,7 @@ export const company = {
 };
 
 /** Indexable routes (without locale prefix), used by the sitemap. /thanks is left out on purpose. */
-export const routes = ['/', '/services', '/partners', '/about', '/careers', '/contact', '/privacy'] as const;
+export const routes = ['/', '/services', '/partners', '/shops', '/about', '/careers', '/contact', '/privacy'] as const;
 
 /**
  * Absolute URL of a page, with the trailing slash GitHub Pages redirects to,

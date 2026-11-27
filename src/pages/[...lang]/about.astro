@@ -20,11 +20,11 @@ const d = t(locale);
       <p class="about__story reveal">{d.about.story}</p>
       <div class="grid grid--3">
         <div class="card reveal">
-          <h3>{d.about.missionTitle}</h3>
+          <h2 class="about__card-title">{d.about.missionTitle}</h2>
           <p>{d.about.mission}</p>
         </div>
         <div class="card reveal">
-          <h3>{d.about.visionTitle}</h3>
+          <h2 class="about__card-title">{d.about.visionTitle}</h2>
           <p>{d.about.vision}</p>
         </div>
       </div>
@@ -57,6 +57,11 @@ const d = t(locale);
 </Base>
 
 <style>
+  /* h2 for a correct heading order, styled like the other card titles. */
+  .about__card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
   .about__story {
     font-size: clamp(1.15rem, 2vw, 1.4rem);
     max-width: 820px;

@@ -19,7 +19,7 @@ const d = t(locale);
           d.careers.jobs.map((job) => (
             <article class="card job reveal">
               <span class="job__place">{job.place}</span>
-              <h3>{job.title}</h3>
+              <h2 class="job__title">{job.title}</h2>
               <p>{job.text}</p>
               <a
                 class="btn btn--primary"
@@ -36,6 +36,11 @@ const d = t(locale);
 </Base>
 
 <style>
+  /* h2 for a correct heading order, styled like the other card titles. */
+  .job__title {
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
   .careers__intro {
     color: var(--muted);
     margin-bottom: 32px;

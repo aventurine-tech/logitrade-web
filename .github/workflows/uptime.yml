@@ -1,0 +1,45 @@
+# Hourly check that the website and the form service answer.
+# A failed run makes GitHub email the repository owner (Settings > Notifications >
+# Actions: "Only notify for failed workflows"). Scheduled runs use the default branch.
+name: Uptime check
+
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      FORM_ENDPOINT: ${{ vars.FORM_ENDPOINT }}
+    steps:
+      - name: Check site and form service
+        run: |
+          # Status code of a URL, retried a few times so one network blip doesn't alert.
+          status() {
+            for attempt in 1 2 3; do
+              code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 -X "$1" "$2" || true)
+              [ "$code" = "$3" ] && { echo "$code"; return; }
+              sleep 20
+            done
+            echo "$code"
+          }
+          failed=0
+          check() {
+            got=$(status "$1" "$2" "$3")
+            if [ "$got" = "$3" ]; then echo "OK    $2 ($got)"; else echo "::error::$2 answered $got, expected $3"; failed=1; fi
+          }
+          check GET https://logitrade.md/ 200
+          check GET https://logitrade.md/en/contact/ 200
+          check GET https://logitrade.md/sitemap.xml 200
+          # The form worker only accepts POST, so 405 on GET means it is up.
+          check GET "${FORM_ENDPOINT:-https://logitrade-form.aventurine.workers.dev/}" 405
+          if ! curl -s --max-time 20 https://logitrade.md/ | grep -q 'Logitrade'; then
+            echo "::error::Home page loaded but does not look like the Logitrade site"; failed=1
+          fi
+          exit $failed

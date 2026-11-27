@@ -1,5 +1,5 @@
 // Form handler for logitrade.md.
-// The site's forms (contact page and producers page) post here as normal HTML forms.
+// The site's forms (contact, producers and shop-owner pages) post here as normal HTML forms.
 // We verify the Turnstile token, drop honeypot hits, email the message to the office,
 // send the visitor a short confirmation in their language and redirect back to the site.
 
@@ -11,10 +11,11 @@ const LIMITS = {
   company: 160,
   phone: 40,
   products: 300,
+  town: 120,
   message: 5000,
 };
 /** Which page each form lives on, for error redirects. */
-const PAGES = { contact: 'contact', partner: 'partners' };
+const PAGES = { contact: 'contact', partner: 'partners', shop: 'shops' };
 
 /** Confirmation email sent to the visitor. It never repeats what they typed,
  *  so the form can't be used to send someone else arbitrary text. */
@@ -90,7 +91,7 @@ export default {
 
     const lang = String(form.get('lang') ?? 'ro');
     const prefix = LOCALES[lang] ?? '';
-    const topic = form.get('topic') === 'partner' ? 'partner' : 'contact';
+    const topic = Object.hasOwn(PAGES, form.get('topic')) ? form.get('topic') : 'contact';
     const to = (page, query = '') => Response.redirect(`${env.SITE_URL}${prefix}/${page}/${query}`, 303);
     const fail = (reason) => to(PAGES[topic], `?form=${reason}#form`);
 
@@ -112,42 +113,56 @@ export default {
       f[key] = String(form.get(key) ?? '').trim().slice(0, max);
     }
     const oneLine = (s) => s.replace(/[\r\n]+/g, ' ');
-    if (
-      !f.firstName ||
-      !f.lastName ||
-      !f.message ||
-      (topic === 'partner' && !f.company) ||
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email)
-    ) {
-      return fail('invalid');
-    }
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email);
+    const phoneOk = (f.phone.match(/\d/g) ?? []).length >= 6;
+    // Shop owners often have no email: they leave a phone number and the shop's
+    // name and town instead. The other forms need a name, an email and a message.
+    const valid =
+      topic === 'shop'
+        ? Boolean(f.firstName && f.company && f.town && phoneOk && (!f.email || emailOk))
+        : Boolean(f.firstName && f.lastName && f.message && emailOk && (topic !== 'partner' || f.company));
+    if (!valid) return fail('invalid');
 
+    const heading = {
+      contact: 'Mesaj din formularul de contact',
+      partner: 'Cerere de parteneriat (pagina „Pentru producători”)',
+      shop: 'Cerere de vizită a agentului (pagina „Pentru magazine”)',
+    }[topic];
     const text = [
-      topic === 'partner' ? 'Cerere de parteneriat (pagina „Pentru producători”)' : 'Mesaj din formularul de contact',
+      heading,
       '',
-      `Nume: ${f.firstName} ${f.lastName}`,
-      `Email: ${f.email}`,
+      `Nume: ${`${f.firstName} ${f.lastName}`.trim()}`,
+      `Email: ${f.email || '-'}`,
       `Telefon: ${f.phone || '-'}`,
-      `Companie: ${f.company || '-'}`,
+      `${topic === 'shop' ? 'Magazin' : 'Companie'}: ${f.company || '-'}`,
+      ...(topic === 'shop' ? [`Localitate: ${f.town}`] : []),
       ...(topic === 'partner' ? [`Produse: ${f.products || '-'}`] : []),
       `Limba site-ului: ${LOCALES[lang] === undefined ? 'ro' : lang}`,
       '',
-      f.message,
+      f.message || '(fără mesaj)',
     ].join('\n');
 
-    const subject =
-      topic === 'partner'
-        ? `Cerere de parteneriat: ${f.company} (${f.firstName} ${f.lastName})`
-        : `Mesaj nou de pe site: ${f.firstName} ${f.lastName}`;
+    const subject = {
+      contact: `Mesaj nou de pe site: ${f.firstName} ${f.lastName}`,
+      partner: `Cerere de parteneriat: ${f.company} (${f.firstName} ${f.lastName})`,
+      shop: `Magazin nou: ${f.company}, ${f.town} (${f.phone})`,
+    }[topic];
 
-    const ok = await sendEmail(env, { to: [env.TO_EMAIL], reply_to: f.email, subject: oneLine(subject), text });
+    const ok = await sendEmail(env, {
+      to: [env.TO_EMAIL],
+      ...(f.email ? { reply_to: f.email } : {}),
+      subject: oneLine(subject),
+      text,
+    });
     if (!ok) return fail('error');
 
     // Confirmation to the visitor; a failure here must not lose the message above.
-    const c = confirmation(lang, oneLine(f.firstName), env.SITE_URL + prefix + '/');
-    const confirm = sendEmail(env, { to: [f.email], reply_to: env.TO_EMAIL, ...c });
-    if (ctx && ctx.waitUntil) ctx.waitUntil(confirm);
-    else await confirm;
+    if (f.email) {
+      const c = confirmation(lang, oneLine(f.firstName), env.SITE_URL + prefix + '/');
+      const confirm = sendEmail(env, { to: [f.email], reply_to: env.TO_EMAIL, ...c });
+      if (ctx && ctx.waitUntil) ctx.waitUntil(confirm);
+      else await confirm;
+    }
 
     return to('thanks');
   },

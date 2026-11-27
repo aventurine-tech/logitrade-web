@@ -28,6 +28,7 @@ The site is built in Romanian (default, served at `/`), English (`/en/...`) and 
 | `/services` | Distribution, storage and merchandising, each with an anchor |
 | `/about` | Story, mission, vision, values, figures, partners |
 | `/partners` | For producers and importers: benefits, how it works, partnership request form |
+| `/shops` | For shop owners: why order from Logitrade, agent-visit request form (phone is enough) |
 | `/careers` | Job openings, apply by email |
 | `/contact` | Office details, contact form, map |
 | `/thanks` | Shown after a form is sent |
@@ -41,7 +42,7 @@ The site is built in Romanian (default, served at `/`), English (`/en/...`) and 
 
 ## Contact form
 
-Both forms (contact page and producers page, `src/components/ContactForm.astro`) post
+All forms (contact, producers and shop-owner pages, `src/components/ContactForm.astro`) post
 to a small Cloudflare Worker in `form-worker/`. The worker checks Cloudflare Turnstile
 (free bot protection), ignores honeypot hits and emails the message to
 office@logitrade.md through Resend, sending from `website@logitrade.md` with SPF and
@@ -82,3 +83,11 @@ Cloudflare Web Analytics is free and sets no cookies. To turn it on, add the sit
 in the Cloudflare dashboard under Analytics & Logs > Web Analytics, copy the token
 from the JS snippet it shows, and save it as the GitHub Actions variable
 `CF_ANALYTICS_TOKEN`. The next "Deploy to GitHub Pages" run adds the beacon.
+
+## Uptime check
+
+`.github/workflows/uptime.yml` runs every hour on `main` and checks that the site,
+the sitemap and the form worker answer. A failed run makes GitHub email the
+repository owner, as long as Actions notifications are on in GitHub's
+Settings > Notifications. GitHub pauses scheduled workflows after 60 days with
+no commits, and you can re-enable it from the Actions tab.

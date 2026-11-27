@@ -70,6 +70,13 @@ h3 {
   letter-spacing: -0.01em;
 }
 
+/* Long single words (e.g. Russian "Конфиденциальность") must not overflow small phones. */
+h1,
+h2 {
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
 h1 {
   font-size: clamp(2.1rem, 5vw, 3.5rem);
   font-weight: 800;

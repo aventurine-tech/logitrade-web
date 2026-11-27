@@ -10,11 +10,14 @@ interface Props {
 const { locale, overlay = true } = Astro.props;
 const d = t(locale);
 const current = stripLocale(Astro.url.pathname).replace(/\/$/, '') || '/';
+// The not-found pages have no translations at the same address; switch to that language's home.
+const langTarget = current === '/404' || current === '/not-found' ? '/' : current;
 
 const links = [
   { href: '/services', label: d.nav.services },
   { href: '/about', label: d.nav.about },
   { href: '/partners', label: d.nav.partners },
+  { href: '/shops', label: d.nav.shops },
   { href: '/careers', label: d.nav.careers },
   { href: '/contact', label: d.nav.contact },
 ];
@@ -51,7 +54,7 @@ const links = [
             locales.map((l) => (
               <li>
                 <a
-                  href={path(l, current)}
+                  href={path(l, langTarget)}
                   hreflang={l}
                   lang={l}
                   title={localeNames[l]}
@@ -99,14 +102,14 @@ const links = [
   .site-nav {
     display: flex;
     align-items: center;
-    gap: 28px;
+    gap: 22px;
   }
   .site-nav ul {
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
-    gap: 24px;
+    gap: 18px;
   }
   .site-nav__links a {
     color: inherit;
@@ -123,7 +126,7 @@ const links = [
   .site-nav__end {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
   }
   .lang {
     gap: 4px !important;
@@ -163,8 +166,8 @@ const links = [
     transition: transform 0.2s, opacity 0.2s;
   }
 
-  /* Five menu links plus the Russian CTA need about 1140px before they wrap. */
-  @media (max-width: 1140px) {
+  /* Six menu links plus the Russian CTA need about 1130px before they wrap. */
+  @media (max-width: 1180px) {
     .nav-toggle {
       display: block;
     }

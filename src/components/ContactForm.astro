@@ -6,14 +6,18 @@ import { path, t, type Locale } from '../i18n';
 
 interface Props {
   locale: Locale;
-  /** 'partner' adds company (required), phone and products fields. */
-  topic?: 'contact' | 'partner';
+  /**
+   * 'partner' adds company (required), phone and products fields.
+   * 'shop' asks for name, shop, town and phone; email and message are optional.
+   */
+  topic?: 'contact' | 'partner' | 'shop';
 }
 const { locale, topic = 'contact' } = Astro.props;
 const d = t(locale);
 const c = d.contact;
 const p = d.partners;
 const partner = topic === 'partner';
+const sh = d.shops;
 
 const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT as string | undefined;
 const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY as string | undefined;
@@ -26,67 +30,105 @@ const live = Boolean(endpoint && siteKey);
   action={live ? endpoint : path(locale, '/thanks')}
   method={live ? 'post' : 'get'}
 >
-  <h2>{partner ? p.formTitle : c.formTitle}</h2>
+  <h2>{topic === 'shop' ? sh.formTitle : partner ? p.formTitle : c.formTitle}</h2>
   {partner && <p class="form__lead">{p.formLead}</p>}
+  {topic === 'shop' && <p class="form__lead">{sh.formLead}</p>}
   <input type="hidden" name="lang" value={locale} />
   <input type="hidden" name="topic" value={topic} />
   <label class="hp" aria-hidden="true">
     Website
     <input name="website" tabindex="-1" autocomplete="off" />
   </label>
-  <div class="form__row">
-    <label>
-      {c.firstName} *
-      <input name="firstName" autocomplete="given-name" maxlength="80" required />
-    </label>
-    <label>
-      {c.lastName} *
-      <input name="lastName" autocomplete="family-name" maxlength="80" required />
-    </label>
-  </div>
   {
-    partner ? (
+    topic === 'shop' ? (
       <>
-        <label>
-          {p.company} *
-          <input name="company" autocomplete="organization" maxlength="160" required />
-        </label>
         <div class="form__row">
           <label>
-            {c.email} *
-            <input name="email" type="email" autocomplete="email" maxlength="200" required />
+            {sh.name} *
+            <input name="firstName" autocomplete="name" maxlength="80" required />
           </label>
           <label>
-            {p.phone}
-            <input name="phone" type="tel" autocomplete="tel" maxlength="40" />
+            {sh.phone} *
+            <input name="phone" type="tel" autocomplete="tel" maxlength="40" required />
+          </label>
+        </div>
+        <div class="form__row">
+          <label>
+            {sh.shop} *
+            <input name="company" autocomplete="organization" maxlength="160" required />
+          </label>
+          <label>
+            {sh.town} *
+            <input name="town" autocomplete="address-level2" maxlength="120" required />
           </label>
         </div>
         <label>
-          {p.products}
-          <input name="products" maxlength="300" placeholder={p.productsHint} />
+          {sh.email}
+          <input name="email" type="email" autocomplete="email" maxlength="200" />
+        </label>
+        <label>
+          {sh.message}
+          <textarea name="message" rows="3" maxlength="5000"></textarea>
         </label>
       </>
     ) : (
       <>
+      <div class="form__row">
         <label>
-          {c.email} *
-          <input name="email" type="email" autocomplete="email" maxlength="200" required />
+          {c.firstName} *
+          <input name="firstName" autocomplete="given-name" maxlength="80" required />
         </label>
         <label>
-          {c.company}
-          <input name="company" autocomplete="organization" maxlength="160" />
+          {c.lastName} *
+          <input name="lastName" autocomplete="family-name" maxlength="80" required />
         </label>
+      </div>
+      {
+        partner ? (
+          <>
+            <label>
+              {p.company} *
+              <input name="company" autocomplete="organization" maxlength="160" required />
+            </label>
+            <div class="form__row">
+              <label>
+                {c.email} *
+                <input name="email" type="email" autocomplete="email" maxlength="200" required />
+              </label>
+              <label>
+                {p.phone}
+                <input name="phone" type="tel" autocomplete="tel" maxlength="40" />
+              </label>
+            </div>
+            <label>
+              {p.products}
+              <input name="products" maxlength="300" placeholder={p.productsHint} />
+            </label>
+          </>
+        ) : (
+          <>
+            <label>
+              {c.email} *
+              <input name="email" type="email" autocomplete="email" maxlength="200" required />
+            </label>
+            <label>
+              {c.company}
+              <input name="company" autocomplete="organization" maxlength="160" />
+            </label>
+          </>
+        )
+      }
+      <label>
+        {partner ? p.message : c.message} *
+        <textarea name="message" rows="5" maxlength="5000" required></textarea>
+      </label>
       </>
     )
   }
-  <label>
-    {partner ? p.message : c.message} *
-    <textarea name="message" rows="5" maxlength="5000" required></textarea>
-  </label>
   {live && <div class="cf-turnstile" data-sitekey={siteKey} data-theme="dark" data-language={locale} data-size="flexible"></div>}
   <p class="form__error" role="alert" data-form-error hidden></p>
-  <button class="btn btn--primary" type="submit">{partner ? p.send : c.send}</button>
-  {!partner && <p class="form__note">{c.formNote}</p>}
+  <button class="btn btn--primary" type="submit">{topic === 'shop' ? sh.send : partner ? p.send : c.send}</button>
+  {topic === 'contact' && <p class="form__note">{c.formNote}</p>}
 </form>
 
 {live && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
