@@ -44,14 +44,14 @@ function page(lang) {
   .text{position:absolute;left:96px;top:110px;width:720px}
   .logo{width:420px;display:block}
   h1{margin-top:56px;font-size:48px;line-height:1.12;font-weight:800;letter-spacing:-.5px}
-  h1 span{color:#f5a524}
+  h1 span{color:#ff8f95}
   .domain{position:absolute;left:96px;bottom:72px;font-size:28px;font-weight:600;opacity:.8}
   .map{position:absolute;right:64px;top:45px;height:540px}
   .land{fill:rgba(255,255,255,.07);stroke:rgba(255,255,255,.55);stroke-width:2.5}
-  .routes line{stroke:#f5a524;stroke-width:1.6;opacity:.55}
+  .routes line{stroke:#ff8f95;stroke-width:1.6;opacity:.5}
   .town{fill:#eef3fa}
-  .hub{fill:#f5a524;stroke:#0a1f3c;stroke-width:3}
-  .halo{fill:#f5a524;opacity:.25}
+  .hub{fill:#e2434c;stroke:#fff;stroke-width:3}
+  .halo{fill:#e2434c;opacity:.3}
 </style></head><body>
 <div class="bar"></div>
 <div class="text">${logo('#fff')}<h1>${l1}<br><span>${l2}</span></h1></div>

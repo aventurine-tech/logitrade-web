@@ -93,7 +93,7 @@ const regionOf = (id: RegionId) => id;
             ))
           }
           <marker id="md-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M0 0 L10 5 L0 10 z" fill="#f5a524"></path>
+            <path d="M0 0 L10 5 L0 10 z" fill="#e2434c"></path>
           </marker>
         </defs>
 
@@ -194,7 +194,7 @@ const regionOf = (id: RegionId) => id;
   .coverage__hubs li:hover,
   .coverage__hubs li:focus-visible,
   .coverage__hubs li.is-active {
-    background: rgba(245, 165, 36, 0.14);
+    background: rgba(226, 67, 76, 0.14);
   }
   .coverage__hubs li::before {
     content: counter(hub);
@@ -204,14 +204,14 @@ const regionOf = (id: RegionId) => id;
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: var(--amber-500);
-    color: var(--navy-900);
+    background: var(--accent);
+    color: #fff;
     font-weight: 800;
   }
   .coverage__hubs em {
     font-style: normal;
     font-weight: 600;
-    color: var(--amber-600);
+    color: var(--accent-soft);
   }
   .coverage__hubs span {
     color: var(--muted);
@@ -243,8 +243,8 @@ const regionOf = (id: RegionId) => id;
   .dot--hub {
     width: 14px;
     height: 14px;
-    background: var(--amber-500);
-    border-color: var(--amber-600);
+    background: #e2434c;
+    border-color: var(--accent-soft);
   }
   .coverage__map {
     margin: 0;
@@ -279,13 +279,13 @@ const regionOf = (id: RegionId) => id;
   }
   .outline {
     fill: none;
-    stroke: #f5a524;
+    stroke: #e2434c;
     stroke-width: 2;
     stroke-linejoin: round;
   }
   .trunk {
     fill: none;
-    stroke: rgba(245, 165, 36, 0.7);
+    stroke: rgba(226, 67, 76, 0.7);
     stroke-width: 2.5;
     stroke-dasharray: 8 6;
   }
@@ -306,12 +306,12 @@ const regionOf = (id: RegionId) => id;
   [data-active='centre'] .town--centre .town.town,
   [data-active='south'] .town--south .town.town {
     opacity: 1;
-    fill: #f5a524;
+    fill: #e2434c;
   }
   /* Arrows */
   .arrows path {
     fill: none;
-    stroke: #f5a524;
+    stroke: #e2434c;
     stroke-width: 2;
     stroke-linecap: round;
     stroke-dasharray: 1;
@@ -355,7 +355,7 @@ const regionOf = (id: RegionId) => id;
     opacity: 1;
   }
   .city--town:hover .town {
-    fill: #f5a524;
+    fill: #e2434c;
     opacity: 1;
   }
   .town {
@@ -376,12 +376,12 @@ const regionOf = (id: RegionId) => id;
     stroke-width: 3px;
   }
   .hub__dot {
-    fill: #f5a524;
+    fill: #e2434c;
     stroke: #fff;
     stroke-width: 3;
   }
   .hub__pulse {
-    fill: rgba(245, 165, 36, 0.3);
+    fill: rgba(226, 67, 76, 0.3);
     transform-box: fill-box;
     transform-origin: center;
     animation: pulse 2.4s ease-out infinite;
