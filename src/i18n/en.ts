@@ -112,7 +112,6 @@ const en = {
   careers: {
     title: 'Careers',
     lead: 'Join a growing team that keeps the country supplied.',
-    // TODO: replace with real openings.
     intro: 'Pick a position and apply with the form below. A phone number is enough, and a CV is welcome but not required.',
     apply: 'Apply',
     other: 'Other / open application',
@@ -127,11 +126,7 @@ const en = {
     cvHint: 'PDF, Word or a photo, up to 5 MB',
     message: 'A few words about you (optional)',
     send: 'Send application',
-    jobs: [
-      { title: 'Sales agent', place: 'Chișinău', text: 'Visit customers, take orders and grow sales in your area. Company car provided.' },
-      { title: 'Accountant', place: 'Chișinău', text: 'Handle invoices, cash records and daily accounting checks.' },
-      { title: 'Promoter', place: 'Regions', text: 'Present our partners’ products to stores and customers.' },
-    ],
+    noJobs: 'There are no open positions right now. You can still send an open application below and we will keep it on file.',
   },
   contact: {
     title: 'Contact',

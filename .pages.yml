@@ -1,0 +1,60 @@
+# Pages CMS (https://app.pagescms.org): the editor staff use to manage job vacancies.
+# Every save is a commit to main, which redeploys the site in about two minutes.
+media: false
+content:
+  - name: jobs
+    label: Job vacancies / Posturi vacante
+    type: collection
+    path: src/content/jobs
+    format: json
+    exclude: [README.md]
+    filename: '{primary}.json'
+    view:
+      primary: title_ro
+      fields: [title_ro, place_ro, published, order]
+      sort: [order]
+      default:
+        sort: order
+        order: asc
+    fields:
+      - name: published
+        label: Shown on the site / Afișat pe site
+        description: Untick to hide a vacancy without deleting it.
+        type: boolean
+        default: true
+      - name: order
+        label: Order / Ordinea
+        description: Smaller numbers appear first.
+        type: number
+        default: 10
+      - name: title_ro
+        label: Title (RO) / Denumire
+        type: string
+        required: true
+      - name: place_ro
+        label: Place (RO) / Localitate
+        description: For example Chișinău or Raioane.
+        type: string
+      - name: text_ro
+        label: Description (RO) / Descriere
+        type: text
+      - name: title_en
+        label: Title (EN)
+        description: Leave empty to show the Romanian text on the English site.
+        type: string
+      - name: place_en
+        label: Place (EN)
+        type: string
+      - name: text_en
+        label: Description (EN)
+        type: text
+      - name: title_ru
+        label: Title (RU) / Название
+        description: Leave empty to show the Romanian text on the Russian site.
+        type: string
+      - name: place_ru
+        label: Place (RU) / Город
+        type: string
+      - name: text_ru
+        label: Description (RU) / Описание
+        type: text

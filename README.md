@@ -66,6 +66,16 @@ To turn it on, add these in GitHub under Settings > Secrets and variables > Acti
 
 Then run the "Deploy contact form worker" and "Deploy to GitHub Pages" workflows.
 
+## Job vacancies
+
+Vacancies on /careers live in `src/content/jobs/`, one JSON file each, and are edited in
+[Pages CMS](https://app.pagescms.org) using the config in `.pages.yml`. Sign in with GitHub,
+open this repository and choose "Job vacancies". Each save commits to `main`, which redeploys
+the site in about two minutes. Untick "Shown on the site" to hide a vacancy without deleting it.
+Only the Romanian title is required; empty English or Russian fields show the Romanian text.
+Staff without a GitHub account can be invited by email under Settings → Collaborators.
+When no vacancy is shown, the page says so and the form still takes open applications.
+
 ## Search engines and link previews
 
 - `/sitemap.xml` and `/robots.txt` are generated from `routes` in `src/i18n/index.ts`.
