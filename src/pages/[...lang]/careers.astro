@@ -3,10 +3,13 @@ import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import ContactForm from '../../components/ContactForm.astro';
 import { localePaths, t, type Locale } from '../../i18n';
+import { getJobs } from '../../data/jobs';
 
 export const getStaticPaths = localePaths;
 const { locale } = Astro.props as { locale: Locale };
 const d = t(locale);
+// Vacancies are edited in Pages CMS; see src/content/jobs/ and .pages.yml.
+const jobs = await getJobs(locale);
 ---
 
 <Base locale={locale} title={d.careers.title}>
@@ -15,11 +18,12 @@ const d = t(locale);
   <section class="section">
     <div class="container">
       <p class="careers__intro">{d.careers.intro}</p>
+      {jobs.length === 0 && <p class="card careers__none">{d.careers.noJobs}</p>}
       <div class="grid grid--3">
         {
-          d.careers.jobs.map((job) => (
+          jobs.map((job) => (
             <article class="card job reveal">
-              <span class="job__place">{job.place}</span>
+              {job.place && <span class="job__place">{job.place}</span>}
               <h2 class="job__title">{job.title}</h2>
               <p>{job.text}</p>
               <a class="btn btn--primary" href="#form" data-apply={job.title}>
@@ -57,6 +61,9 @@ const d = t(locale);
   .job__title {
     font-size: 1.25rem;
     font-weight: 700;
+  }
+  .careers__none {
+    margin-bottom: 32px;
   }
   .careers__intro {
     color: var(--muted);

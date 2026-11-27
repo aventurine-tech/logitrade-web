@@ -1,0 +1,13 @@
+{
+  "published": true,
+  "order": 2,
+  "title_ro": "Contabil",
+  "title_en": "Accountant",
+  "title_ru": "Бухгалтер",
+  "place_ro": "Chișinău",
+  "place_en": "Chișinău",
+  "place_ru": "Кишинёв",
+  "text_ro": "Evidența facturilor, a casei și verificări contabile zilnice.",
+  "text_en": "Handle invoices, cash records and daily accounting checks.",
+  "text_ru": "Учёт счетов-фактур, кассы и ежедневные бухгалтерские проверки."
+}

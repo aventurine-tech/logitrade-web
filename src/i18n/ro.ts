@@ -126,11 +126,7 @@ const ro: Dictionary = {
     cvHint: 'PDF, Word sau o poză, până la 5 MB',
     message: 'Câteva cuvinte despre tine (opțional)',
     send: 'Trimite candidatura',
-    jobs: [
-      { title: 'Agent de vânzări', place: 'Chișinău', text: 'Vizitezi clienții, preiei comenzi și crești vânzările în zona ta. Automobil de serviciu.' },
-      { title: 'Contabil', place: 'Chișinău', text: 'Evidența facturilor, a casei și verificări contabile zilnice.' },
-      { title: 'Promotor', place: 'Raioane', text: 'Prezinți produsele partenerilor în magazine.' },
-    ],
+    noJobs: 'Momentan nu avem posturi deschise. Poți trimite totuși o candidatură spontană mai jos și o vom păstra.',
   },
   contact: {
     title: 'Contacte',

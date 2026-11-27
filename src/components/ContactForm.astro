@@ -3,6 +3,7 @@
 // It posts to the form worker (form-worker/) once the deploy sets its URL and the
 // Turnstile site key; until then it just shows the thank-you page.
 import { path, t, type Locale } from '../i18n';
+import { getJobs } from '../data/jobs';
 
 interface Props {
   locale: Locale;
@@ -20,6 +21,7 @@ const p = d.partners;
 const partner = topic === 'partner';
 const sh = d.shops;
 const cr = d.careers;
+const jobs = topic === 'job' ? await getJobs(locale) : [];
 const title = { contact: c.formTitle, partner: p.formTitle, shop: sh.formTitle, job: cr.formTitle }[topic];
 const lead = { contact: '', partner: p.formLead, shop: sh.formLead, job: cr.formLead }[topic];
 const send = { contact: c.send, partner: p.send, shop: sh.send, job: cr.send }[topic];
@@ -61,7 +63,7 @@ const live = Boolean(endpoint && siteKey);
           <label>
             {cr.position} *
             <select name="position" required data-position>
-              {cr.jobs.map((j) => <option value={j.title}>{j.title}</option>)}
+              {jobs.map((j) => <option value={j.title}>{j.title}</option>)}
               <option value={cr.other}>{cr.other}</option>
             </select>
           </label>
